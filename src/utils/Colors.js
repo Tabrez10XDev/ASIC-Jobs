@@ -1,0 +1,33 @@
+
+export const Colors = {
+  theme_backgound: '#f95c85',
+  theme_backgound_second: '#191b1a',
+  black_text_color: 'black',
+  gray_text_color: '#737272',
+  light_gray_text_color: 'lightgray',
+  green_text_color: 'green',
+  White_text_color: '#ffffff',
+  gray: 'gray',
+  lightgrey: '#f2f2f4',
+  Liner_gradiunt_color_one: '#fdebf3',
+  Liner_gradiunt_color_two: '#ebf1fe',
+  Save_list_button_color:'#fdeded',
+  Save_list_button_color_two:'#e5fef3',
+  Save_list_button_color_three:'#ebf2fb',
+  Apply_job_light_gray:'#f9f8fc',
+  Resuame_button_color_one:'#6149b1',
+  Resuame_button_color_two:'#f06368',
+  Resuame_button_color_three:'#e89eb1',
+  Chat_bg_color: '#c2c0c0',
+  Home_liner_gradiunt_one:'#6db2b2',
+  Home_liner_gradiunt_two:'#6ecea8',
+  Home_liner_gradiunt_three:'#6ecea8',
+  Forget_password: 'hsl(0, 0%, 94.9%)',
+  Pie_graf_color_one: '#f29243',
+  Pie_graf_color_two: '#30af55',
+  Pie_graf_color_three: '#3586c7',
+  Pie_graf_color_four: '#ebdbf6',
+  blue_color: 'blue',
+  
+};
+export default Colors;
