@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList, Image, TouchableOpacity } from 'react
 import { ApplyJobStyles, Style } from '../../styles';
 import { Spacing, Button } from '../../components';
 import { useTranslation } from "react-i18next";
-import images from '../../image';
+import images from '../../index';
 import { SH, Descrptiontext, Requiremnetsdata, Aboutdata, ReviewsText } from '../../utils';
 import Icon from 'react-native-vector-icons/Octicons';
 import IconA from 'react-native-vector-icons/AntDesign';

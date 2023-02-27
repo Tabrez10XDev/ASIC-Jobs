@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Image } from 'react-native';
 import { ApplyJobStyles, Style } from '../../styles';
 import { Spacing } from '../../components';
 import { useTranslation } from "react-i18next";
-import images from '../../image';
+import images from '../../index';
 import { SH, Colors } from '../../utils';
 import Icon from 'react-native-vector-icons/AntDesign';
 import IconT from 'react-native-vector-icons/Entypo';

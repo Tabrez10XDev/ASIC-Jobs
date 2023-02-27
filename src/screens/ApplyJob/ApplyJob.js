@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList, Image } from 'react-native';
 import { ApplyJobStyles } from '../../styles';
 import { Spacing, Button, Input, CheckBox,DocumentPicker } from '../../components';
 import { useTranslation } from "react-i18next";
-import images from '../../image';
+import images from '../../index';
 import { SH, ApplyJobstwo, Colors } from '../../utils';
 import { RouteName } from '../../routes';
 import { useTheme } from '@react-navigation/native';

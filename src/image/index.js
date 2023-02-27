@@ -4,8 +4,8 @@ const images = {
    First_Swiper: require('./LottieAnimation/FirstSwiper.json'),
    Two_Swiper: require('./LottieAnimation/TwoSwiper.json'),
    Three_Swiper: require('./LottieAnimation/ThreeSwiper.json'),
-   Splash_Swiper: require('./LottieAnimation/SplashScreen.json'), 
-   Account_created: require('./LottieAnimation/Accountcreated.json'), 
+   Splash_Swiper: require('./LottieAnimation/SplashScreen.json'),
+   Account_created: require('./LottieAnimation/Accountcreated.json'),
    Google_image: require('./googleicon.png'),
    UxDisigner_Digner: require('./LottieAnimation/UxDisigner.json'),
    Facebook_animation: require('./LottieAnimation/Facebook.json'),
@@ -28,6 +28,5 @@ const images = {
    Chat_image_saven: require('./usersiximage.png'),
    Chat_image_aeight: require('./userfiveimag.png'),
    Languageanimation: require('./LottieAnimation/languageanimation.json'),
-   
 }
 export default images;

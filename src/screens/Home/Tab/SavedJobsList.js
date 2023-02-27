@@ -3,7 +3,7 @@ import { View, Text, ScrollView, FlatList, Image } from 'react-native';
 import { SaveJobListStyles } from '../../../styles';
 import { Spacing, Lottie } from '../../../components';
 import { useTranslation } from "react-i18next";
-import images from '../../../image';
+import images from '../../../index';
 import { OnlineAllJob } from '../../../screens';
 import { SH, Savejobdata } from '../../../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';

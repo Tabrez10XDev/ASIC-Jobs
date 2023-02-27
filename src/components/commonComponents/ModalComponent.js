@@ -3,7 +3,7 @@ import { Modal, View, Pressable, Image } from 'react-native';
 import propTypes from 'prop-types';
 import { ModalStyle } from '../../styles';
 import { useTheme } from '@react-navigation/native';
-import images from '../../images';
+import images from '../../index';
 
 function ModalComponent({ children, modalVisible, setModalVisible, close, modalViewStyle, modalbuttonClose }) {
   const { colors } = useTheme();
