@@ -6,7 +6,7 @@ export * from './CommonScreen';
 export * from './ApplyJob';
 export * from './ApplyJobDetails';
 export * from './ResuameandPortfolio';
-export * from './JobDeataoilsScreen';
+export * from './JobDetailsScreen';
 export * from './ChatScreen';
 export * from './SettingsScreen';
 

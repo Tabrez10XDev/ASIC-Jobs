@@ -10,9 +10,9 @@ export {default as RowComponent} from './RowComponent';
 export {default as Modal} from './ModalComponent';
 export {default as Spacing} from './Spacing';
 export {default as DropDown} from './DropDown';
-export {default as RatingScreen} from './RatingScreen';
+export {default as RatingScreen} from './Rating';
 export {default as ImagePicker} from './ImagePicker';
-export {default as Pie} from './PieGraf';
+export {default as Pie} from './PieGraph';
 export {default as DocumentPicker} from './DocumentPicker';
 export {default as Container} from './Container';
 
