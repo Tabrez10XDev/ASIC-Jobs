@@ -1,17 +1,15 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TextInput } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { Colors, SF, SH, SW } from '../../utils';
-import { useTheme } from '@react-navigation/native';
-import { useSelector } from "react-redux";
-import IconF from 'react-native-vector-icons/Entypo';
-
+import { Colors, SF, SH, SW,Fonts } from '../../utils';
+import { DropdownStyle } from '../../styles';
 function DropdownComponent({
     width,
     data,
     labelField,
     valueField,
     placeholder,
+    search,
     searchPlaceholder,
     onChange,
     maxHeight,
@@ -19,84 +17,70 @@ function DropdownComponent({
     labelStyle,
     placeholderStyle,
     selectedTextStyle,
-    dropdownStyle
+    dropdownStyle,
+    renderLeftIcon,
+    label,
+    textError,
+    required=false,
+    containerStyle,
+    onFocus,
+    onBlur,
+    renderInputSearch=false,
+    onChangeTextSearch,
+    textSearch,
+    onBlurSearch,
+    renderItem
 }) {
-    const { colors } = useTheme();
-    const styles = useMemo(
-        () =>
-            StyleSheet.create({
-                container: { width: width },
-                dropdownStyle: {
-                    borderWidth: SH(1),
-                    borderColor: colors.input_border,
-                    borderRadius: SH(8),
-                    fontSize: SF(14),
-                    lineHeight: SF(17),
-                    color: colors.black,
-                    fontWeight: '400',
-                    padding: SH(5),
-                    height: SH(47),
-                    ...dropdownStyle
-                },
-                icon: {
-                    marginRight: 5,
-                },
-                label: {
-                    position: 'absolute',
-                    backgroundColor: 'white',
-                    paddingHorizontal: 8,
-                    fontSize: SF(20),
-                    color: Colors.gray,
-                    ...labelStyle
-                },
-                placeholderStyle: {
-                    fontSize: SF(18),
-                    lineHeight: SF(21),
-                    color: Colors.gray,
-                    ...placeholderStyle
-                },
-                selectedTextStyle: {
-                    fontSize: SF(18),
-                    // lineHeight: SF(21),
-                    ...selectedTextStyle
-                },
-                iconStyle: {
-                    width: SW(20),
-                    height: SH(20),
-                },
-            }),
-        [dropdownStyle, labelStyle, placeholder, selectedTextStyle]
-    )
+        const _renderItem = item => {
+        return (
+            <View style={DropdownStyle.item}>
+                <Text style={DropdownStyle.textItem}>{item.label}</Text>
+            </View>
+        );
+    };
+    const renderInputSearchView = item => {
+        return (
+            <TextInput 
+            title={'Search'}
+            placeholder={'Search'}
+            onChangeText={(text) => onChangeTextSearch(text)}
+            value={textSearch}
+            onBlur={(e) => onBlurSearch(e)}
+          />
+        );
+    };
 
-    const { colorrdata } = useSelector(state => state.commonReducer) || {};
-
+    var extraProps = {};
+  if(renderInputSearch) {
+      extraProps['renderInputSearch'] = renderInputSearchView
+  }
     return (
-        <View style={styles.container}>
+        <View style={[DropdownStyle.container,{...containerStyle}]}>
+            {label && <Text style={[DropdownStyle.labelStyle,{...labelStyle}]}>{label + (required ? "*" : "")}</Text>}
             <Dropdown
-                style={styles.dropdownStyle}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={[styles.selectedTextStyle, {color: colorrdata}]}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
+                style={[DropdownStyle.dropdownStyle,{...dropdownStyle}]}
+                placeholderStyle={[DropdownStyle.placeholderStyle,{...placeholderStyle}]}
+                selectedTextStyle={[DropdownStyle.selectedTextStyle,{...selectedTextStyle}]}
+                inputSearchStyle={DropdownStyle.inputSearchStyle}
+                iconStyle={DropdownStyle.iconStyle}
+                label={label}
                 data={data}
-               
+                search={search}
                 searchPlaceholder={searchPlaceholder}
                 maxHeight={maxHeight}
-                renderRightIcon={() => (
-                    <IconF
-                      style={styles.icon}
-                      color="black"
-                      name="chevron-down"
-                      size={20}
-                    />
-                  )}
                 labelField={labelField}
                 valueField={valueField}
                 placeholder={placeholder}
                 value={value}
-                onChange={onChange} 
-                itemTextStyle={{color: '#000'}}
-                />
+                onChange={onChange}
+                renderItem={item => renderItem ? renderItem(item) : _renderItem(item)}
+                renderLeftIcon={renderLeftIcon}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                {...extraProps}
+            />
+           <Text style={DropdownStyle.errorStyle}>{textError}</Text>
+
         </View>
     );
 };

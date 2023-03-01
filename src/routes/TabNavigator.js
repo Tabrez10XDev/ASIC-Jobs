@@ -1,268 +1,297 @@
 import React from 'react';
-import { TouchableOpacity, View, StatusBar } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Feather';
-import { HomeTab, Messagelist, SavedJobsList, Profile } from '../screens';
-import IconF from 'react-native-vector-icons/FontAwesome';
-import IconE from 'react-native-vector-icons/EvilIcons';
-import IconZ from 'react-native-vector-icons/MaterialIcons';
-import IconG from 'react-native-vector-icons/Entypo';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
-import { Style } from '../styles';
-import { ColorPicker, CustomSidebarMenu } from '../components';
-import RouteName from '../routes/RouteName';
-import { Colors, SH, SF } from '../utils';
-import { useTranslation } from "react-i18next";
+import {Style} from '../styles';
+import { Colors, permissionCheck, SF, Strings } from '../utils';
+import {HomeScreen, InwardPaymentScreen, PICreationManageScreen, PICreationScreen,InwardPaymentManageScreen, PurchaseScreen, PurchaseManageScreen, ExpenseScreen, ExpenseManageScreen, ExportSalesScreen, ExportSalesManageScreen} from '../screens';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import IconEA from 'react-native-vector-icons/Entypo';
+import IconM from 'react-native-vector-icons/MaterialIcons';
+import { HeaderLeftMenuIcon } from '../components';
+import RouteName from './RouteName';
+import { useDispatch,useSelector } from "react-redux";
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
-const Drawer = createDrawerNavigator();
-
-function DrawerSidebarScreen(props) {
+const TabBarIcon = (props) => {
+  const {icon="",name} = props
   return (
-    <DrawerContentScrollView {...props} contentContainerStyle={{ paddingTop: 0 }}>
-      <CustomSidebarMenu {...props} />
-    </DrawerContentScrollView>
-  );
+    icon == "MaterialIcons" ?
+   <IconM name={name} color={Colors.white} size={SF(35)} />
+   :
+   <IconEA name={name} color={Colors.white} size={SF(35)} />
+  
+  )
 }
-function MyDrawer() {
+const Stack = createNativeStackNavigator();
+const headerArray = {   
+  headerShown: true,
+  headerTitleAlign:"center",
+  headerTitleStyle: Style.headerTitleStyle,
+  headerTintColor: Colors.theme_backgound_second,
+  headerStyle: Style.headerStyle
+};
+function HomeTabScreenStack(props) {
   return (
-    <Drawer.Navigator initialRouteName="HomeScsreenTabAll" drawerContent={props => <DrawerSidebarScreen {...props} />}>
-      <Drawer.Screen name="HomeScsreenTabAll"
-        options={{ headerShown: false }}
-        component={HomeScsreenTabAll} />
-    </Drawer.Navigator>
-  );
-}
-function Root() {
-
-  StatusBar.setBackgroundColor(Colors.theme_backgound);
-  return (
-    <Stack.Navigator headerMode="screen">
+    <Stack.Navigator initialRouteName={RouteName.HOME_SCREEN_STACK}>
       <Stack.Screen
-        name="Drawer"
-        component={MyDrawer}
+        name={RouteName.HOME_SCREEN_STACK}
+        component={HomeScreen}
         options={{
-          title: '',
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen name="Homese" component={HomeScsreenTabAll}
-        options={{
-          title: '',
-          headerShown: false
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-export default Root;
-
-
-function HomeTabScreenStack({ navigation }) {
-  const { t } = useTranslation();
-  return (
-    <Stack.Navigator initialRouteName="HomeTab">
-      <Stack.Screen
-        name="HomeTab"
-        component={HomeTab}
-        options={{
-          title: t("Home_Text"), headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "700",
-            fontSize: 20,
-            color: Colors.White_text_color,
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
-          },
+          title: Strings.common.homelabel, 
+          ...headerArray,
           headerLeft: () => (
-            <View style={Style.flexrowsetaddresh}>
-              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <IconE style={Style.setbariconmarginright} name="navicon" color={'white'} size={35} />
-              </TouchableOpacity>
-
-            </View>
-          ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-function MessagesTabScreenStack({ navigation }) {
-  const { t } = useTranslation();
-  return (
-    <Stack.Navigator initialRouteName="Messages">
-      <Stack.Screen
-        name="Messages"
-        component={Messagelist}
-        options={{
-          title: t("Messages_text"), headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "700",
-            fontSize: 20,
-            color: Colors.White_text_color,
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
-          },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <IconE style={Style.setbariconmarginright} name="navicon" color={'white'} size={35} />
-            </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-function SavedJobsListTabStack({ navigation }) {
-  const { t } = useTranslation();
-  return (
-    <Stack.Navigator initialRouteName="SavedJobsList">
-      <Stack.Screen
-        name="SavedJobsList"
-        component={SavedJobsList}
-        options={{
-          title: t("Saved_Jobs_List"), headerShown: true,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.White_text_color,
-            fontWeight: '700',
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-          },
-          headerLeft: () => (
-            <View style={Style.flexrowsetaddresh}>
-              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-                <IconE style={Style.setbariconmarginright} name="navicon" color={'white'} size={35} />
-              </TouchableOpacity>
-
-            </View>
-          ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
+             <HeaderLeftMenuIcon {...props} />
+          )
         }}
       />
     </Stack.Navigator>
   );
 }
 
-function ProfileScreenStack({ navigation }) {
-  const { t } = useTranslation();
+function PICretionTabScreenStack(props) {
   return (
-    <Stack.Navigator initialRouteName="Profile">
+    <Stack.Navigator initialRouteName={RouteName.PI_CREATION_SCREEN_STACK}>
       <Stack.Screen
-        name="Profile"
-        component={Profile}
+        name={RouteName.PI_CREATION_SCREEN_STACK}
+        component={PICreationScreen}
         options={{
-          title: t("Profile"), headerShown: true,
-          headerTitleStyle: {
-            fontWeight: "700",
-            fontSize: 20,
-            color: Colors.White_text_color,
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-            elevation: 0, // remove shadow on Android
-            shadowOpacity: 0, // remove shadow on iOS
-          },
+          title: Strings.common.sellInvoicelabel, 
+          ...headerArray,
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-              <IconE style={Style.setbariconmarginright} name="navicon" color={Colors.White_text_color} size={SF(35)} />
-            </TouchableOpacity>
-          ),
+            <HeaderLeftMenuIcon {...props} />
+          )
         }}
       />
     </Stack.Navigator>
   );
 }
-export function HomeScsreenTabAll() {
-  const { t } = useTranslation();
+
+function PurchaseScreenStack(props) {
   return (
-    <Tab.Navigator initialRouteName="Homes"
-      screenOptions={{ headerShown: false }}
-      tabBarOptions={{
-        activeTintColor: Colors.theme_backgound,
-        inactiveTintColor: Colors.gray_text_color,
-        activeBackgroundColor: Colors.White_text_color,
-        labeled: true,
-        labelStyle: {
-        },
-        tabStyle: {
-          height: SH(49),
-          backgroundColor: Colors.White_text_color,
-          paddingTop: 0,
-        },
-      }}
+    <Stack.Navigator initialRouteName={RouteName.PURCHASE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.PURCHASE_SCREEN_STACK}
+        component={PurchaseScreen}
+        options={{
+          title: Strings.common.purchaselabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+const TabNavigator =() => {
+const { userPermissionData } = useSelector((state) => state.commonReducer);
+
+  return (
+    <Tab.Navigator initialRouteName={RouteName.HOME_SCREEN}
+    screenOptions={{
+      tabBarHideOnKeyboard: true,
+      tabBarStyle: Style.bottomTabMain,
+      tabBarActiveTintColor: Colors.white,
+        tabBarInactiveTintColor: Colors.theme_backgound,
+    }}
     >
       <Tab.Screen
-        name={RouteName.HOME_TAB}
+        name={RouteName.HOME_SCREEN}
         component={HomeTabScreenStack}
         options={{
-          tabBarLabel: t("Home_Text"),
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              size={SF(19)}
+          tabBarLabel:Strings.common.homelabel,
+          headerShown: false,
+          tabBarLabelStyle:Style.tabBarLabelStyle,
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              focused={focused}
+              tintColor={color}
               name="home"
-              style={{ color: focused ? Colors.theme_backgound : Colors.gray_text_color }}
             />
           ),
         }}
       />
-      <Tab.Screen
-        name={RouteName.MESSAGE_TAB}
-        component={MessagesTabScreenStack}
+      {permissionCheck(userPermissionData,'1') && 
+       <Tab.Screen
+        name={RouteName.PI_CREATION_SCREEN}
+        component={PICretionTabScreenStack}
         options={{
-          tabBarLabel: t("Message_Text"),
-          tabBarIcon: ({ focused }) => (
-            <View>
-              <IconG name="message" style={{ color: focused ? Colors.theme_backgound : Colors.gray_text_color }} size={SF(27)} />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={RouteName.SAVE_JOB_LIST}
-        component={SavedJobsListTabStack}
-        options={{
-          tabBarLabel: t("Save_Job"),
-          tabBarIcon: ({ focused }) => (
-            <IconZ
-              size={SF(23)}
-              name="save"
-              style={{ color: focused ? Colors.theme_backgound : Colors.gray_text_color }}
+          tabBarLabel:Strings.common.sellInvoicelabel,
+          headerShown: false,
+          tabBarLabelStyle:Style.tabBarLabelStyle,
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              focused={focused}
+              tintColor={color}
+              name="circle-with-plus"
             />
           ),
         }}
       />
-      <Tab.Screen
-        name={RouteName.PROFILE_TAB}
-        component={ProfileScreenStack}
+      }
+
+{permissionCheck(userPermissionData,'3') && 
+<Tab.Screen
+        name={RouteName.PURCHASE_SCREEN}
+        component={PurchaseScreenStack}
         options={{
-          tabBarLabel: t("Profile"),
-          tabBarIcon: ({ focused }) => (
-            <IconF
-              size={SF(19)}
-              name="user-circle"
-              style={{ color: focused ? Colors.theme_backgound : Colors.gray_text_color }}
+          tabBarLabel:Strings.common.purchaselabel,
+          headerShown: false,
+          tabBarLabelStyle:Style.tabBarLabelStyle,
+          tabBarIcon: ({ focused, color }) => (
+            <TabBarIcon
+              focused={focused}
+              tintColor={color}
+              name="payment"
+              icon="MaterialIcons"
             />
           ),
         }}
       />
+}
     </Tab.Navigator>
   )
 }
+export default TabNavigator;
+
+export function PICretionManageScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.PI_CREATION_MANAGE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.PI_CREATION_MANAGE_SCREEN_STACK}
+        component={PICreationManageScreen}
+        options={{
+          title: Strings.common.sellInvoicelabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      >
+</Stack.Screen>
+    </Stack.Navigator>
+  );
+}
+
+export function InwardPaymentManageScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.INWARD_PAYMENT_MANAGE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.INWARD_PAYMENT_MANAGE_SCREEN_STACK}
+        component={InwardPaymentManageScreen}
+        options={{
+          title: Strings.common.paymentlabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export function InwardPaymentScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.INWARD_PAYMENT_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.INWARD_PAYMENT_SCREEN_STACK}
+        component={InwardPaymentScreen}
+        options={{
+          title:  Strings.common.paymentlabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export function PurchaseManageScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.PURCHASE_MANAGE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.PURCHASE_MANAGE_SCREEN_STACK}
+        component={PurchaseManageScreen}
+        options={{
+          title:  Strings.common.purchaselabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+export function ExpenseScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.EXPENSE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.EXPENSE_SCREEN_STACK}
+        component={ExpenseScreen}
+        options={{
+          title:  Strings.common.expenselabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+export function ExpenseManageScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.EXPENSE_MANAGE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.EXPENSE_MANAGE_SCREEN_STACK}
+        component={ExpenseManageScreen}
+        options={{
+          title:  Strings.common.expenselabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+export function ExportSalesScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.EXPPORT_SALES_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.EXPPORT_SALES_SCREEN_STACK}
+        component={ExportSalesScreen}
+        options={{
+          title: Strings.common.exportlabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+export function ExportSalesManageScreenStack(props) {
+  return (
+    <Stack.Navigator initialRouteName={RouteName.EXPPORT_SALES_MANAGE_SCREEN_STACK}>
+      <Stack.Screen
+        name={RouteName.EXPPORT_SALES_MANAGE_SCREEN_STACK}
+        component={ExportSalesManageScreen}
+        options={{
+          title: Strings.common.exportlabel, 
+          ...headerArray,
+          headerLeft: () => (
+            <HeaderLeftMenuIcon {...props} />
+          )
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+

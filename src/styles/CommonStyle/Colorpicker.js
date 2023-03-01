@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default ColorpickerStyle = (Colors) => StyleSheet.create({
+export default StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: "center",

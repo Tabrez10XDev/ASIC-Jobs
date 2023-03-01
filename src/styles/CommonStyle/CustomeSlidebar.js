@@ -1,19 +1,18 @@
 import { StyleSheet,Dimensions } from 'react-native';
-import {Colors} from '../../utils';
+import {Colors, Fonts} from '../../utils';
 
 export default StyleSheet.create({
   customslidebarmenu: {
     paddingLeft:20,
     paddingRight:20,
     paddingTop:10,
-    
   },
   hometextstyle: {
     color:'black',
     fontSize:18,
-    fontFamily: 'DMSans-Medium',
     marginLeft:20,
     opacity:0.7,
+    fontFamily:Fonts.Poppins_Regular
   },
   flexrowset: {
     flexDirection:'row',
@@ -30,5 +29,7 @@ export default StyleSheet.create({
   logoimage: {
     width:20,
     height:20,
+    
   },
+ 
 });

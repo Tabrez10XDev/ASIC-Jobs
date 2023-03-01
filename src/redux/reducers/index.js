@@ -1,24 +1,23 @@
 import { combineReducers } from 'redux';
 import commonReducer from './commomReducer';
-import DataReducer from './DataReducer';
+import authReducer from './AuthReducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['colorrdata'],
+  whitelist: ['currentColor'],
 };
-
-const persistConfigdata = {
-  key: 'root',
+const persistConfigAuth = {
+  key: 'auth',
   storage: AsyncStorage,
-  whitelist: ['detailsStore'],
+  whitelist: ['userDetails','getsettingdata'],
 };
-
 const rootReducers = combineReducers({
   commonReducer: persistReducer(persistConfig, commonReducer),
-  DataReducer: persistReducer(persistConfigdata, DataReducer),
+  authReducer: persistReducer(persistConfigAuth, authReducer),
+
 });
 
 export default rootReducers;

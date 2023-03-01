@@ -1,57 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import React,{useEffect} from 'react';
+import { NavigationContainer, } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useSelector } from "react-redux";
-import { Colors } from '../utils';
-
-
+import {SplashScreen,LoginScreen} from '../screens';
+import RouteName from './RouteName';
+import TabNavigator,{ExpenseManageScreenStack, ExpenseScreenStack, ExportSalesManageScreenStack, ExportSalesScreenStack, InwardPaymentManageScreenStack, PICretionManageScreenStack, PurchaseManageScreenStack, InwardPaymentScreenStack} from './TabNavigator';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { CustomSidebarMenu, HandlingError } from '../components';
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
+import { getSetting_Action, getUserPermission_Action } from '../redux/action';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { RouteName, SideNavigator } from '../routes';
-
-import {
-  LoginScreen, RegisterScreen, OtpVeryfiveScreen,
-  SplashScreen, RegistrationSuccessful,
-  Swiperscreen, JobTypeScreen, JobTimesScreen, SelectJobandLocation,
-  TranslationScreen, ForgotPassword, FeaturedAllJob
-} from '../screens';
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+    initialRouteName={RouteName.TAB_NAVIGATOR}
+    drawerContent={(props) => <CustomSidebarMenu {...props} />}>
+    <Drawer.Screen
+      name={RouteName.TAB_NAVIGATOR}
+      options={{ headerShown: false }}
+      component={TabNavigator}
+    />
+      <Drawer.Screen
+      name={RouteName.PI_CREATION_MANAGE_SCREEN}
+      options={{ headerShown: false }}
+      component={PICretionManageScreenStack}
+    />
+      <Drawer.Screen
+      name={RouteName.INWARD_PAYMENT_MANAGE_SCREEN}
+      options={{ headerShown: false }}
+      component={InwardPaymentManageScreenStack}
+    />
+      <Drawer.Screen
+      name={RouteName.INWARD_PAYMENT_SCREEN}
+      options={{ headerShown: false }}
+      component={InwardPaymentScreenStack}
+    />
+      <Drawer.Screen
+      name={RouteName.PURCHASE_MANAGE_SCREEN}
+      options={{ headerShown: false }}
+      component={PurchaseManageScreenStack}
+    />
+      <Drawer.Screen
+      name={RouteName.EXPENSE_SCREEN}
+      options={{ headerShown: false }}
+      component={ExpenseScreenStack}
+    />
+        <Drawer.Screen
+      name={RouteName.EXPENSE_MANAGE_SCREEN}
+      options={{ headerShown: false }}
+      component={ExpenseManageScreenStack}
+    />
+        <Drawer.Screen
+      name={RouteName.EXPPORT_SALES_SCREEN}
+      options={{ headerShown: false }}
+      component={ExportSalesScreenStack}
+    />
+       <Drawer.Screen
+      name={RouteName.EXPPORT_SALES_MANAGE_SCREEN}
+      options={{ headerShown: false }}
+      component={ExportSalesManageScreenStack}
+    />
+  </Drawer.Navigator>
+  );
+}
 
 const RootNavigator = props => {
-  
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const MyTheme = {
-    ...DefaultTheme,
-    Colors: Colors
-  };
-  const [colorValue, setColorValue] = useState(MyTheme)
+  const dispatch = useDispatch();
+  const { userDetails } = useSelector((state) => state.authReducer);
+
   useEffect(() => {
-    if (Colors.length != 0 && colorrdata != "") {
-      Colors.theme_backgound = colorrdata;
-      const MyThemeNew = {
-        ...DefaultTheme,
-        Colors: Colors
-      };
-      setColorValue(MyThemeNew)
+      dispatch(getSetting_Action())
+  }, [])
+
+  useEffect(() => {
+    if(userDetails.length != 0){
+       dispatch(getUserPermission_Action(userDetails.id))
     }
-  }, [colorrdata, Colors])
+}, [userDetails])
   return (
-    <NavigationContainer theme={colorValue}>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={'SplashScreen'} component={SplashScreen} />
+    <>
+    <HandlingError />
+    <NavigationContainer >
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={RouteName.SPLASH_SCREEN} component={SplashScreen} />
         <Stack.Screen name={RouteName.LOGIN_SCREEN} component={LoginScreen} />
-        <Stack.Screen name={RouteName.REGISTER_SCREEN} component={RegisterScreen} />
-        <Stack.Screen name={RouteName.HOME_SCREEN} component={SideNavigator} />
-        <Stack.Screen name={RouteName.REGIATRAION_SUCCESSFULL} component={RegistrationSuccessful} />
-        <Stack.Screen name={RouteName.OTP_VERYFY_SCREEN} component={OtpVeryfiveScreen} />
-        <Stack.Screen name={RouteName.SWIPER_SCREEN} component={Swiperscreen} />
-        <Stack.Screen name={RouteName.JOB_TYPES_SCREEN} component={JobTypeScreen} />
-        <Stack.Screen name={RouteName.JOB_TIMES_SCREEN} component={JobTimesScreen} />
-        <Stack.Screen name={RouteName.SERLECT_JOB_AND_LOCATION} component={SelectJobandLocation} />
-        <Stack.Screen name={RouteName.SELECT_LANGUAGE} component={TranslationScreen} />
-        <Stack.Screen name={RouteName.FORGET_PASSWORD} options={{ headerShown: false, headerShadowVisible: false }} component={ForgotPassword} />
-        <Stack.Screen name={RouteName.FEATURED_ALL_JOB} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={FeaturedAllJob} />
-      </Stack.Navigator>
-    </NavigationContainer>
+        <Stack.Screen name={RouteName.DRAWER_NAVIGATOR} component={DrawerNavigator} />
+     </Stack.Navigator>
+  </NavigationContainer>
+  </>
   );
 }
 export default RootNavigator;

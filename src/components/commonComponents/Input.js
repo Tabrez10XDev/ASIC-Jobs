@@ -1,90 +1,108 @@
 import React, { useMemo } from 'react';
 import propTypes from 'prop-types';
-import { View, TextInput, StyleSheet } from 'react-native';
-import { SF, SH, SW, Fonts } from '../../utils';
+import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { SF, SH, SW, Fonts, Colors } from '../../utils';
 import { useTheme } from '@react-navigation/native';
-function Input({
+import { Input } from 'react-native-elements';
+
+function Inputs({
   title,
   placeholder,
   titleStyle,
   inputStyle,
   onChangeText,
   value,
-  maxLength,
   textprops,
-  numberOfLines,
   inputprops,
   onBlur,
   onFocus,
   inputType,
   autoFocus,
-  Descriptioninput,
-  SearchHomeTab
+  autoCompleteType,
+  secureTextEntry,
+  maxLength,
+  leftIcon = {},
+  rightIcon = {},
+  errorMessage = "",
+  disabled = false,
+  required = false,
+  containerStyle,
+  onEndEditing,
+  inputContainerStyle
 }) {
-  const { colors } = useTheme();
+  const colorsset = Colors;
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        container: { width: '100%' },
-        title_style: {
-          width: '100%',
-          fontSize: SF(12),
-          color: colors.tundora,
-          fontWeight: '400',
-          marginBottom: SH(5),
-          ...titleStyle,
+        container: { width: '100%', ...containerStyle },
+        inputContainerStyle: {
+          borderBottomWidth: 0,
+          width: "100%",
+          ...inputContainerStyle
         },
         input_style: {
-          paddingHorizontal: 12,
           width: '100%',
-          paddingTop: 12,
-          paddingBottom: 7,
-          height: 47,
-          color: 'gray',
-          fontSize: SF(17),
-          fontFamily: Fonts.Poppins_Medium,
-          borderRadius: 7,
-          backgroundColor: 'white',
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: Platform.OS === 'ios' ? 2 : 25,
-          },
-          shadowOpacity: 0.58,
-          shadowRadius: Platform.OS === 'ios' ? 2 : 25,
-          elevation: Platform.OS === 'ios' ? 1 : 2,
-          ...Descriptioninput,
-          ...SearchHomeTab,
+          borderColor: colorsset.gray,
+          fontSize: SF(15),
+          color: colorsset.black,
+          paddingVertical: SH(8),
+          paddingHorizontal: SH(10),
+          fontFamily: Fonts.Poppins_Regular,
+          backgroundColor: Colors.white,
+          borderRadius: SH(7),
+          borderWidth: SH(1),
           ...inputStyle,
-
+        },
+        labelStyle: {
+          width: '100%',
+          fontSize: SF(15),
+          color: colorsset.theme_backgound,
+          fontFamily: Fonts.Poppins_Medium,
+          paddingHorizontal: SW(5),
+          ...titleStyle,
+          fontWeight: '500',
+          paddingVertical: SH(2),
+        },
+        errorStyle: {
+          color: colorsset.theme_backgound_second,
+          fontFamily: Fonts.Poppins_Regular,
         },
 
+
       }),
-    [title, titleStyle, inputStyle, colors],
+    [title, titleStyle, inputStyle, colorsset],
   );
   return (
     <View style={styles.container}>
-
-      <TextInput
-        placeholderTextColor={'gray'}
-        style={styles.input_style}
+      <Input
+        label={title + (required ? "*" : "")}
         placeholder={placeholder}
         onChangeText={(text) => onChangeText(text)}
-        value={value}
-        numberOfLines={numberOfLines}
-        maxLength={maxLength}
-        keyboardType={!inputType ? 'default' : inputType}
-        selectionColor={colors.red}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+        errorMessage={errorMessage}
+        disabled={disabled}
         onFocus={() => onFocus()}
         onBlur={() => onBlur()}
         autoFocus={autoFocus}
+        keyboardType={!inputType ? 'default' : inputType}
+        secureTextEntry={secureTextEntry}
+        value={value}
+        selectionColor={colorsset.theme_backgound_second}
+        maxLength={maxLength}
         {...inputprops}
+        errorStyle={styles.errorStyle}
+        inputStyle={styles.input_style}
+        labelStyle={styles.labelStyle}
+        inputContainerStyle={styles.inputContainerStyle}
+        onEndEditing={(e) => onEndEditing(e)}
       />
+
     </View>
   );
 }
 
-Input.defaultProps = {
+Inputs.defaultProps = {
   title: '',
   placeholder: '',
   titleStyle: {},
@@ -96,10 +114,14 @@ Input.defaultProps = {
   textprops: {},
   inputprops: {},
   inputType: null,
+  autoCompleteType: '',
+  onEndEditing: () => { },
+
 };
 
-Input.propTypes = {
+Inputs.propTypes = {
   title: propTypes.string,
+  autoCompleteType: propTypes.string,
   placeholder: propTypes.string,
   titleStyle: propTypes.shape({}),
   inputStyle: propTypes.shape({}),
@@ -110,6 +132,7 @@ Input.propTypes = {
   onFocus: propTypes.func,
   onBlur: propTypes.func,
   inputType: propTypes.any,
+  onEndEditing: propTypes.func,
 };
 
-export default Input;
+export default Inputs;

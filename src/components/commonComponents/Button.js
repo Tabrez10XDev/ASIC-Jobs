@@ -1,67 +1,87 @@
 import React, { useMemo } from 'react';
 import { TouchableOpacity, StyleSheet, Text, Image, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Fonts, SF, SH, SW, Colors } from '../../utils';
+import { Fonts, SF, SH, SW ,Colors} from '../../utils';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from "react-redux";
+import { Button } from 'react-native-elements';
 
-function Button(props) {
-  const { title, onPress, buttonStyle, disable, buttonTextStyle, imagesource, spacedImages } = props;
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const { colors } = useTheme();
+function Buttons(props) {
+  const { containerStyle,title, onPress, buttonStyle, disable, buttonTextStyle, imagesource, loading=false,icon=null,iconContainerStyle } = props;
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        buttonStyle: {
-          backgroundColor: Colors.theme_backgound,
-          alignItems: 'center',
-          borderRadius: 7,
+        containerStyle: {
+          backgroundColor: Colors.theme_backgound_second,
+          // alignItems: 'center',
+          borderRadius: SW(5),
           justifyContent: 'center',
           width: '100%',
-          height: 45,
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: Platform.OS === 'ios' ? 2 : 25,
-          },
-          shadowOpacity: 0.58,
-          shadowRadius: Platform.OS === 'ios' ? 2 : 25,
-          elevation: Platform.OS === 'ios' ? 1 : 3,
+          paddingHorizontal:0,
+          ...containerStyle
+        },
+        buttonStyle: {
+          backgroundColor: Colors.theme_backgound_second,
+          alignItems: 'center',
+          borderRadius: SW(5),
+          justifyContent: 'center',
+          width: '100%',
+          paddingLeft:0,
+          paddingRight:0,
+          ...buttonStyle
         },
         buttonTextStyle: {
-          color: "#FFF",
-          fontFamily: Fonts.Poppins_Medium,
-          fontSize: SF(19),
-          fontWeight: '600',
-          lineHeight: SH(24)
+          color: Colors.white,
+          fontSize: SF(20),
+          fontFamily:Fonts.Poppins_Regular,
+          ...buttonTextStyle,
         },
         buttonViewStyle: {
           flexDirection: 'row',
           alignItems: 'center',
-          justifyContent: spacedImages ? 'space-around' : 'center',
-          width: '100%'
+          justifyContent: 'center',
+          width: '100%',
+          
         },
-        leftImageStyle: {
-          marginVertical: SW(5)
+        disabledStyle:{
+          backgroundColor:Colors.theme_backgound_disabled,
+          opacity:0.5
+        },
+        disabledTitleStyle:{
+          color:Colors.white
+        },
+        iconContainerStyle:{
+          marginRight: SW(10),
+          ...iconContainerStyle
         }
       }),
-    [disable, spacedImages, colors],
+    [buttonStyle,buttonTextStyle, Colors],
   );
+
+  var extraProps = {};
+  if(icon) {
+      extraProps['iconContainerStyle'] = styles.iconContainerStyle,
+      extraProps['icon'] = icon
+
+  }
   return (
-    <TouchableOpacity
-      disabled={disable}
-      style={[styles.buttonStyle, { ...buttonStyle }]}
-      onPress={() => onPress()}>
-      <View style={styles.buttonViewStyle}>
-        {imagesource ? <Image source={imagesource} style={styles.leftImageStyle} resizeMode='cover' /> : null}
-        <Text style={[styles.buttonTextStyle, { ...buttonTextStyle }]}>{title}</Text>
-        {imagesource ? <View /> : null}
-      </View>
-    </TouchableOpacity>
+     <Button
+              title={title}
+              disabled={disable}
+              loading={loading}
+              loadingProps={{ size: 'small', color: Colors.white }}
+              buttonStyle={styles.buttonStyle}
+              titleStyle={styles.buttonTextStyle}
+              containerStyle={styles.containerStyle}
+              onPress={() => onPress()}
+              disabledStyle={styles.disabledStyle}
+              disabledTitleStyle={styles.disabledTitleStyle}
+              {...extraProps}
+            />
   );
 }
 
-Button.defaultProps = {
+Buttons.defaultProps = {
   title: '',
   onPress: () => { },
   buttonStyle: {},
@@ -71,7 +91,7 @@ Button.defaultProps = {
   spacedImages: false,
 };
 
-Button.propTypes = {
+Buttons.propTypes = {
   title: PropTypes.string,
   onPress: PropTypes.func,
   buttonStyle: PropTypes.shape({}),
@@ -81,4 +101,4 @@ Button.propTypes = {
   spacedImages: PropTypes.bool
 };
 
-export default Button;
+export default Buttons;

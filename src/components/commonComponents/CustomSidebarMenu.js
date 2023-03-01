@@ -1,119 +1,131 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
-import IconE from 'react-native-vector-icons/Feather';
-import IconL from 'react-native-vector-icons/Entypo';
-import IconZ from 'react-native-vector-icons/FontAwesome5';
-import IconF from 'react-native-vector-icons/Foundation';
 import { Sidemenu } from '../../styles';
-import IconU from 'react-native-vector-icons/FontAwesome';
-import { RouteName } from '../../routes';
-import IconP from 'react-native-vector-icons/AntDesign';
-import { ConfirmationAlert } from '../../components';
-import { Colors } from '../../utils';
-import { useTranslation } from "react-i18next";
+import RouteName from '../../routes/RouteName';
+import { useDispatch,useSelector } from "react-redux";
+import IconE from 'react-native-vector-icons/Entypo';
+import IconM from 'react-native-vector-icons/MaterialIcons';
+
+import { SweetAlertModal } from ".";
+import { Colors, permissionCheck, Strings } from "../../utils";
+import {auth_reset_initial_state_reduser} from "../../redux/action";
 
 const CustomSidebarMenu = (props) => {
-  const { t } = useTranslation();
-  const { navigation } = props;
-  const [alertVisible, setAlertVisible] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [okbutton, Setokbutton] = useState('');
-  const [cancelbutton, SetCancelbutton] = useState(t("Cancel_button"));
+  const dispatch = useDispatch();
+const { navigation } = props;
+const { userDetails } = useSelector(state => state.authReducer) || {};
+const [modalVisible, setModalVisible] = useState(false)
+const { userPermissionData } = useSelector((state) => state.commonReducer);
+useEffect(() => {
+      if(userDetails.length == 0){
+        navigation.replace(RouteName.LOGIN_SCREEN)
+      }
+}, [userDetails]);
 
-  var alertdata = {
-    'logout': t("Are_you_sure_logout"),
-  }
-
-  const onoknutton = () => {
-    navigation.navigate(RouteName.LOGIN_SCREEN);
-    okbutton;
-  }
   const Onpressfunction = (e) => {
     navigation.toggleDrawer();
     navigation.navigate(e)
   };
+
+  const logOutonpress = (e) => {
+    setModalVisible(false)
+    navigation.toggleDrawer();
+    e == "yes" && dispatch(auth_reset_initial_state_reduser());
+  };
+
   return (
     <ScrollView>
       <View style={Sidemenu.customslidebarmenu}>
+        {permissionCheck(userPermissionData,'1') && 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.HOME_TAB)
+          () => Onpressfunction(RouteName.HOME_SCREEN)
         }>
           <IconE
             size={19}
             name="home"
             color={Colors.theme_backgound}
           />
-          <Text style={Sidemenu.hometextstyle}>{t("Home_Text")}</Text>
+          <Text style={Sidemenu.hometextstyle}>{Strings.common.homelabel}</Text>
         </TouchableOpacity>
+        }
+         {permissionCheck(userPermissionData,'1') && 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.MESSAGE_TAB)
+          () => Onpressfunction(RouteName.PI_CREATION_SCREEN)
         }>
-          <IconL name="message" style={Sidemenu.logoimage} color={Colors.theme_backgound} size={20} />
-          <Text style={Sidemenu.hometextstyle}>{t("Message_Text")}</Text>
+          <IconE
+            size={19}
+            name="circle-with-plus"
+            color={Colors.theme_backgound}
+          />
+          <Text style={Sidemenu.hometextstyle}>{Strings.common.sellInvoicelabel}</Text>
         </TouchableOpacity>
+  }
+   {permissionCheck(userPermissionData,'2') && 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.SAVE_JOB_LIST)
+          () => Onpressfunction(RouteName.INWARD_PAYMENT_SCREEN)
         }>
-          <IconZ name="bookmark" style={Sidemenu.logoimage} color={Colors.theme_backgound} size={20} />
-          <Text style={Sidemenu.hometextstyle}>{t("Save_Job_List")}</Text>
+          <IconE
+            size={19}
+            name="help-with-circle"
+            color={Colors.theme_backgound}
+          />
+          <Text style={Sidemenu.hometextstyle}>{Strings.common.paymentlabel}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.RESUME_AND_PORTFOLIO)
-        }>
-          <IconF name="results" style={Sidemenu.logoimage} color={Colors.theme_backgound} size={20} />
-          <Text style={Sidemenu.hometextstyle}>{t("Resume_Prortfolio")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.APPLY_JOB)
-        }>
-          <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_backgound} size={20} />
-          <Text style={Sidemenu.hometextstyle}>{t("Apply_Job")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.APPLY_JOB_DETAILS)
-        }>
-          <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_backgound} size={20} />
-          <Text style={Sidemenu.hometextstyle}>{t("Apply_Job_Details")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.JOB_DETAILS_SCREEN)
-        }>
-          <IconP name="wordfile1" style={Sidemenu.logoimage} color={Colors.theme_backgound} size={20} />
-          <Text style={Sidemenu.hometextstyle}>{t("Job_Description")}</Text>
-        </TouchableOpacity>
+}
 
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.PROFILE_TAB)
-        }>
-          <IconU size={19} name="user-circle" style={Sidemenu.logoimage} color={Colors.theme_backgound} />
-          <Text style={Sidemenu.hometextstyle}>{t("Profile")}</Text>
+{permissionCheck(userPermissionData,'3') && 
+        <TouchableOpacity style={Sidemenu.flexrowset}
+        onPress={
+          () => Onpressfunction(RouteName.PURCHASE_SCREEN)
+        }
+        >
+          <IconM
+            size={19}
+            name="payment"
+            color={Colors.theme_backgound}
+          />
+          <Text style={Sidemenu.hometextstyle}>{Strings.common.purchaselabel}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.SETTING_SCREEN)
-        }>
-          <IconP size={19} name="setting" style={Sidemenu.logoimage} color={Colors.theme_backgound} />
-          <Text style={Sidemenu.hometextstyle}>{t("Setting_text")}</Text>
+}
+        
+{(permissionCheck(userPermissionData,'4') || permissionCheck(userPermissionData,'5')) && 
+        <TouchableOpacity style={Sidemenu.flexrowset}
+         onPress={
+          () => Onpressfunction(RouteName.EXPPORT_SALES_SCREEN)
+        }
+        >
+          <IconE
+            size={19}
+            name="help-with-circle"
+            color={Colors.theme_backgound}
+          />
+          <Text style={Sidemenu.hometextstyle}>{Strings.common.exportlabel}</Text>
         </TouchableOpacity>
+}
+{permissionCheck(userPermissionData,'6') && 
+        <TouchableOpacity style={Sidemenu.flexrowset}
+         onPress={
+          () => Onpressfunction(RouteName.EXPENSE_SCREEN)
+        }>
+          <IconE
+            size={19}
+            name="help-with-circle"
+            color={Colors.theme_backgound}
+          />
+          <Text style={Sidemenu.hometextstyle}>{Strings.common.expenselabel}</Text>
+        </TouchableOpacity>
+}
+
         <View style={Sidemenu.settingandlogout}>
-          <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
-            setAlertVisible(true);
-            setAlertMessage(alertdata.logout);
-            Setokbutton('');
-          }}>
-            <IconL name="log-out" color={Colors.theme_backgound} size={23} />
-            <Text style={Sidemenu.hometextstyle}>{t("Log_out")}</Text>
+          <TouchableOpacity style={Sidemenu.flexrowset} onPress={()=>setModalVisible(true)}>
+            <IconE name="log-out" color={Colors.theme_backgound} size={23} />
+            <Text style={Sidemenu.hometextstyle}>Logout</Text>
           </TouchableOpacity>
         </View>
-        <ConfirmationAlert
-          message={alertMessage}
-          modalVisible={alertVisible}
-          setModalVisible={setAlertVisible}
-          onPressCancel={() => setAlertVisible(!alertVisible)}
-          onPress={() => { setAlertVisible(!alertVisible), onoknutton() }}
-          cancelButtonText={cancelbutton}
-          buttonText={t("Ok")}
-        />
+
       </View>
+      <SweetAlertModal modalVisible={modalVisible} buttonText="Yes" onPress={()=>logOutonpress("yes")} cancelButtonText="No" onPressCancel={()=>logOutonpress("no")}  message={Strings.common.logoutMessage} />
+
     </ScrollView>
   );
 };

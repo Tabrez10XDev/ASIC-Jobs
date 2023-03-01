@@ -14,20 +14,19 @@ const ContainerComponent = ({
   containerPropStyle,
 }) => {
 
-  const { colors } = useTheme();
   const styles = useMemo(
     () =>
       StyleSheet.create({
         statusBarStyle: {
           flex: 0,
-          backgroundColor: status_Bar ? colors.white : 'transparent',
+          backgroundColor: status_Bar ? Colors.white : 'transparent',
         },
         containerStyle: {
           flex: 1,
           backgroundColor: backgroundColor ?? Colors.theme_backgound
         },
       }),
-    [backgroundColor, status_Bar, colors],
+    [backgroundColor, status_Bar, Colors],
   );
   return fullScreen ? (
     <View style={[styles.containerStyle, {...containerPropStyle}]}>

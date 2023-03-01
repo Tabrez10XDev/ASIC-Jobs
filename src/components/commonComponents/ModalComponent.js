@@ -1,51 +1,58 @@
 import React, { useMemo } from 'react';
-import { Modal, View, Pressable, Image } from 'react-native';
-import propTypes from 'prop-types';
-import { ModalStyle } from '../../styles';
-import { useTheme } from '@react-navigation/native';
-import images from '../../index';
+import { Modal, View, StyleSheet, TouchableOpacity } from 'react-native';
+import IconEA from 'react-native-vector-icons/Entypo';
+import { Colors, SH, SW } from '../../utils';
+function ModalComponent(props) {
+  const { children, animationType = "slide", transparent = true, visible = false, setModalVisible } = props;
 
-function ModalComponent({ children, modalVisible, setModalVisible, close, modalViewStyle, modalbuttonClose }) {
-  const { colors } = useTheme();
-  const styles = useMemo(() => ModalStyle(colors), [colors]);
   return <Modal
-    animationType="slide"
-    transparent={true}
-    visible={modalVisible}
+    animationType={animationType}
+    transparent={transparent}
+    visible={visible}
     onRequestClose={() => {
-      setModalVisible(!modalVisible);
+      setModalVisible(!visible);
     }}
   >
-    <View style={styles.modalcenteredView}>
-      <View style={[styles.modalView, { ...modalViewStyle }]}>
-        <Pressable
-          style={styles.closeView}
-          onPress={() => close ? close() : null}
+    <View style={modalStyle.mainView} >
+      <View style={modalStyle.modalInnerView}>
+        <TouchableOpacity
+        style={modalStyle.close}
+        onPress={()=>{setModalVisible(false)}}
         >
-          {close ?
-            <Pressable
-              style={[styles.modalbuttonClose, { ...modalbuttonClose }]}
-              onPress={() => close()}
-            >
-              <Image resizeMode='cover' source={images.close} />
-            </Pressable>
-            : null}
-          {children}
-        </Pressable>
-
+        <IconEA name='circle-with-cross' size={SH(32)} color={Colors.black}  />
+        </TouchableOpacity>
+        {children}
       </View>
     </View>
   </Modal>;
 }
 
-Modal.defaultProps = {
-  setModalVisible: () => { },
-  modalVisible: false
-};
-
-ModalComponent.propTypes = {
-  setModalVisible: propTypes.func,
-  modalVisible: propTypes.boolean
-};
-
+const modalStyle = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: '100%',
+    backgroundColor: 'gray',
+    opacity: Platform.OS === 'ios' ? 30 : 0.9,
+  },
+  modalInnerView: {
+    width: '90%',
+    backgroundColor: Colors.white,
+    borderRadius: SH(10),
+    paddingHorizontal: SW(10),
+    paddingVertical: SH(10),
+    maxHeight:"90%"
+  },
+  close:{
+    position:'absolute',
+    right:SW(-10),
+    top:SH(-10),
+    zIndex:1,
+    backgroundColor:Colors.white,
+    borderRadius:SH(30)
+  }
+}
+);
 export default ModalComponent;
+

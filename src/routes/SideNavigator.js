@@ -1,145 +1,173 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import RouteName from './RouteName';
-import { ColorPicker, CustomSidebarMenu, AppHeader } from '../components';
-import { Colors } from '../utils';
-import { DefaultTheme } from '@react-navigation/native';
+import {
+  SplashScreen, GetstartedSliderscreen,
+  AboutSelfScreen, AgeScreen, WeightScreen, GoalScreen, WeHelpScreen, LoginScreen, SignUpScreen, OtpVerifyScreen, HomeScreen, WorkoutDetailScreen, ReadyToGoScreen, StartScreen, TakeRestScreen, ExerciseVideo, ReportScreen, StepCounterScreen, EditProfileScreen, AppSettingsScreen, HelpScreen
+} from '../screens';
+import { AppHeader, ColorPicker } from '../components';
+import { colorsset, Fonts, SF } from '../utils';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 const Drawer = createDrawerNavigator();
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons"
+import { View,Text } from 'react-native';
 
-import { TabNavigator } from '../routes';
-import {
-  ResuameAndPortFolio, ApplyJob, ApplyJobDetails, JobDetailsScreen, Chatscreen, SettingsScreen
-} from '../screens';
 
-const SideNavigator = (props) => {
-  const { t } = useTranslation();
-  const { colorrdata } = useSelector(state => state.commonReducer) || {};
-  const MyTheme = {
-    ...DefaultTheme,
-    Colors: Colors
-  };
-  const [colorValue, setColorValue] = useState(MyTheme)
-  useEffect(() => {
-    if (Colors.length != 0 && colorrdata != "") {
-      Colors.theme_backgound = colorrdata;
-      const MyThemeNew = {
-        ...DefaultTheme,
-        Colors: Colors
-      };
-      setColorValue(MyThemeNew)
-    }
 
-  }, [colorrdata, Colors])
+const SideNavigator = props => {
   return (
-    <Drawer.Navigator theme={colorValue} drawerContent={(props) => <CustomSidebarMenu {...props} />} screenOptions={{
-      headerShown: false,
-      drawerStyle: {
-        backgroundColor: Colors.White_text_color,
-        width: 270,
-      }
-    }}
-    >
-      <Stack.Screen name={RouteName.HOME_SCREEN} component={TabNavigator} />
-      <Drawer.Screen
-        name={RouteName.RESUME_AND_PORTFOLIO} component={ResuameAndPortFolio}
-        options={{
-          headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Resume_and_portfolio")} />,
-          headerTintColor: Colors.White_text_color,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.White_text_color,
-            fontSize: 20,
-            fontWeight: '700'
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-          },
-          headerRight: (props) => <ColorPicker {...props} />,
-        }}
-      />
-      <Drawer.Screen
-        name={RouteName.APPLY_JOB} component={ApplyJob}
-        options={{
-          headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Apply_Job")} />,
-          headerTintColor: Colors.White_text_color,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.White_text_color,
-            fontSize: 20,
-            fontWeight: '700'
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-          },
-          headerRight: (props) => <ColorPicker {...props} />,
-        }}
-      />
-      <Drawer.Screen
-        name={RouteName.APPLY_JOB_DETAILS} component={ApplyJobDetails}
-        options={{
-          headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Apply_Job_Details")} />,
-          headerTintColor: Colors.White_text_color,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.White_text_color,
-            fontSize: 20,
-            fontWeight: '700'
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-          },
-          headerRight: (props) => <ColorPicker {...props} />,
-        }}
-      />
-      <Drawer.Screen
-        name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Drawer.Screen
-        name={RouteName.CHAT_SCREEN} component={Chatscreen}
-        options={{
-          headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Chat_text")} />,
-          headerTintColor: Colors.White_text_color,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.White_text_color,
-            fontSize: 20,
-            fontWeight: '700'
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-          },
-        }}
-      />
-      <Drawer.Screen
-        name={RouteName.SETTING_SCREEN} component={SettingsScreen}
-        options={{
-          headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Setting_text")} />,
-          headerTintColor: Colors.White_text_color,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.White_text_color,
-            fontSize: 20,
-            fontWeight: '700'
-          },
-          headerStyle: {
-            backgroundColor: Colors.theme_backgound,
-          },
-        }}
-      />
-    </Drawer.Navigator>
-
+      <Drawer.Navigator screenOptions={{ headerShown: false,
+      
+        drawerStyle: {
+          backgroundColor: colorsset.theme_backgound,
+          width: 240,
+        }
+      }}
+    
+      >
+        <Drawer.Screen
+          name={RouteName.HOME_SCREEN} component={HomeScreen}
+          options={{
+            title:"Home",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, 
+            headerRight: (props) => <ColorPicker {...props} />,
+            headerTitle: (props) => <AppHeader {...props} headerTitle="Women Workout" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"home"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+         
+        />
+        <Drawer.Screen
+          name={RouteName.EXERCISE_VIDEO_SCREEN} component={ExerciseVideo}
+          options={{
+            title:"Video",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, headerTitle: (props) => <AppHeader {...props} headerTitle="Exercise Video" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"video"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+        />
+        <Drawer.Screen
+          name={RouteName.REPORT_SCREEN} component={ReportScreen}
+          options={{
+            title:"Report",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, headerTitle: (props) => <AppHeader {...props} headerTitle="Report" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"poll"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+        />
+        <Drawer.Screen
+          name={RouteName.STEP_COUNTER_SCREEN} component={StepCounterScreen}
+          options={{
+            title:"Steps",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, headerTitle: (props) => <AppHeader {...props} headerTitle="Steps" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"atlassian"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+        />
+        <Drawer.Screen
+          name={RouteName.EDIT_PROFILE_SCREEN} component={EditProfileScreen}
+          options={{
+            title:"Profile",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, headerTitle: (props) => <AppHeader {...props} headerTitle="Profile" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"account"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+        />
+        <Drawer.Screen
+          name={RouteName.APP_SETTINGS_SCREEN} component={AppSettingsScreen}
+          options={{
+            title:"Settings",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, headerTitle: (props) => <AppHeader {...props} headerTitle="Settings" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"cog"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+        />
+        <Drawer.Screen
+          name={RouteName.HELP_SCREEN} component={HelpScreen}
+          options={{
+            title:"Help",
+            headerStyle: {
+              backgroundColor: colorsset.theme_backgound_second,
+            },
+            headerShown: true, headerTitle: (props) => <AppHeader {...props} headerTitle="Help" />,
+            drawerActiveTintColor: colorsset.theme_backgound_second,
+            drawerInactiveTintColor: colorsset.white,
+            drawerLabelStyle:{color:colorsset.white,fontSize:SF(18),fontFamily:Fonts.RobotoCondensed_Regular},
+            drawerActiveBackgroundColor:colorsset.theme_backgound_second,
+            drawerIcon:({focused})=>
+                        <Icon
+                           name={"help-box"}
+                           size={24}
+                           color={focused ? colorsset.theme_backgound : colorsset.white}
+                       />
+          }}
+        />
+      </Drawer.Navigator>
   );
 }
 export default SideNavigator;

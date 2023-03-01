@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.vginfotec.jobs">
+  package="com.rajInternational">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
