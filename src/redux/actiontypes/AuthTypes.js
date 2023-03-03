@@ -1,5 +1,0 @@
-export const USER_DETAILS = 'USER_DETAILS';
-export const SIGN_IN = 'SIGN_IN';
-export const GET_SETTING_TYPE = 'GET_SETTING_TYPE';
-export const AUTH_RESET_INITIAL_STATE = 'AUTH_RESET_INITIAL_STATE';
-
