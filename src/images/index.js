@@ -9,7 +9,7 @@ const images = {
    Left_aerrow_details: require('./LottieAnimation/Leftaerrows.json'),
    Likeanimation: require('./LottieAnimation/LikeImages.json'),
    Languageanimation: require('./LottieAnimation/languageanimation.json'),
-   App_logo: require('./one_fifty.png'),
+   App_logo: require('./asicjobs.png'),
    Color_picker_image: require('./colorpicker.png'),
    Google_image: require('./googleicon.png'),
    Codingimage_one: require('./fourty_five.png'),
@@ -28,5 +28,6 @@ const images = {
    Chat_image_six: require('./seventy.png'),
    Chat_image_saven: require('./seventy.png'),
    Chat_image_aeight: require('./seventy.png'),
+   logo: require('./asicjobs.svg'),
 }
 export default images;

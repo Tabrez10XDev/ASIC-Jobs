@@ -109,8 +109,8 @@ const HomeTab = () => {
                             keyExtractor={item => item.id}
                             contentContainerStyle={HomeStyle.FlatListStyles}
                         />
-                        <Spacing space={SH(10)} />
-                        <Text style={HomeStyle.Skillstext}>{t("Skill")}</Text>
+                        {/* <Spacing space={SH(10)} /> */}
+                        {/* <Text style={HomeStyle.Skillstext}>{t("Skill")}</Text>
                         <Spacing space={SH(10)} />
                         <View style={HomeStyle.Flexrowgraf}>
                             <View>
@@ -155,7 +155,7 @@ const HomeTab = () => {
                                 <Text style={HomeStyle.ParsanTegText}>60%</Text>
                                 <Text style={HomeStyle.PhpText}>{t("Java")}</Text>
                             </View>
-                        </View>
+                        </View> */}
                         <Spacing space={SH(20)} />
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>

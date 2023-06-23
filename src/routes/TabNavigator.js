@@ -2,11 +2,15 @@ import React from 'react';
 import { TouchableOpacity, View, } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
-import { HomeTab, Messagelist, SavedJobsList, Profile } from '../screens';
+import { HomeTab, Messagelist, SavedJobsList, Profile, AppliedJobsList } from '../screens';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import IconE from 'react-native-vector-icons/EvilIcons';
 import IconZ from 'react-native-vector-icons/MaterialIcons';
 import IconG from 'react-native-vector-icons/Entypo';
+import IconO from 'react-native-vector-icons/Octicons'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
+
+
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { Style } from '../styles';
@@ -14,7 +18,6 @@ import { ColorPicker, CustomSidebarMenu } from '../components';
 import RouteName from '../routes/RouteName';
 import { Colors, SH, SF } from '../utils';
 import { useTranslation } from "react-i18next";
-
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -67,7 +70,7 @@ function HomeTabScreenStack({ navigation }) {
         component={HomeTab}
         options={{
           title: t("Home_Text"), headerShown: true,
-          headerShadowVisible:false,
+          headerShadowVisible: false,
           headerTitleStyle: {
             fontWeight: "700",
             fontSize: 20,
@@ -84,9 +87,9 @@ function HomeTabScreenStack({ navigation }) {
 
             </View>
           ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
+          // headerRight: () => (
+          //   <ColorPicker />
+          // ),
         }}
       />
     </Stack.Navigator>
@@ -101,7 +104,7 @@ function MessagesTabScreenStack({ navigation }) {
         component={Messagelist}
         options={{
           title: t("Messages_Text"), headerShown: true,
-          headerShadowVisible:false,
+          headerShadowVisible: false,
           headerTitleStyle: {
             fontWeight: "700",
             fontSize: 20,
@@ -115,9 +118,9 @@ function MessagesTabScreenStack({ navigation }) {
               <IconE style={Style.setbariconMarginright} name="navicon" color={Colors.theme_background_brink_pink} size={35} />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
+          // headerRight: () => (
+          //   <ColorPicker />
+          // ),
         }}
       />
     </Stack.Navigator>
@@ -132,7 +135,7 @@ function SavedJobsListTabStack({ navigation }) {
         component={SavedJobsList}
         options={{
           title: t("Save_Job_List"), headerShown: true,
-          headerShadowVisible:false,
+          headerShadowVisible: false,
           headerTitleStyle: {
             fontWeight: "700",
             fontSize: 20,
@@ -149,14 +152,51 @@ function SavedJobsListTabStack({ navigation }) {
 
             </View>
           ),
-          headerRight: () => (
-            <ColorPicker />
-          ),
+          // headerRight: () => (
+          //   <ColorPicker />
+          // ),
         }}
       />
     </Stack.Navigator>
   );
 }
+
+
+function AppliedJobsListTabStack({ navigation }) {
+  const { t } = useTranslation();
+  return (
+    <Stack.Navigator initialRouteName="AppliedJobsList">
+      <Stack.Screen
+        name="AppliedJobsList"
+        component={AppliedJobsList}
+        options={{
+          title: "Applied Jobs", headerShown: true,
+          headerShadowVisible: false,
+          headerTitleStyle: {
+            fontWeight: "700",
+            fontSize: 20,
+            color: Colors.theme_background_brink_pink,
+          },
+          headerStyle: {
+            backgroundColor: Colors.white_text_color,
+          },
+          headerLeft: () => (
+            <View style={Style.flexrowsetaddresh}>
+              <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+                <IconE style={Style.setbariconMarginright} name="navicon" color={Colors.theme_background_brink_pink} size={35} />
+              </TouchableOpacity>
+
+            </View>
+          ),
+          // headerRight: () => (
+          //   <ColorPicker />
+          // ),
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 
 function ProfileScreenStack({ navigation }) {
   const { t } = useTranslation();
@@ -167,7 +207,7 @@ function ProfileScreenStack({ navigation }) {
         component={Profile}
         options={{
           title: t("Profile"), headerShown: true,
-          headerShadowVisible:false,
+          headerShadowVisible: false,
           headerTitleStyle: {
             fontWeight: "700",
             fontSize: 20,
@@ -211,23 +251,26 @@ export function HomeScsreenTabAll() {
         options={{
           tabBarLabel: t("Home_Text"),
           tabBarIcon: ({ focused }) => (
-            <Icon
+            <IconO
               size={SF(19)}
-              name="home"
+              name="stack"
               style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }}
             />
           ),
         }}
       />
-      <Tab.Screen
-        name={RouteName.MESSAGE_TAB}
-        component={MessagesTabScreenStack}
+   
+       <Tab.Screen
+        name={RouteName.APPLIED_JOB_LIST}
+        component={AppliedJobsList}
         options={{
-          tabBarLabel: t("Message_Text"),
+          tabBarLabel: "Applied",
           tabBarIcon: ({ focused }) => (
-            <View>
-              <IconG name="message" style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }} size={SF(27)} />
-            </View>
+            <IconZ
+              size={SF(23)}
+              name="work"
+              style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }}
+            />
           ),
         }}
       />
@@ -235,13 +278,25 @@ export function HomeScsreenTabAll() {
         name={RouteName.SAVE_JOB_LIST}
         component={SavedJobsListTabStack}
         options={{
-          tabBarLabel: t("Save_Job"),
+          tabBarLabel: "Favourite",
           tabBarIcon: ({ focused }) => (
-            <IconZ
+            <IconG
               size={SF(23)}
-              name="save"
+              name="bookmark"
               style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }}
             />
+          ),
+        }}
+      />
+        <Tab.Screen
+        name={RouteName.MESSAGE_TAB}
+        component={MessagesTabScreenStack}
+        options={{
+          tabBarLabel: "Alerts",
+          tabBarIcon: ({ focused }) => (
+            <View>
+              <IconM name="bell-ring" style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }} size={SF(27)} />
+            </View>
           ),
         }}
       />

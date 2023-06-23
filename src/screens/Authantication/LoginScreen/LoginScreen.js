@@ -8,12 +8,16 @@ import IconG from 'react-native-vector-icons/Ionicons';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import images from '../../../index';
 import { useTranslation } from "react-i18next";
+import axios from 'axios';
+import SvgUri from 'react-native-svg-uri';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
     const { Colors } = useTheme();
     const Logins = useMemo(() => Login(Colors), [Colors]);
     const navigation = useNavigation();
-    const [mobileNumber, setMobileNumber] = useState('');
+    // const [mobileNumber, setMobileNumber] = useState('');
+    const [email, setEmail] = useState('')
     const [passwordVisibility, setpasswordVisibility] = useState(true);
     const [TextInputPassword, setTextInputPassword] = useState('');
 
@@ -24,6 +28,32 @@ const LoginScreen = () => {
 
     const OnRegisterPress = () => {
         navigation.navigate(RouteName.REGISTER_SCREEN);
+    }
+
+    const saveLogin = async (id) => {
+        try {
+            await AsyncStorage.setItem('AuthState', id)
+        } catch (err) {
+            alert(err)
+        }
+    }
+
+    function authenticate() {
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=login&email=${email}&password=${TextInputPassword}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                navigation.navigate(RouteName.HOME_SCREEN)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
@@ -38,17 +68,16 @@ const LoginScreen = () => {
                     <View style={Logins.container}>
                         <View style={Style.MinViewContent}>
                             <View style={Logins.ManViewLogins}>
-                                <Image style={Logins.imagesetus} resizeMode='cover' source={images.App_logo} />
+                                
+                                <Image style={{...Logins.imagesetus, width:250}} resizeMode='contain' source={images.App_logo} />
                             </View>
                             <Text style={Logins.LoginText}>{t("Login_Text")}</Text>
                             <Spacing space={SH(20)} />
                             <View style={Logins.InputSpaceView}>
                                 <Input
-                                    placeholder={t("Mobile_Number")}
-                                    onChangeText={(value) => setMobileNumber(value)}
-                                    value={mobileNumber}
-                                    inputType="numeric"
-                                    maxLength={10}
+                                    placeholder="Email"
+                                    onChangeText={(value) => setEmail(value)}
+                                    value={email}
                                     placeholderTextColor={Colors.gray_text_color}
                                 />
                             </View>
@@ -79,7 +108,7 @@ const LoginScreen = () => {
                             <View style={Logins.LoginButton}>
                                 <Button
                                     title={t("Login_Text")}
-                                    onPress={() => navigation.navigate(RouteName.OTP_VERYFY_SCREEN)}
+                                    onPress={() => authenticate()}
                                 />
                             </View>
                             <Spacing space={SH(10)} />

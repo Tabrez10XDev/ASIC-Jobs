@@ -3,6 +3,7 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from "react-redux";
 import { Colors } from '../utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,22 @@ const RootNavigator = props => {
     Colors: Colors
   };
   const [colorValue, setColorValue] = useState(MyTheme)
+  const [state, setState] = useState(null)
+
+  const getData = async () => {
+    try {
+        const result = await AsyncStorage.getItem('AuthState')
+        if (result !== null && result != "-1") {
+            setState(false)
+        } else {
+
+            setState(true)
+        }
+    } catch (e) {
+        console.error(e)
+    }
+}
+
   useEffect(() => {
     if (Colors.length != 0 && colorrdata != "") {
       Colors.theme_background_brink_pink = colorrdata;

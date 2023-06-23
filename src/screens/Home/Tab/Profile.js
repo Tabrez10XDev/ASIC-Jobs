@@ -10,6 +10,8 @@ import images from "../../../index";
 import RouteName from "../../../routes/RouteName";
 import { useTranslation } from "react-i18next";
 import { useNavigation, useTheme } from '@react-navigation/native';
+import axios from "axios";
+import { BasicInformation } from "../../Profile";
 
 const ProfileTab = (props) => {
   const { Colors } = useTheme();
@@ -38,6 +40,10 @@ const ProfileTab = (props) => {
   };
   const [state, setState] = useState(stateArray);
   const [stateError, setStateError] = useState(stateErrorArray);
+  const [userData, setUserData] = useState({
+    user_details: [],
+    candidates_details: []
+  })
 
   const onChangeText = (text) => {
     if (text === 'Oldpassword') setpasswordVisibilityold(!passwordVisibilityold);
@@ -45,10 +51,31 @@ const ProfileTab = (props) => {
     if (text === 'Confirmpassword') setPasswordVisibilityconfirm(!passwordVisibilityconfirm);
   };
 
+
+  function getUserData(){
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: 'https://asicjobs.in/api/webapi.php?api_action=userdetails&id=56',
+      headers: { }
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+      setUserData(response.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
+  }
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       setModalVisible(false);
       setmodalcontent(0);
+      getUserData()
     });
   }, [navigation]);
 
@@ -63,7 +90,7 @@ const ProfileTab = (props) => {
             </View>
           </View>
           <View style={ProfileTabStyle.ProfileDetailesMinview}>
-            <Text style={ProfileTabStyle.EditProFile}>
+            {/* <Text style={ProfileTabStyle.EditProFile}>
               {t("Edit_Profile")}
             </Text>
             <View style={ProfileTabStyle.PhoneNumberAndIcon}>
@@ -337,8 +364,93 @@ const ProfileTab = (props) => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
+            </View> */}
             <Spacing space={SH(20)} />
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+            >
+              <View style={ProfileTabStyle.iconandtextflexset}>
+                <View>
+                  <Text style={ProfileTabStyle.logoutdivset}>Basic</Text>
+                </View>
+                <View>
+                  <IconF
+                    size={27}
+                    name="arrowright"
+                    color={Colors.black_text_color}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+            >
+              <View style={ProfileTabStyle.iconandtextflexset}>
+                <View>
+                  <Text style={ProfileTabStyle.logoutdivset}>Profile</Text>
+                </View>
+                <View>
+                  <IconF
+                    size={27}
+                    name="arrowright"
+                    color={Colors.black_text_color}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+            >
+              <View style={ProfileTabStyle.iconandtextflexset}>
+                <View>
+                  <Text style={ProfileTabStyle.logoutdivset}>Experience & Education</Text>
+                </View>
+                <View>
+                  <IconF
+                    size={27}
+                    name="arrowright"
+                    color={Colors.black_text_color}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+            >
+              <View style={ProfileTabStyle.iconandtextflexset}>
+                <View>
+                  <Text style={ProfileTabStyle.logoutdivset}>Social Media</Text>
+                </View>
+                <View>
+                  <IconF
+                    size={27}
+                    name="arrowright"
+                    color={Colors.black_text_color}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+            >
+              <View style={ProfileTabStyle.iconandtextflexset}>
+                <View>
+                  <Text style={ProfileTabStyle.logoutdivset}>Account Settings</Text>
+                </View>
+                <View>
+                  <IconF
+                    size={27}
+                    name="arrowright"
+                    color={Colors.black_text_color}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
             <TouchableOpacity
               onPress={() => { setModalVisible(true); setmodalcontent(4) }}
             >

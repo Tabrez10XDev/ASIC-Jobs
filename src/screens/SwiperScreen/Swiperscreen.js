@@ -41,7 +41,7 @@ const App = ({ navigation }) => {
           <Button
             title={t("Get_Started")}
             onPress={
-              () => navigation.navigate(RouteName.SELECT_LANGUAGE)
+              () => navigation.navigate(RouteName.LOGIN_SCREEN)
             }
           />
         </View>
@@ -59,7 +59,7 @@ const App = ({ navigation }) => {
   const _renderSkipButton = () => {
     return (
       <View style={SwiperStyles.setbgbuttondiv}>
-        <TouchableOpacity onPress={() => navigation.navigate(RouteName.SELECT_LANGUAGE)}>
+        <TouchableOpacity onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)}>
           <Spacing space={SH(12)} />
           <Text style={SwiperStyles.Nexttextstyle}>{t("Skip_Text")}</Text>
         </TouchableOpacity>

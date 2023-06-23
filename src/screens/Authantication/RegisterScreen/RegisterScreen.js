@@ -8,6 +8,8 @@ import IconG from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
+import axios from 'axios'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Register = () => {
     const navigation = useNavigation();
@@ -34,6 +36,33 @@ const Register = () => {
     const onChangeText = (text, type) => {
         if (text === 'TextInputPassword') setpasswordVisibility(!passwordVisibility);
     };
+
+
+    function authenticate(){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.username}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          
+    }
+
+    const saveLogin = async (id) => {
+        try {
+            await AsyncStorage.setItem('AuthState', id)
+        } catch (err) {
+            alert(err)
+        }
+    }
 
     return (
         <View style={Logins.MinViewBgColor}>
@@ -116,7 +145,9 @@ const Register = () => {
                         <View style={Logins.ButtonView}>
                             <Button
                                 title={t("Sign_Up_Text")}
-                                onPress={() => navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)}
+                                onPress={() => 
+                                    authenticate()
+                                    }
                                 style={Logins.button} />
                         </View>
                         <Spacing space={SH(20)} />

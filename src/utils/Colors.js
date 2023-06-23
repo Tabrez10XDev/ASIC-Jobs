@@ -1,6 +1,6 @@
 
 export const Colors = {
-  theme_background_brink_pink: '#04ad3e',
+  theme_background_brink_pink: '#2290E3',
   theme_backgound_second_black: '#191b1a',
   black_text_color: 'black',
   gray_text_color: '#737272',

@@ -12,6 +12,13 @@ import { ConfirmationAlert } from '../../components';
 import { Colors, SF } from '../../utils';
 import { useTranslation } from "react-i18next";
 
+// import IconF from 'react-native-vector-icons/FontAwesome';
+// import IconE from 'react-native-vector-icons/EvilIcons';
+import IconMI from 'react-native-vector-icons/MaterialIcons';
+import IconG from 'react-native-vector-icons/Entypo';
+import IconO from 'react-native-vector-icons/Octicons'
+import IconMC from 'react-native-vector-icons/MaterialCommunityIcons'
+
 const CustomSidebarMenu = (props) => {
   const { t } = useTranslation();
   const { navigation } = props;
@@ -38,49 +45,62 @@ const CustomSidebarMenu = (props) => {
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.HOME_TAB)
         }>
-          <IconE
+          <IconO
             size={SF(19)}
-            name="home"
+            name="stack"
             color={Colors.theme_background_brink_pink}
           />
           <Text style={Sidemenu.hometextstyle}>{t("Home_Text")}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.MESSAGE_TAB)
+
+
+         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+          () => Onpressfunction(RouteName.SAVE_JOB_LIST)
         }>
-          <IconL name="message" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
-          <Text style={Sidemenu.hometextstyle}>{t("Message_Text")}</Text>
+          <IconMI name="work" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
+          <Text style={Sidemenu.hometextstyle}>Applied Jobs</Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.SAVE_JOB_LIST)
         }>
-          <IconZ name="bookmark" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
-          <Text style={Sidemenu.hometextstyle}>{t("Save_Job_List")}</Text>
+          <IconG name="bookmark" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
+          <Text style={Sidemenu.hometextstyle}>Favourite Jobs</Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+          () => Onpressfunction(RouteName.MESSAGE_TAB)
+        }>
+          <IconMC name="bell-ring" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
+          <Text style={Sidemenu.hometextstyle}>Job Alerts</Text>
+        </TouchableOpacity>
+   
+
+       
+        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.Resume_And_Portfolio)
         }>
           <IconF name="results" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>{t("Resume_Prortfolio")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.APPLY_JOB)
         }>
           <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>{t("Apply_Job")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.APPLY_JOB_DETAILS)
         }>
           <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>{t("Apply_Job_Details")}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+        </TouchableOpacity> */}
+        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.JOB_DETAILS_SCREEN)
         }>
           <IconP name="wordfile1" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>{t("Job_Description")}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.PROFILE_TAB)
@@ -88,12 +108,12 @@ const CustomSidebarMenu = (props) => {
           <IconU size={SF(19)} name="user-circle" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} />
           <Text style={Sidemenu.hometextstyle}>{t("Profile")}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.SETTING_SCREEN)
         }>
           <IconP size={SF(19)} name="setting" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} />
           <Text style={Sidemenu.hometextstyle}>{t("Setting_Text")}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <View style={Sidemenu.settingandlogout}>
           <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
             setAlertVisible(true);
