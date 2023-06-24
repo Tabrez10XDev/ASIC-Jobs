@@ -23,5 +23,12 @@ const RouteName = {
     CHAT_SCREEN: 'Chatscreen',
     FEATURED_ALL_JOB: 'FeaturedAllJob',
     SETTING_SCREEN: 'SettingsScreen',
+    BASIC_PROFILE: 'Basic Profile',
+    EDIT_PROFILE: 'Edit Profie',
+    EXPERIENCE: 'Experience and Education',
+    SOCIAL_MEDIA: 'Social Media',
+    ACCOUNT_SETTING: 'Account Setting'
+
+
 }
 export default RouteName;

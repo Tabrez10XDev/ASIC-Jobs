@@ -32,6 +32,7 @@ function Input({
           color: colors.tundora,
           fontWeight: '400',
           marginBottom: SH(5),
+          borderWidth:0,
           ...titleStyle,
         },
         input_style: {
@@ -44,6 +45,8 @@ function Input({
           fontSize: SF(17),
           fontFamily: Fonts.Poppins_Medium,
           borderRadius: 7,
+          borderWidth:0,
+          borderColor:'white',
           backgroundColor: 'white',
           shadowColor: "#000",
           shadowOffset: {

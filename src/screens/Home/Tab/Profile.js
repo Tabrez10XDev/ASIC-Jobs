@@ -367,7 +367,7 @@ const ProfileTab = (props) => {
             </View> */}
             <Spacing space={SH(20)} />
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+              onPress={() => navigation.navigate(RouteName.BASIC_PROFILE)}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
@@ -467,7 +467,7 @@ const ProfileTab = (props) => {
                 </View>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
@@ -482,7 +482,7 @@ const ProfileTab = (props) => {
                   />
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>

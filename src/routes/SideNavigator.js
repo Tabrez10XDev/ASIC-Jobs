@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 
 import { TabNavigator } from '../routes';
+import { BasicInformation, EditProfile, SocialMedia, Experience, AccountSetting } from '../screens/Profile';
 import {
   ResuameAndPortFolio, ApplyJob, ApplyJobDetails, JobDetailsScreen, Chatscreen, SettingsScreen
 } from '../screens';
@@ -43,7 +44,10 @@ const SideNavigator = (props) => {
       }
     }}
     >
+
       <Stack.Screen name={RouteName.HOME_SCREEN} component={TabNavigator} />
+
+
       <Drawer.Screen
         name={RouteName.Resume_And_Portfolio} component={ResuameAndPortFolio}
         options={{
@@ -121,7 +125,7 @@ const SideNavigator = (props) => {
           },
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name={RouteName.SETTING_SCREEN} component={SettingsScreen}
         options={{
           headerShown: true,
@@ -137,7 +141,7 @@ const SideNavigator = (props) => {
             backgroundColor: Colors.white_text_color,
           },
         }}
-      />
+      /> */}
     </Drawer.Navigator>
 
   );

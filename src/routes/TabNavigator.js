@@ -10,6 +10,7 @@ import IconG from 'react-native-vector-icons/Entypo';
 import IconO from 'react-native-vector-icons/Octicons'
 import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 
+import { BasicInformation, EditProfile, SocialMedia, Experience, AccountSetting } from '../screens/Profile';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
@@ -223,6 +224,12 @@ function ProfileScreenStack({ navigation }) {
           ),
         }}
       />
+            <Stack.Screen name={RouteName.BASIC_PROFILE} component={BasicInformation} />
+
+<Stack.Screen name={RouteName.EDIT_PROFILE} component={EditProfile} />
+<Stack.Screen name={RouteName.EXPERIENCE} component={Experience} />
+<Stack.Screen name={RouteName.SOCIAL_MEDIA} component={SocialMedia} />
+<Stack.Screen name={RouteName.ACCOUNT_SETTING} component={AccountSetting} />
     </Stack.Navigator>
   );
 }

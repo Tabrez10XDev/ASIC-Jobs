@@ -7,7 +7,15 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTranslation } from "react-i18next";
 import { RouteName } from '../../../routes';
+import { TextInput } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
+import { Colors,  SF } from '../../../utils';
+import IconF from 'react-native-vector-icons/FontAwesome';
+import IconE from 'react-native-vector-icons/EvilIcons';
+import IconZ from 'react-native-vector-icons/MaterialIcons';
+import IconG from 'react-native-vector-icons/Entypo';
+import IconO from 'react-native-vector-icons/Octicons'
+import IconM from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const HomeTab = () => {
     const { Colors } = useTheme();
@@ -77,21 +85,40 @@ const HomeTab = () => {
                     <View style={HomeStyle.MinViewContent}>
                         <Spacing space={SH(10)} />
                         <View style={HomeStyle.PaddingHorizontal}>
-                            <View style={HomeStyle.ChangeTheameBgcolor}>
-                                <TouchableOpacity style={HomeStyle.SetFileChnage}>
-                                    <View style={HomeStyle.Inputwidthset}>
-                                        <Input
-                                            placeholder={t("Search_Text")}
+                            <View style={{alignItems:'center', justifyContent:'center', paddingHorizontal:4, borderWidth:2, borderColor:'#dbebc4', borderRadius:16, paddingVertical:8}}>
+                                    <View style={{width:'95%', alignItems:'center', justifyContent:'center'}}>
+                                        <TextInput
+                                            placeholder="Job Title, Keyword"
                                             onChangeText={(value) => setSearch(value)}
                                             value={Search}
-                                            maxLength={10} 
-                                            inputStyle={HomeStyle.Inputstyles}
+                                            maxLength={10}
+                                            inputprops={{borderWidth:0, borderColor:0}}
+                                            style={{width:'100%', borderWidth:0, borderColor:'white'}}
                                         />
+                                         <View style={{...HomeStyle.IconStyles, position:'absolute', right: 0, alignSelf:'center'}}>
+                                        <Icon name="search1" size={20} color={Colors.theme_background_brink_pink} />
                                     </View>
-                                    <View style={HomeStyle.IconStyles}>
-                                        <Icon name="search1" size={20} color={Colors.black_text_color} />
                                     </View>
-                                </TouchableOpacity>
+
+                                    <View style={{width:'95%', alignItems:'center', justifyContent:'center'}}>
+                                        <TextInput
+                                            placeholder="Enter Location"
+                                            onChangeText={(value) => setSearch(value)}
+                                            value={Search}
+                                            maxLength={10}
+                                            inputprops={{borderWidth:0, borderColor:0}}
+                                            style={{width:'100%', borderWidth:0, borderColor:'white'}}
+                                        />
+                                         <View style={{...HomeStyle.IconStyles, position:'absolute', right: 0, alignSelf:'center'}}>
+                                         <IconE name="location" size={28} color={Colors.theme_background_brink_pink} />
+                                    </View>
+                                    </View>
+                                    <TouchableOpacity style={{width:'95%', alignItems:'center', justifyContent:'center', backgroundColor:Colors.theme_background_brink_pink, marginTop:6, borderRadius:4, paddingVertical:10}}>
+                                        <Text style={{fontSize:16, color:'white'}}>
+                                            Find Jobs
+                                        </Text>
+                                    </TouchableOpacity>
+                                   
                             </View>
                             <Spacing space={SH(20)} />
                             <View style={HomeStyle.FlextTextStyles}>
@@ -174,6 +201,63 @@ const HomeTab = () => {
                             keyExtractor={item => item.id}
                             contentContainerStyle={HomeStyle.Recommendedboxleft}
                         />
+                        <View style={{ width: '95%', heigh: 70, backgroundColor: "#f0f7fb", borderRadius: 4, alignSelf:'center', marginTop:16, paddingVertical:24 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
+                                <View>
+                                    <Text style={{fontSize:24, fontWeight:'600'}}>
+                                        4
+                                    </Text>
+                                    <Text style={{fontSize:16, fontWeight:'500'}}>
+                                        Job Applied
+                                    </Text>
+                                </View>
+                                <View style={{ backgroundColor: 'white', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding:12 }}>
+                                    <IconZ
+                                        size={SF(45)}
+                                        name="work"
+                                        style={{ color: Colors.theme_background_brink_pink }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{ width: '95%', heigh: 70, backgroundColor: "#FFF7E6", borderRadius: 4, alignSelf:'center', marginTop:16, paddingVertical:24 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
+                                <View>
+                                    <Text style={{fontSize:24, fontWeight:'600'}}>
+                                        2
+                                    </Text>
+                                    <Text style={{fontSize:16, fontWeight:'500'}}>
+                                        Favourite Jobs
+                                    </Text>
+                                </View>
+                                <View style={{ backgroundColor: 'white', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding:12 }}>
+                                    <IconG
+                                        size={SF(45)}
+                                        name="bookmark"
+                                        style={{ color: Colors.theme_background_brink_pink }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{ width: '95%', heigh: 70, backgroundColor: "#EDF9EB", borderRadius: 4, alignSelf:'center', marginTop:16, paddingVertical:24 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
+                                <View>
+                                    <Text style={{fontSize:24, fontWeight:'600'}}>
+                                        4
+                                    </Text>
+                                    <Text style={{fontSize:16, fontWeight:'500'}}>
+                                        Job Alert
+                                    </Text>
+                                </View>
+                                <View style={{ backgroundColor: 'white', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding:12 }}>
+                                    <IconM
+                                        size={SF(45)}
+                                        name="bell-ring"
+                                        style={{ color: Colors.theme_background_brink_pink }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
                         <Spacing space={SH(30)} />
                     </View>
                 </View>
