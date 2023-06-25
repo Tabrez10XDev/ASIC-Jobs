@@ -9,6 +9,8 @@ import { SH, Savejobdata } from '../../../utils';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RouteName } from '../../../routes';
 import { useTheme } from '@react-navigation/native';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const AppliedJobsList = (props) => {
     const { t } = useTranslation();
@@ -16,42 +18,73 @@ const AppliedJobsList = (props) => {
     const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
     const { navigation } = props;
     const Trendingdataview = (item, index) => {
+        const img = "https://asicjobs.in/" + item.logo
+        let appliedDate = item.applied_on
+        appliedDate = appliedDate.substring(0,11)
+        let state = item.status == "active" ? 1 : 0
+        
+        
+        let stateText = item.status == "active" ? "Active" : "Expired"
         return (
             <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={SaveJobListStyle.MinBgColorWhite}>
                 <View style={SaveJobListStyle.FlexRow}>
                     <View style={SaveJobListStyle.DevelperStyles}>
                         <View style={SaveJobListStyle.ImagWidthTextFlex}>
                             <View style={SaveJobListStyle.ImageViewStyles}>
-                                <Image source={item.devloperimage} style={SaveJobListStyle.Imagestyles} />
+                                <Image source={{uri: img}} style={{height:60,width:60,resizeMode:'contain', borderRadius:8}} />
                             </View>
                             <View>
-                                <Text style={SaveJobListStyle.DevelperText}>{t(item.text)}</Text>
-                                <Text style={SaveJobListStyle.Normalsmalltext}>{t(item.Sponce)}</Text>
+                                <Text style={SaveJobListStyle.DevelperText}>{item.title}</Text>
+                                <Text numberOfLines={1} style={SaveJobListStyle.Normalsmalltext}>{item.year}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={SaveJobListStyle.Widthfifty}>
-                        <Text style={SaveJobListStyle.DevelperTexttwo}>{t(item.salerytext)}</Text>
-                        <Text style={SaveJobListStyle.Normalsmalltexttwo}>{t(item.countryname)}</Text>
+                        <Text style={SaveJobListStyle.DevelperTexttwo}>$ {item.min_salary} - {item.max_salary}</Text>
+                        <Text style={SaveJobListStyle.Normalsmalltexttwo}>{item.country}</Text>
                     </View>
                 </View>
                 <Spacing space={SH(5)} />
                 <View style={SaveJobListStyle.Twobuttonflexview}>
-                    {index === 0 || index === 1 || index === 3 || index === 4 ?
-                        <TouchableOpacity onPress={() => navigation.navigate(item.url)} style={{ ...SaveJobListStyle.Statusbutton}}>
-                            <Text style={SaveJobListStyle.Openbuttontextstyles}>{t(item.buttontext)}</Text>
+                    {state == 1 ?
+                        <TouchableOpacity onPress={() => {}} style={{ ...SaveJobListStyle.Statusbutton}}>
+                            <Text style={SaveJobListStyle.Openbuttontextstyles}>{stateText}</Text>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity onPress={() => navigation.navigate(item.url)} style={{ ...SaveJobListStyle.Statusbuttontwo, backgroundColor: item.backgroundwhite }}>
-                            <Text style={SaveJobListStyle.Applytextstyles}>{t(item.buttontext)}</Text>
+                        <TouchableOpacity onPress={() => {}} style={{ ...SaveJobListStyle.Statusbuttontwo, backgroundColor: item.backgroundwhite }}>
+                            <Text style={SaveJobListStyle.Applytextstyles}>{stateText}</Text>
                         </TouchableOpacity>}
                     <View>
-                        <Text style={SaveJobListStyle.Fulltimetextstyle}>{t(item.fulltimetext)}</Text>
+                        <Text style={SaveJobListStyle.Fulltimetextstyle}>{appliedDate}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
         )
     }
+    const [jobList, setJobList] = useState([])
+
+    useEffect(() => {
+        navigation.addListener('focus', () => {
+          getAppliedList()
+        });
+      }, [navigation]);
+
+    function getAppliedList(){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://asicjobs.in/api/webapi.php?api_action=fetch_applied_job&user_id=56',
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            setJobList(response.data.applied_job)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+    }
+
     return (
         <View style={SaveJobListStyle.MinViewScreen}>
             <ScrollView
@@ -61,17 +94,17 @@ const AppliedJobsList = (props) => {
                     height: 'auto',
                 }}>
                 <View>
-                    <View style={SaveJobListStyle.FlexViewStylers}>
-                        <View>
-                            <Text style={SaveJobListStyle.SavedTitleStylers}>{t("Saved_Job")}</Text>
+                    {/* <View style={SaveJobListStyle.FlexViewStylers}>
+                        <View style={{marginTop:16}}>
+                            <Text style={SaveJobListStyle.SavedTitleStylers}>Applied Jobs</Text>
                         </View>
                         <View style={SaveJobListStyle.Likestyles}>
                             <Lottie Lottiewidthstyle={SaveJobListStyle.Likestyles} source={images.Likeanimation} />
                         </View>
-                    </View>
-                    <OnlineAllJob />
+                    </View> */}
+                    {/* <OnlineAllJob /> */}
                     <FlatList
-                        data={Savejobdata}
+                        data={jobList}
                         numColumns={1}
                         showsHorizontalScrollIndicator={false}
                         renderItem={({ item, index }) => Trendingdataview(item, index)}

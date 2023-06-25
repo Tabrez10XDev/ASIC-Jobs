@@ -135,7 +135,7 @@ function SavedJobsListTabStack({ navigation }) {
         name="SavedJobsList"
         component={SavedJobsList}
         options={{
-          title: t("Save_Job_List"), headerShown: true,
+          title: "Favourite Jobs", headerShown: true,
           headerShadowVisible: false,
           headerTitleStyle: {
             fontWeight: "700",
@@ -269,7 +269,7 @@ export function HomeScsreenTabAll() {
    
        <Tab.Screen
         name={RouteName.APPLIED_JOB_LIST}
-        component={AppliedJobsList}
+        component={AppliedJobsListTabStack}
         options={{
           tabBarLabel: "Applied",
           tabBarIcon: ({ focused }) => (

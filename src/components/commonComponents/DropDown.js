@@ -32,7 +32,7 @@ function DropdownComponent({
                     lineHeight: SF(17),
                     color: Colors.black_text_color,
                     fontWeight: '400',
-                    padding: SH(5),
+                    padding: SH(8),
                     height: SH(47),
                     ...dropdownStyle
                 },
