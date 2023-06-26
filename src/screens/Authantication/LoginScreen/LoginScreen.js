@@ -13,6 +13,10 @@ import SvgUri from 'react-native-svg-uri';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = () => {
+
+ 
+
+
     const { Colors } = useTheme();
     const Logins = useMemo(() => Login(Colors), [Colors]);
     const navigation = useNavigation();
@@ -114,6 +118,10 @@ const LoginScreen = () => {
                             <Spacing space={SH(10)} />
                             <TouchableOpacity onPress={() => navigation.navigate(RouteName.Forget_Password)}>
                                 <Text style={Logins.Forgetpasswordstyles}>{t("Forgot_Password")}</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity style={{marginTop:48, alignSelf:'flex-end', marginEnd:8}} onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}>
+                                <Text style={Logins.Forgetpasswordstyles}>Skip</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -47,7 +47,7 @@ const ApplyJobDetails = (props) => {
                         <Button onPress={() => {
                             setAlertVisible(true);
                             setAlertMessage(alertdata.Apply);
-                            Setokbutton(2);
+                            // Setokbutton(2);
                         }} buttonStyle={ResumeStyle.buttonStyle} title={t("Apply_text")} />
                     </View>
                     <Spacing space={SH(50)} />

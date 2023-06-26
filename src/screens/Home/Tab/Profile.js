@@ -384,7 +384,7 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+              onPress={() => navigation.navigate(RouteName.EDIT_PROFILE)}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
