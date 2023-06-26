@@ -19,6 +19,8 @@ import { ColorPicker, CustomSidebarMenu } from '../components';
 import RouteName from '../routes/RouteName';
 import { Colors, SH, SF } from '../utils';
 import { useTranslation } from "react-i18next";
+import ApplyJobDetails from '../screens';
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -189,11 +191,11 @@ function AppliedJobsListTabStack({ navigation }) {
 
             </View>
           ),
-          // headerRight: () => (
-          //   <ColorPicker />
-          // ),
+          
         }}
       />
+            {/* <Stack.Screen name={RouteName.APPLY_JOB_DETAILS} component={ApplyJobDetails} /> */}
+
     </Stack.Navigator>
   );
 }
@@ -224,15 +226,17 @@ function ProfileScreenStack({ navigation }) {
           ),
         }}
       />
-            <Stack.Screen name={RouteName.BASIC_PROFILE} component={BasicInformation} />
+      <Stack.Screen name={RouteName.BASIC_PROFILE} component={BasicInformation} />
 
-<Stack.Screen name={RouteName.EDIT_PROFILE} component={EditProfile} />
-<Stack.Screen name={RouteName.EXPERIENCE} component={Experience} />
-<Stack.Screen name={RouteName.SOCIAL_MEDIA} component={SocialMedia} />
-<Stack.Screen name={RouteName.ACCOUNT_SETTING} component={AccountSetting} />
+      <Stack.Screen name={RouteName.EDIT_PROFILE} component={EditProfile} />
+      <Stack.Screen name={RouteName.EXPERIENCE} component={Experience} />
+      <Stack.Screen name={RouteName.SOCIAL_MEDIA} component={SocialMedia} />
+      <Stack.Screen name={RouteName.ACCOUNT_SETTING} component={AccountSetting} />
     </Stack.Navigator>
   );
 }
+
+
 export function HomeScsreenTabAll() {
   const { t } = useTranslation();
   return (
@@ -266,8 +270,8 @@ export function HomeScsreenTabAll() {
           ),
         }}
       />
-   
-       <Tab.Screen
+
+      <Tab.Screen
         name={RouteName.APPLIED_JOB_LIST}
         component={AppliedJobsListTabStack}
         options={{
@@ -295,7 +299,7 @@ export function HomeScsreenTabAll() {
           ),
         }}
       />
-        <Tab.Screen
+      <Tab.Screen
         name={RouteName.MESSAGE_TAB}
         component={MessagesTabScreenStack}
         options={{

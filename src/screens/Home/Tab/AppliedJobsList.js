@@ -93,7 +93,7 @@ const AppliedJobsList = (props) => {
                     width: '100%',
                     height: 'auto',
                 }}>
-                <View>
+                <View style={{marginTop:16}}>
                     {/* <View style={SaveJobListStyle.FlexViewStylers}>
                         <View style={{marginTop:16}}>
                             <Text style={SaveJobListStyle.SavedTitleStylers}>Applied Jobs</Text>

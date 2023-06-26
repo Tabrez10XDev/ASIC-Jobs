@@ -104,17 +104,9 @@ const SavedJobsList = (props) => {
                 contentContainerStyle={{
                     width: '100%',
                     height: 'auto',
-                }}>
-                <View>
-                    {/* <View style={SaveJobListStyle.FlexViewStylers}>
-                        <View style={{marginTop:16}}>
-                            <Text style={SaveJobListStyle.SavedTitleStylers}>Applied Jobs</Text>
-                        </View>
-                        <View style={SaveJobListStyle.Likestyles}>
-                            <Lottie Lottiewidthstyle={SaveJobListStyle.Likestyles} source={images.Likeanimation} />
-                        </View>
-                    </View> */}
-                    {/* <OnlineAllJob /> */}
+                }}> 
+                <View style={{marginTop:16}}>
+            
                     <FlatList
                         data={jobList}
                         numColumns={1}

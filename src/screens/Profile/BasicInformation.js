@@ -140,7 +140,7 @@ const BasicInformation = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{...ResumeStyle.BorderView, marginTop:24, width:'95%', alignSelf:'center', marginBottom:12}}>
+        <View style={{ ...ResumeStyle.BorderView, marginTop: 24, width: '95%', alignSelf: 'center', marginBottom: 12 }}>
           <Text style={ResumeStyle.ParegraphTextStyle}>Upload your Cv or Resume</Text>
           <DocumentPicker UploadViewdoqumnet={true} />
           <Button onPress={() => {
@@ -148,15 +148,16 @@ const BasicInformation = () => {
             // Setokbutton(2);
           }} buttonStyle={ResumeStyle.buttonStyle} title="Apply" />
         </View>
+        
         <ConfirmationAlert
-                message={alertMessage}
-                modalVisible={alertVisible}
-                setModalVisible={setAlertVisible}
-                onPress={() => { setAlertVisible(!alertVisible) }}
-                buttonminview={Style.buttonotp}
-                iconVisible={true}
-                buttonText="Ok"
-            />
+          message={alertMessage}
+          modalVisible={alertVisible}
+          setModalVisible={setAlertVisible}
+          onPress={() => { setAlertVisible(!alertVisible) }}
+          buttonminview={Style.buttonotp}
+          iconVisible={true}
+          buttonText="Ok"
+        />
 
         <DatePicker
           modal
