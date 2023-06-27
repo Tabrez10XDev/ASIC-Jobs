@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, TextInput, Modal } from "react-nat
 import Icon from 'react-native-vector-icons/EvilIcons';
 import IconF from 'react-native-vector-icons/AntDesign';
 import IconG from 'react-native-vector-icons/Ionicons';
-import { ProfileTabStyles } from '../../../styles';
+import { ProfileTabStyles, Style } from '../../../styles';
 import { Button, Spacing } from '../../../components';
 import { SH } from '../../../utils';
 import images from "../../../index";
@@ -11,7 +11,8 @@ import RouteName from "../../../routes/RouteName";
 import { useTranslation } from "react-i18next";
 import { useNavigation, useTheme } from '@react-navigation/native';
 import axios from "axios";
-import { BasicInformation } from "../../Profile";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StackActions } from '@react-navigation/native';
 
 const ProfileTab = (props) => {
   const { Colors } = useTheme();
@@ -45,35 +46,58 @@ const ProfileTab = (props) => {
     candidates_details: []
   })
 
-  const onChangeText = (text) => {
-    if (text === 'Oldpassword') setpasswordVisibilityold(!passwordVisibilityold);
-    if (text === 'Newpassword') setpasswordVisibilitynew(!passwordVisibilitynew);
-    if (text === 'Confirmpassword') setPasswordVisibilityconfirm(!passwordVisibilityconfirm);
-  };
+  const [alertVisible, setAlertVisible] = useState(false);
+
+  const [id, setID] = useState(null)
+
+  const getData = async () => {
+    try {
+      const result = await AsyncStorage.getItem('AuthState')
+      if (result === "false") {
+        setAlertVisible(true)
+      }
+      else if (result !== null && result != "-1" && result != undefined) {
+        setID(result)
+      }
+
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
 
-  function getUserData(){
+  const logout = async () => {
+    try {
+      await AsyncStorage.setItem('AuthState', '-1')
+      navigation.dispatch(StackActions.popToTop());
+    } catch (err) {
+      alert(err)
+    }
+  }
+
+  function getUserData() {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
       url: 'https://asicjobs.in/api/webapi.php?api_action=userdetails&id=56',
-      headers: { }
+      headers: {}
     };
-    
+
     axios.request(config)
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-      setUserData(response.data)
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        setUserData(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   }
 
   useEffect(() => {
     navigation.addListener('focus', () => {
       setModalVisible(false);
+      getData()
       setmodalcontent(0);
       getUserData()
     });
@@ -90,7 +114,7 @@ const ProfileTab = (props) => {
             </View>
           </View>
           <View style={ProfileTabStyle.ProfileDetailesMinview}>
-           
+
             <Spacing space={SH(20)} />
             <TouchableOpacity
               onPress={() => navigation.navigate(RouteName.BASIC_PROFILE)}
@@ -178,7 +202,7 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => { setModalVisible(true); setmodalcontent(4) }}
+              onPress={() => { logout() }}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
@@ -211,6 +235,20 @@ const ProfileTab = (props) => {
             </TouchableOpacity> */}
           </View>
         </View>
+        <ConfirmationAlert
+          message="Please SignIn to Continue"
+          modalVisible={alertVisible}
+          setModalVisible={setAlertVisible}
+          onPress={() => {
+            setAlertVisible(!alertVisible)
+            navigation.dispatch(StackActions.popToTop());
+          }}
+          buttonminview={Style.buttonotp}
+          iconVisible={false}
+          buttonText="Ok"
+          onPressCancel={() => { setAlertVisible(!alertVisible) }}
+          cancelButtonText="Cancel"
+        />
       </View>
     </>
   );

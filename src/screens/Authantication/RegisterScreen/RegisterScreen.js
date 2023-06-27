@@ -47,6 +47,8 @@ const Register = () => {
           
           axios.request(config)
           .then((response) => {
+            saveLogin(response.data.id)
+
             console.log(JSON.stringify(response.data));
             navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)
           })

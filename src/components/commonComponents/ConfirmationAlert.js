@@ -38,7 +38,7 @@ function SweetaelertModal(props) {
                             />
                         </View>
                         {cancelButtonText ?
-                            <View style={Style.setokbutton}>
+                            <View style={{...Style.setokbutton, marginHorizontal:8}}>
                                 <Button title={cancelButtonText}
                                     onPress={() => { onPressCancel() }}
                                 />

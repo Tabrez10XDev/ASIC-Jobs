@@ -25,21 +25,7 @@ const RootNavigator = props => {
     Colors: Colors
   };
   const [colorValue, setColorValue] = useState(MyTheme)
-  const [state, setState] = useState(null)
 
-  const getData = async () => {
-    try {
-        const result = await AsyncStorage.getItem('AuthState')
-        if (result !== null && result != "-1") {
-            setState(false)
-        } else {
-
-            setState(true)
-        }
-    } catch (e) {
-        console.error(e)
-    }
-}
 
   useEffect(() => {
     if (Colors.length != 0 && colorrdata != "") {

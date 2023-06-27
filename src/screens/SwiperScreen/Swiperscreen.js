@@ -7,11 +7,20 @@ import RouteName from '../../routes/RouteName';
 import { Swiperdata, SH } from '../../utils';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = ({ navigation }) => {
   const { t } = useTranslation();
   const { Colors } = useTheme();
   const SwiperStyles = useMemo(() => SwiperStyle(Colors), [Colors]);
+
+  const saveBoarding = async (id) => {
+    try {
+      await AsyncStorage.setItem('BoardingState', id)
+    } catch (err) {
+      alert(err)
+    }
+  }
 
   const RenderItem = ({ item }) => {
     return (
@@ -41,7 +50,10 @@ const App = ({ navigation }) => {
           <Button
             title={t("Get_Started")}
             onPress={
-              () => navigation.navigate(RouteName.LOGIN_SCREEN)
+              () => {
+                saveBoarding("true")
+                navigation.navigate(RouteName.LOGIN_SCREEN)
+              }
             }
           />
         </View>
@@ -59,7 +71,10 @@ const App = ({ navigation }) => {
   const _renderSkipButton = () => {
     return (
       <View style={SwiperStyles.setbgbuttondiv}>
-        <TouchableOpacity onPress={() => navigation.navigate(RouteName.LOGIN_SCREEN)}>
+        <TouchableOpacity onPress={() => {
+          saveBoarding("true")
+          navigation.navigate(RouteName.LOGIN_SCREEN)
+        }}>
           <Spacing space={SH(12)} />
           <Text style={SwiperStyles.Nexttextstyle}>{t("Skip_Text")}</Text>
         </TouchableOpacity>

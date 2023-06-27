@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { View, Text, ScrollView, FlatList, Image } from 'react-native';
-import { SaveJobListStyles } from '../../../styles';
+import { SaveJobListStyles, Style } from '../../../styles';
 import { Spacing, Lottie } from '../../../components';
 import { useTranslation } from "react-i18next";
 import images from '../../../index';
@@ -12,6 +12,8 @@ import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import IconG from 'react-native-vector-icons/Entypo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StackActions } from '@react-navigation/native';
 
 const SavedJobsList = (props) => {
     const { t } = useTranslation();
@@ -19,7 +21,24 @@ const SavedJobsList = (props) => {
     const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
     const { navigation } = props;
     const [savedState, setSavedState] = useState(true)
+    const [alertVisible, setAlertVisible] = useState(false);
 
+    const [id, setID] = useState(null)
+
+    const getData = async () => {
+        try {
+            const result = await AsyncStorage.getItem('AuthState')
+            if (result === "false") {
+                setAlertVisible(true)
+            }
+            else if (result !== null && result != "-1" && result != undefined) {
+                setID(result)
+            }
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
     const Trendingdataview = (item, index) => {
         const img = "https://asicjobs.in/" + item.logo
@@ -77,6 +96,7 @@ const SavedJobsList = (props) => {
 
     useEffect(() => {
         navigation.addListener('focus', () => {
+            getData()
             getFavouriteList()
         });
     }, [navigation]);
@@ -116,6 +136,21 @@ const SavedJobsList = (props) => {
                         contentContainerStyle={SaveJobListStyle.FlatListStylestwo}
                     />
                 </View>
+
+                <ConfirmationAlert
+                    message="Please SignIn to Continue"
+                    modalVisible={alertVisible}
+                    setModalVisible={setAlertVisible}
+                    onPress={() => {
+                        setAlertVisible(!alertVisible)
+                        navigation.dispatch(StackActions.popToTop());
+                    }}
+                    buttonminview={Style.buttonotp}
+                    iconVisible={false}
+                    buttonText="Ok"
+                    onPressCancel={() => { setAlertVisible(!alertVisible) }}
+                    cancelButtonText="Cancel"
+                />
             </ScrollView>
         </View>
     );

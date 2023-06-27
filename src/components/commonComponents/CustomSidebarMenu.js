@@ -95,12 +95,12 @@ const CustomSidebarMenu = (props) => {
           <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>{t("Apply_Job_Details")}</Text>
         </TouchableOpacity> */}
-        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.JOB_DETAILS_SCREEN)
         }>
           <IconP name="wordfile1" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>{t("Job_Description")}</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.PROFILE_TAB)

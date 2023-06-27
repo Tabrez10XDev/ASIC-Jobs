@@ -52,6 +52,7 @@ const LoginScreen = () => {
 
         axios.request(config)
             .then((response) => {
+                saveLogin(response.data.id)
                 console.log(JSON.stringify(response.data));
                 navigation.navigate(RouteName.HOME_SCREEN)
             })
@@ -62,14 +63,14 @@ const LoginScreen = () => {
 
     return (
         <Container>
-            <View style={Logins.MinViewScreen}>
+            <View style={{...Logins.MinViewScreen, height:'100%'}}>
                 <ScrollView
                     keyboardShouldPersistTaps="handled"
                     contentContainerStyle={{
                         width: '100%',
-                        height: 'auto',
+                        height: '100%',
                     }}>
-                    <View style={Logins.container}>
+                    <View style={{...Logins.container, height:'100%'}}>
                         <View style={Style.MinViewContent}>
                             <View style={Logins.ManViewLogins}>
                                 
@@ -120,7 +121,9 @@ const LoginScreen = () => {
                                 <Text style={Logins.Forgetpasswordstyles}>{t("Forgot_Password")}</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={{marginTop:48, alignSelf:'flex-end', marginEnd:8}} onPress={() => navigation.navigate(RouteName.HOME_SCREEN)}>
+                            <TouchableOpacity style={{position:'absolute', bottom:36, right:12}} onPress={() => {
+                                saveLogin("false")
+                                navigation.navigate(RouteName.HOME_SCREEN)}}>
                                 <Text style={Logins.Forgetpasswordstyles}>Skip</Text>
                             </TouchableOpacity>
                         </View>
