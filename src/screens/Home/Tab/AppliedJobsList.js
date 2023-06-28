@@ -31,11 +31,33 @@ const AppliedJobsList = (props) => {
             }
             else if (result !== null && result != "-1" && result != undefined) {
                 setID(result)
+                getAppliedList(result)
+
             }
 
         } catch (e) {
             console.error(e)
         }
+        
+    }
+
+    function fetchJobDetails(id){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+            headers: { }
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          
     }
 
 
@@ -48,7 +70,7 @@ const AppliedJobsList = (props) => {
 
         let stateText = item.status == "active" ? "Active" : "Expired"
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={SaveJobListStyle.MinBgColorWhite}>
+            <TouchableOpacity onPress={() => fetchJobDetails(item.id)} style={SaveJobListStyle.MinBgColorWhite}>
                 <View style={SaveJobListStyle.FlexRow}>
                     <View style={SaveJobListStyle.DevelperStyles}>
                         <View style={SaveJobListStyle.ImagWidthTextFlex}>
@@ -88,15 +110,14 @@ const AppliedJobsList = (props) => {
     useEffect(() => {
         navigation.addListener('focus', () => {
             getData()
-            getAppliedList()
         });
     }, [navigation]);
 
-    function getAppliedList() {
+    function getAppliedList(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://asicjobs.in/api/webapi.php?api_action=fetch_applied_job&user_id=56',
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_applied_job&user_id=${id}`,
         };
 
         axios.request(config)
@@ -117,15 +138,6 @@ const AppliedJobsList = (props) => {
                     height: 'auto',
                 }}>
                 <View style={{ marginTop: 16 }}>
-                    {/* <View style={SaveJobListStyle.FlexViewStylers}>
-                        <View style={{marginTop:16}}>
-                            <Text style={SaveJobListStyle.SavedTitleStylers}>Applied Jobs</Text>
-                        </View>
-                        <View style={SaveJobListStyle.Likestyles}>
-                            <Lottie Lottiewidthstyle={SaveJobListStyle.Likestyles} source={images.Likeanimation} />
-                        </View>
-                    </View> */}
-                    {/* <OnlineAllJob /> */}
                     <FlatList
                         data={jobList}
                         numColumns={1}

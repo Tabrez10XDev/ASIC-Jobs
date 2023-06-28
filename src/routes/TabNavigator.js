@@ -19,7 +19,7 @@ import { ColorPicker, CustomSidebarMenu } from '../components';
 import RouteName from '../routes/RouteName';
 import { Colors, SH, SF } from '../utils';
 import { useTranslation } from "react-i18next";
-import ApplyJobDetails from '../screens';
+import { JobDetailsScreen } from '../screens';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -98,6 +98,8 @@ function HomeTabScreenStack({ navigation }) {
     </Stack.Navigator>
   );
 }
+
+
 function MessagesTabScreenStack({ navigation }) {
   const { t } = useTranslation();
   return (
@@ -160,6 +162,13 @@ function SavedJobsListTabStack({ navigation }) {
           // ),
         }}
       />
+      <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
+       options={{
+        title: "Job Detail", headerShown: false,
+        headerShadowVisible: false,
+      
+      }} />
+
     </Stack.Navigator>
   );
 }
@@ -191,10 +200,16 @@ function AppliedJobsListTabStack({ navigation }) {
 
             </View>
           ),
-          
+
         }}
       />
-            {/* <Stack.Screen name={RouteName.APPLY_JOB_DETAILS} component={ApplyJobDetails} /> */}
+      <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
+        options={{
+          title: "Job Detail", headerShown: false,
+          headerShadowVisible: false,
+        
+        }}
+      />
 
     </Stack.Navigator>
   );

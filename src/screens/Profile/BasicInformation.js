@@ -9,12 +9,13 @@ import { SettingStyle, Style, LanguageStyles, ResumeStyles } from '../../styles'
 import { Dimensions } from "react-native";
 import DatePicker from 'react-native-date-picker'
 
-const BasicInformation = () => {
+const BasicInformation = ({route}) => {
 
+  const data = route.params
   const { Colors } = useTheme();
-  const [formattedDate, setFormattedDate] = useState(null)
-  const [date, setDate] = useState(new Date())
+  const [formattedDate, setFormattedDate] = data.candidates_details.birth_date == "" ? useState(null) : useState(new Date(data.candidates_details.birth_date.substring(0,10)))
 
+  const [date, setDate] = data.candidates_details.birth_date == "" ? useState(new Date()) : useState(new Date(data.candidates_details.birth_date.substring(0,10)))
   const [open, setOpen] = useState(false)
 
   const [isFocusExperience, setIsFocusExperience] = useState(false);
@@ -28,20 +29,39 @@ const BasicInformation = () => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('Successfully Added Documents');
 
-  const DataofDropdown = [
-    { label: 'English', value: 'en' },
-    { label: 'Arabic', value: 'ara' },
-    { label: 'Spanish', value: 'Spa' },
-    { label: 'French', value: 'Fr' },
-  ];
+
+
+  const ExperienceData = [
+    { label: 'Fresher', value: 'Fresher' },
+    { label: '1 Year', value: '1 Year' },
+    { label: '2 Year', value: '2 Year' },
+    { label: '3+ Years', value: '3+ Years' },
+    { label: '5+ Years', value: '5+ Years' },
+    { label: '8+ Years', value: '8+ Years' },
+    { label: '10+ Years', value: '10+ Years' },
+    { label: '15+ Years', value: '15+ Years' },
+  ]
+
+  const EducationData = [
+    { label: 'High School', value: 'High School' },
+    { label: 'Intermediate', value: 'Intermediate' },
+    { label: 'Bachelor Degree', value: 'Bachelor Degree' },
+    { label: 'Master Degree', value: 'Master Degree' },
+    { label: 'Graduated', value: 'Graduated' },
+    { label: 'PhD', value: 'PhD' },
+    { label: 'Any', value: 'Any' },
+
+
+  ]
+  const img = "https://asicjobs.in/" + data.user_details.image
 
   return (
     <ScrollView>
       <View style={{ backgroundColor: 'white', height: '100%' }}>
         <View style={ProfileTabStyle.ImagCenter}>
           <View>
-            <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={images.logo} />
-            <Text style={ProfileTabStyle.UserName}>Allison Jerry</Text>
+            <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{uri: img}} />
+            <Text style={ProfileTabStyle.UserName}>{data.user_details.name}</Text>
           </View>
         </View>
         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
@@ -49,10 +69,16 @@ const BasicInformation = () => {
             inputprops={{ marginTop: 16 }}
             placeholder="Full Name"
           />
+
+          <Input
+            inputprops={{ marginTop: 16 }}
+            placeholder="Professional Tagline"
+          />
+
           <View style={isFocusExperience ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
 
             <DropDown
-              data={DataofDropdown}
+              data={ExperienceData}
               dropdownStyle={LanguageStyles.LeadDropdown}
               value={experience}
               onChange={item => {
@@ -74,19 +100,10 @@ const BasicInformation = () => {
             />
           </View>
 
-          <Input
-            inputprops={{ marginTop: 16 }}
-            placeholder="Personal Website"
-          />
-          <Input
-            inputprops={{ marginTop: 16 }}
-            placeholder="Professional Tagline"
-          />
-
           <View style={isFocusEducation ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
 
             <DropDown
-              data={DataofDropdown}
+              data={EducationData}
               dropdownStyle={LanguageStyles.LeadDropdown}
               value={education}
               onChange={item => {
@@ -108,6 +125,14 @@ const BasicInformation = () => {
             />
           </View>
 
+          <Input
+            inputprops={{ marginTop: 16 }}
+            placeholder="Personal Website"
+          />
+
+
+
+
           <TouchableOpacity
             onPress={() => setOpen(true)}
             style={{
@@ -127,7 +152,7 @@ const BasicInformation = () => {
               shadowRadius: Platform.OS === 'ios' ? 2 : 25,
               elevation: Platform.OS === 'ios' ? 1 : 2,
             }}>
-            {formattedDate == null ? <Text style={{ fontWeight: '500' }}>Date of Birth</Text>
+            {formattedDate == "" || formattedDate == null ? <Text style={{ fontWeight: '500' }}>Date of Birth</Text>
               :
               <Text style={{ fontWeight: '500' }}>{formattedDate.getDate()}/{formattedDate.getMonth()}/{formattedDate.getFullYear()}</Text>
             }
@@ -148,7 +173,7 @@ const BasicInformation = () => {
             // Setokbutton(2);
           }} buttonStyle={ResumeStyle.buttonStyle} title="Apply" />
         </View>
-        
+
         <ConfirmationAlert
           message={alertMessage}
           modalVisible={alertVisible}
@@ -163,6 +188,7 @@ const BasicInformation = () => {
           modal
           open={open}
           date={date}
+          mode="date"
           onConfirm={(date) => {
             setOpen(false)
             setDate(date)

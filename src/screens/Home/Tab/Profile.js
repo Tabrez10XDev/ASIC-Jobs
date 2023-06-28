@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 import IconF from 'react-native-vector-icons/AntDesign';
 import IconG from 'react-native-vector-icons/Ionicons';
 import { ProfileTabStyles, Style } from '../../../styles';
-import { Button, Spacing } from '../../../components';
+import { Button, Spacing, ConfirmationAlert } from '../../../components';
 import { SH } from '../../../utils';
 import images from "../../../index";
 import RouteName from "../../../routes/RouteName";
@@ -50,7 +50,7 @@ const ProfileTab = (props) => {
 
   const [id, setID] = useState(null)
 
-  const getData = async () => {
+  const getData = async() => {
     try {
       const result = await AsyncStorage.getItem('AuthState')
       if (result === "false") {
@@ -58,6 +58,7 @@ const ProfileTab = (props) => {
       }
       else if (result !== null && result != "-1" && result != undefined) {
         setID(result)
+        getUserData(result)
       }
 
     } catch (e) {
@@ -75,11 +76,11 @@ const ProfileTab = (props) => {
     }
   }
 
-  function getUserData() {
+  function getUserData(id) {
     let config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: 'https://asicjobs.in/api/webapi.php?api_action=userdetails&id=56',
+      url: `https://asicjobs.in/api/webapi.php?api_action=userdetails&id=${id}`,
       headers: {}
     };
 
@@ -99,25 +100,26 @@ const ProfileTab = (props) => {
       setModalVisible(false);
       getData()
       setmodalcontent(0);
-      getUserData()
     });
   }, [navigation]);
+  const img = "https://asicjobs.in/" + userData.user_details.image
 
   return (
+
     <>
       <View style={ProfileTabStyle.BackgroundWhite}>
         <View style={ProfileTabStyle.whilistminbody}>
           <View style={ProfileTabStyle.ImagCenter}>
             <View>
-              <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={images.User_image_one_profile} />
-              <Text style={ProfileTabStyle.UserName}>{t("Allison_perry")}</Text>
+              <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{uri: img}} />
+              <Text style={ProfileTabStyle.UserName}>{userData.user_details.name}</Text>
             </View>
           </View>
           <View style={ProfileTabStyle.ProfileDetailesMinview}>
 
             <Spacing space={SH(20)} />
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.BASIC_PROFILE)}
+              onPress={() => navigation.navigate(RouteName.BASIC_PROFILE, userData)}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
@@ -240,8 +242,10 @@ const ProfileTab = (props) => {
           modalVisible={alertVisible}
           setModalVisible={setAlertVisible}
           onPress={() => {
-            setAlertVisible(!alertVisible)
             navigation.dispatch(StackActions.popToTop());
+            navigation.replace(RouteName.LOGIN_SCREEN)
+          
+            setAlertVisible(!alertVisible)
           }}
           buttonminview={Style.buttonotp}
           iconVisible={false}

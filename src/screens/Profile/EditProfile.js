@@ -26,57 +26,95 @@ const EditProfile = () => {
 
     const K_OPTIONS = [
         {
-            item: 'Juventus',
-            id: 'JUVE',
+            item: 'html',
+            id: 'html',
         },
         {
-            item: 'Real Madrid',
-            id: 'RM',
+            item: 'css',
+            id: 'css',
         },
         {
-            item: 'Barcelona',
-            id: 'BR',
+            item: 'js',
+            id: 'js',
         },
         {
-            item: 'PSG',
-            id: 'PSG',
+            item: 'php',
+            id: 'php',
         },
         {
-            item: 'FC Bayern Munich',
-            id: 'FBM',
+            item: 'laravel',
+            id: 'laravel',
+        },{
+            item: 'mysql',
+            id: 'mysql',
         },
         {
-            item: 'Manchester United FC',
-            id: 'MUN',
+            item: 'vuejs',
+            id: 'vuejs',
+        },{
+            item: 'reactjs',
+            id: 'reactjs',
         },
         {
-            item: 'Manchester City FC',
-            id: 'MCI',
+            item: 'nodejs',
+            id: 'nodejs',
         },
         {
-            item: 'Everton FC',
-            id: 'EVE',
+            item: 'expressjs',
+            id: 'expressjs',
+        },{
+            item: 'python',
+            id: 'python',
+        },{
+            item: 'Django',
+            id: 'Django',
         },
-        {
-            item: 'Tottenham Hotspur FC',
-            id: 'TOT',
-        },
-        {
-            item: 'Chelsea FC',
-            id: 'CHE',
-        },
-        {
-            item: 'Liverpool FC',
-            id: 'LIV',
-        },
-        {
-            item: 'Arsenal FC',
-            id: 'ARS',
-        },
+    ]
 
+    const SkillsData = [
         {
-            item: 'Leicester City FC',
-            id: 'LEI',
+            item: 'html',
+            id: 'html',
+        },
+        {
+            item: 'css',
+            id: 'css',
+        },
+        {
+            item: 'js',
+            id: 'js',
+        },
+        {
+            item: 'php',
+            id: 'php',
+        },
+        {
+            item: 'laravel',
+            id: 'laravel',
+        },{
+            item: 'mysql',
+            id: 'mysql',
+        },
+        {
+            item: 'vuejs',
+            id: 'vuejs',
+        },{
+            item: 'reactjs',
+            id: 'reactjs',
+        },
+        {
+            item: 'nodejs',
+            id: 'nodejs',
+        },
+        {
+            item: 'expressjs',
+            id: 'expressjs',
+        },{
+            item: 'python',
+            id: 'python',
+        },{
+            item: 'Django',
+            id: 'Django',
         },
     ]
 
@@ -97,13 +135,59 @@ const EditProfile = () => {
     const [availability, setAvailability] = useState("")
 
 
-
-    const DataofDropdown = [
-        { label: 'English', value: 'en' },
-        { label: 'Arabic', value: 'ara' },
-        { label: 'Spanish', value: 'Spa' },
-        { label: 'French', value: 'Fr' },
+    const GenderData = [
+        { label: 'Male', value: 'Male' },
+        { label: 'Female', value: 'Female' },
+        { label: 'Other', value: 'Other' },
     ];
+
+    const MaritalData = [
+        { label: 'Married', value: 'Married' },
+        { label: 'Single', value: 'Single' },
+    ];
+
+
+    const AvailabilityData = [
+        { label: 'Available', value: 'Available' },
+        { label: 'Not Available', value: 'Not Available' },
+        { label: 'Available In', value: 'Available In' },
+    ];
+
+
+
+    const ProfessionData = [
+        { label: 'Physician', value: 'Physician' },
+        { label: 'Engineer', value: 'Engineer' },
+        { label: 'Chef', value: 'Chef' },
+        { label: 'Lawyer', value: 'Lawyer' },
+        { label: 'Designer', value: 'Designer' },
+        { label: 'Labourer', value: 'Labourer' },
+        { label: 'Dentist', value: 'Dentist' },
+        { label: 'Accountant', value: 'Accountant' },
+        { label: 'Dental Hygienist', value: 'Dental Hygienist' },
+        { label: 'Actor', value: 'Actor' },
+        { label: 'Electrician', value: 'Electrician' },
+        { label: 'Software Developer', value: 'Software Developer' },
+        { label: 'Pharmacist', value: 'Pharmacist' },
+        { label: 'Technician', value: 'Technician' },
+        { label: 'Artist', value: 'Artist' },
+        { label: 'Teacher', value: 'Teacher' },
+        { label: 'Jounralist', value: 'Jounralist' },
+        { label: 'Cashier', value: 'Cashier' },
+        { label: 'Secretary', value: 'Secretary' },
+        { label: 'Scientist', value: 'Scientist' },
+        { label: 'Soldier', value: 'Soldier' },
+        { label: 'Gardener', value: 'Gardener' },
+        { label: 'Farmer', value: 'Farmer' },
+        { label: 'Librarian', value: 'Librarian' },
+        { label: 'Driver', value: 'Driver' },
+        { label: 'Fishermen', value: 'Fishermen' },
+        { label: 'Police Officer', value: 'Police Officer' },
+        { label: 'Tailor', value: 'Tailor' },
+
+
+
+    ]
 
     return (
         <ScrollView>
@@ -114,7 +198,7 @@ const EditProfile = () => {
                     <View style={isFocusGender ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 48 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
 
                         <DropDown
-                            data={DataofDropdown}
+                            data={GenderData}
                             dropdownStyle={LanguageStyles.LeadDropdown}
                             value={gender}
                             onChange={item => {
@@ -136,35 +220,9 @@ const EditProfile = () => {
                         />
                     </View>
 
-
-
-                    <View style={isFocusProfession ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
-                        <DropDown
-                            data={DataofDropdown}
-                            dropdownStyle={LanguageStyles.LeadDropdown}
-                            value={profession}
-                            onChange={item => {
-                                setProfession(item.value)
-                            }}
-                            width={Dimensions.get('window').width * 0.95}
-                            search
-                            searchPlaceholder="Search bar"
-                            placeholder="Profession"
-                            selectedTextStyle={LanguageStyles.selectedTextStyleLead}
-                            IconStyle={LanguageStyles.IconStyle}
-                            onFocus={() => setIsFocusProfession(true)}
-                            onBlur={() => setIsFocusProfession(false)}
-                            labelField="label"
-                            valueField="value"
-                            renderLeftIcon={() => (
-                                <Icon color="black" name={isFocusProfession ? 'arrowup' : 'arrowdown'} size={SF(20)} />
-                            )}
-                        />
-                    </View>
-
                     <View style={isFocusMarital ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
                         <DropDown
-                            data={DataofDropdown}
+                            data={MaritalData}
                             dropdownStyle={LanguageStyles.LeadDropdown}
                             value={maritalStatus}
                             onChange={item => {
@@ -186,9 +244,35 @@ const EditProfile = () => {
                         />
                     </View>
 
+                    <View style={isFocusProfession ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
+                        <DropDown
+                            data={ProfessionData}
+                            dropdownStyle={LanguageStyles.LeadDropdown}
+                            value={profession}
+                            onChange={item => {
+                                setProfession(item.value)
+                            }}
+                            width={Dimensions.get('window').width * 0.95}
+                            search
+                            searchPlaceholder="Search bar"
+                            placeholder="Profession"
+                            selectedTextStyle={LanguageStyles.selectedTextStyleLead}
+                            IconStyle={LanguageStyles.IconStyle}
+                            onFocus={() => setIsFocusProfession(true)}
+                            onBlur={() => setIsFocusProfession(false)}
+                            labelField="label"
+                            valueField="value"
+                            renderLeftIcon={() => (
+                                <Icon color="black" name={isFocusProfession ? 'arrowup' : 'arrowdown'} size={SF(20)} />
+                            )}
+                        />
+                    </View>
+
+                 
+
                     <View style={isFocusAvailability ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
                         <DropDown
-                            data={DataofDropdown}
+                            data={AvailabilityData}
                             dropdownStyle={LanguageStyles.LeadDropdown}
                             value={availability}
                             onChange={item => {
@@ -213,7 +297,7 @@ const EditProfile = () => {
 
 
                     <SelectBox
-                        options={K_OPTIONS}
+                        options={SkillsData}
                         selectedValues={selectedSkills}
                         onMultiSelect={onMultiChange()}
                         onTapClose={onMultiChange()}

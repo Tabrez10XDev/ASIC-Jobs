@@ -21,16 +21,10 @@ const Register = () => {
         mobileNumber: "",
         textInputPassword: "",
         toggleCheckBox: false,
+        toggleCheckBox2: false
     };
-    const stateErrorArray = {
-        username: "",
-        emailId: "",
-        mobileNumber: "",
-        textInputPassword: "",
-        toggleCheckBox: false,
-    };
+
     const [state, setState] = useState(stateArray);
-    const [stateError, setStateError] = useState(stateErrorArray);
     const [passwordVisibility, setpasswordVisibility] = useState(true);
     const { t } = useTranslation();
     const onChangeText = (text, type) => {
@@ -39,6 +33,11 @@ const Register = () => {
 
 
     function authenticate(){
+
+        if(state.toggleCheckBox === false){
+            return
+        }
+
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -142,6 +141,16 @@ const Register = () => {
                                     onValueChange={(text) => setState({ ...state, toggleCheckBox: text })} />
                             </View>
                             <Text style={Logins.SimpleTextStyle}>{t("I_Agree_Text")} <Text style={Logins.borderbottomTwo}><Text style={Logins.bluecolor} onPress={() => Linking.openURL('https://myaccount.google.com/')}> {t("Terms_Of_Service")}  </Text></Text>{t("And_Text")}  <Text onPress={() => Linking.openURL('https://myaccount.google.com/')} style={Logins.bluecolor}>{t("Privacy_Policy")}</Text></Text>
+                        </View>
+                        <Spacing space={SH(10)} />
+                        <View style={Logins.FlexRowChekBox}>
+                            <View>
+                                <CheckBox disabled={false}
+                                    value={state.toggleCheckBox2}
+                                    tintColors={{ true: Colors.theme_background_brink_pink, false: Colors.theme_background_brink_pink }}
+                                    onValueChange={(text) => setState({ ...state, toggleCheckBox2: text })} />
+                            </View>
+                            <Text style={Logins.SimpleTextStyle}>I am looking for career guidance<Text style={Logins.borderbottomTwo}><Text style={Logins.bluecolor} onPress={() => Linking.openURL('https://myaccount.google.com/')}> {t("Terms_Of_Service")}  </Text></Text>{t("And_Text")}  <Text onPress={() => Linking.openURL('https://myaccount.google.com/')} style={Logins.bluecolor}>{t("Privacy_Policy")}</Text></Text>
                         </View>
                         <Spacing space={SH(20)} />
                         <View style={Logins.ButtonView}>

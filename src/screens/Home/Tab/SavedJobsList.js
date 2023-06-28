@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { View, Text, ScrollView, FlatList, Image } from 'react-native';
 import { SaveJobListStyles, Style } from '../../../styles';
-import { Spacing, Lottie } from '../../../components';
+import { Spacing, ConfirmationAlert } from '../../../components';
 import { useTranslation } from "react-i18next";
 import images from '../../../index';
 import { OnlineAllJob } from '../..';
@@ -33,11 +33,34 @@ const SavedJobsList = (props) => {
             }
             else if (result !== null && result != "-1" && result != undefined) {
                 setID(result)
+                getFavouriteList(result)
+
             }
 
         } catch (e) {
             console.error(e)
         }
+    }
+
+    function fetchJobDetails(id){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+            headers: { }
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            console.log("----------------------------");
+            console.log(id);
+            console.log(JSON.stringify(response.data));
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+          
     }
 
     const Trendingdataview = (item, index) => {
@@ -48,7 +71,7 @@ const SavedJobsList = (props) => {
 
         let stateText = item.status == "active" ? "Active" : "Expired"
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={SaveJobListStyle.MinBgColorWhite}>
+            <TouchableOpacity onPress={() => fetchJobDetails(item.job_id)} style={SaveJobListStyle.MinBgColorWhite}>
                 <View style={SaveJobListStyle.FlexRow}>
                     <View style={SaveJobListStyle.DevelperStyles}>
                         <View style={SaveJobListStyle.ImagWidthTextFlex}>
@@ -97,15 +120,14 @@ const SavedJobsList = (props) => {
     useEffect(() => {
         navigation.addListener('focus', () => {
             getData()
-            getFavouriteList()
         });
     }, [navigation]);
 
-    function getFavouriteList() {
+    function getFavouriteList(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://asicjobs.in/api/webapi.php?api_action=fetch_favourite_job&user_id=56',
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_favourite_job&user_id=${id}`,
         };
 
         axios.request(config)
