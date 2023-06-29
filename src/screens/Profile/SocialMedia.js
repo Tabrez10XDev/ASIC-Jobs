@@ -18,18 +18,24 @@ import Icon from 'react-native-vector-icons/AntDesign';
 
 
 
-const SocialMedia = () => {
+const SocialMedia = ({ route }) => {
+
+
 
     const data = [
-        { label: 'Item 1', value: '1' },
-        { label: 'Item 2', value: '2' },
-        { label: 'Item 3', value: '3' },
-        { label: 'Item 4', value: '4' },
-        { label: 'Item 5', value: '5' },
-        { label: 'Item 6', value: '6' },
-        { label: 'Item 7', value: '7' },
-        { label: 'Item 8', value: '8' },
+        { label: 'twitter', value: 'twitter' },
+        { label: 'facebook', value: 'facebook' },
+        { label: 'instagram', value: 'instagram' },
+        { label: 'youtube', value: 'youtube' },
+        { label: 'linkedin', value: 'linkedin' },
+        { label: 'pinterest', value: 'pinterest' },
+        { label: 'reddit', value: 'reddit' },
+        { label: 'github', value: 'github' },
+        { label: 'others', value: 'others' },
+
+
     ];
+
 
 
 
@@ -37,7 +43,7 @@ const SocialMedia = () => {
     const [formattedDate, setFormattedDate] = useState(null)
     const [date, setDate] = useState(new Date())
 
-    const [mediaList, setMediaList] = useState([""])
+    const [mediaList, setMediaList] = useState(route.params.social_links)
     const [value, setValue] = useState()
 
     const DataofDropdown = [
@@ -47,22 +53,10 @@ const SocialMedia = () => {
         { label: 'French', value: 'Fr' },
     ];
 
-    const SocialMediaView = (item) => {
+    const SocialMediaView = (_item, index) => {
+        const item = _item.item
         return (
-            <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 2, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8, width: '95%', marginVertical:12 }}>
-                {/* <View style={{width:'95%', alignItems:'center', justifyContent:'center'}}>
-                                        <TextInput
-                                            placeholder="Job Title, Keyword"
-                                            onChangeText={(value) => setSearch(value)}
-                                            value={search}
-                                            maxLength={10}
-                                            inputprops={{borderWidth:0, borderColor:0}}
-                                            style={{width:'100%', borderWidth:0, borderColor:'white'}}
-                                        />
-                                         <View style={{...HomeStyle.IconStyles, position:'absolute', right: 0, alignSelf:'center'}}>
-                                        <Icon name="search1" size={20} color={Colors.theme_background_brink_pink} />
-                                    </View>
-                                    </View> */}
+            <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 2, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8, width: '95%', marginVertical: 12 }}>
 
                 <View style={{ width: '95%' }}>
 
@@ -81,26 +75,38 @@ const SocialMedia = () => {
                         labelField="label"
                         valueField="value"
                         placeholder="Select"
-                        value={value}
+                        value={item.social_media}
                         onChange={item => {
                             setValue(item.value);
                         }}
                         itemTextStyle={{ color: '#000' }}
                     />
                 </View>
-
+              
                 <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
                     <TextInput
+                    editable={item.new ? true : false}
                         placeholder="Link"
-                        onChangeText={(value) => setSearch(value)}
-                        value={search}
+                        onChangeText={(value) => {
+                            setSearch(value)
+                            let currentVal = item
+                            const currentList = mediaList
+                            currentVal["url"] = value
+                            currentList[index] = currentVal
+
+                            // setMediaList(currentList)
+                        }}
+                        value={item.url}
                         maxLength={10}
+
                         inputprops={{ borderWidth: 0, borderColor: 0 }}
                         style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
                     />
 
                 </View>
-                <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
+                <TouchableOpacity onPress={()=>{
+                    setMediaList(current=>current.filter((ele)=>ele.id != item.id))
+                }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
                     <Text style={{ fontSize: 16, color: 'white' }}>
                         Delete
                     </Text>
@@ -115,20 +121,20 @@ const SocialMedia = () => {
     return (
         <ScrollView contentContainerStyle={{ backgroundColor: 'white' }} showsVerticalScrollIndicator={false}>
             <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height * 1, alignItems: 'center' }}>
-            {
-                mediaList.map((ele,index)=>{
-                    return(
-                        <SocialMediaView />
-                    )
-                })
-            }
+                {
+                    mediaList.map((ele, index) => {
+                        return (
+                            <SocialMediaView item={ele} index={index} />
+                        )
+                    })
+                }
 
 
-                <TouchableOpacity 
-                onPress={()=>{
-                    setMediaList(prevState => [...prevState, ""])
-                }}
-                style={{ width: '80%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 8, paddingVertical: 10, borderWidth:1, borderStyle:'dashed' }}>
+                <TouchableOpacity
+                    onPress={() => {
+                        setMediaList(prevState => [...prevState, {id: (Math.random() + 1).toString(36).substring(7).toString(), new: true}])
+                    }}
+                    style={{ width: '80%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 8, paddingVertical: 10, borderWidth: 1, borderStyle: 'dashed' }}>
                     <Text style={{ fontSize: 16, color: Colors.theme_background_brink_pink }}>
                         Add Experience
                     </Text>

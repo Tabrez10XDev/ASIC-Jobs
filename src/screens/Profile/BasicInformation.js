@@ -18,6 +18,7 @@ const BasicInformation = ({route}) => {
   const [date, setDate] = data.candidates_details.birth_date == "" ? useState(new Date()) : useState(new Date(data.candidates_details.birth_date.substring(0,10)))
   const [open, setOpen] = useState(false)
 
+
   const [isFocusExperience, setIsFocusExperience] = useState(false);
   const [isFocusEducation, setIsFocusEducation] = useState(false);
   const [experience, setExperience] = useState("")
@@ -25,11 +26,8 @@ const BasicInformation = ({route}) => {
   const ProfileTabStyle = useMemo(() => ProfileTabStyles(Colors), [Colors]);
   const ResumeStyle = useMemo(() => ResumeStyles(Colors), [Colors]);
 
-
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('Successfully Added Documents');
-
-
 
   const ExperienceData = [
     { label: 'Fresher', value: 'Fresher' },
@@ -41,6 +39,10 @@ const BasicInformation = ({route}) => {
     { label: '10+ Years', value: '10+ Years' },
     { label: '15+ Years', value: '15+ Years' },
   ]
+
+  const [state, setState] = useState({
+    name: data.candidates_details.name,
+  })
 
   const EducationData = [
     { label: 'High School', value: 'High School' },
@@ -66,6 +68,8 @@ const BasicInformation = ({route}) => {
         </View>
         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
           <Input
+            value={state.name}
+            onChange={(text)=>setState(...state, {name: text})}
             inputprops={{ marginTop: 16 }}
             placeholder="Full Name"
           />

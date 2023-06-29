@@ -153,7 +153,7 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.EXPERIENCE)}
+              onPress={() => navigation.navigate(RouteName.EXPERIENCE, userData)}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
@@ -170,7 +170,7 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.SOCIAL_MEDIA)}
+              onPress={() => navigation.navigate(RouteName.SOCIAL_MEDIA, userData)}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>

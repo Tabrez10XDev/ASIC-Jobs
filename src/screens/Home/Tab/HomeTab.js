@@ -13,6 +13,7 @@ import { Colors, SF } from '../../../utils';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import IconE from 'react-native-vector-icons/EvilIcons';
 import axios from 'axios';
+import images from '../../../images';
 
 const HomeTab = () => {
     const { Colors } = useTheme();
@@ -21,10 +22,90 @@ const HomeTab = () => {
     const [Search, setSearch] = useState('');
     const [Search2, setSearch2] = useState('');
     const [latestPosts, setLatestPosts] = useState([])
+    const [latestVacancies, setLatestVacancies] = useState([])
+    const [popularCategories, setPopularCategories] = useState([])
+    const [topCompanies, setTopCompanies] = useState([])
 
     const { t } = useTranslation();
 
-    function fetchLatestPosts() {
+    async function fetchLatestVacancies() {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://asicjobs.in/api/webapi.php?api_action=fetch_latest_vacancies',
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setLatestVacancies(response.data.latest_vacancies)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
+    async function fetchPopularCategories() {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://asicjobs.in/api/webapi.php?api_action=fetch_popular_categories',
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setPopularCategories(response.data.popular_categories)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
+
+    function fetchJobDetails(id){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          
+    }
+
+    async function fetchTopCompanies() {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://asicjobs.in/api/webapi.php?api_action=fetch_top_companies',
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                setTopCompanies(response.data.top_companies)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
+
+    async function fetchLatestPosts() {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -45,13 +126,16 @@ const HomeTab = () => {
 
     useEffect(() => {
         navigation.addListener('focus', () => {
+            fetchLatestVacancies()
             fetchLatestPosts()
+            fetchPopularCategories()
+            fetchTopCompanies()
         });
     }, [navigation]);
 
     const Featureddataview = (item) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={HomeStyle.BoxViewStyle}>
+            <TouchableOpacity onPress={()=>{fetchJobDetails(item.id)}} style={HomeStyle.BoxViewStyle}>
                 <LinearGradient
                     start={{ x: 0.0, y: 0.25 }}
                     end={{ x: 0.5, y: 1.0 }}
@@ -60,39 +144,74 @@ const HomeTab = () => {
                     style={HomeStyle.BoxViewStyle}>
                     <View style={HomeStyle.FlexTextsrosewt}>
                         <View style={HomeStyle.SetImagMinView}>
-                            <Image source={item.image} style={HomeStyle.Imagestyles} />
+                            <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
                         </View>
                         <View style={HomeStyle.Textviewwidth}>
-                            <Text style={HomeStyle.Producttextstyle}>{t(item.text)}</Text>
-                            <Text style={HomeStyle.Producttextstyletwo}>{t(item.smalltext)}</Text>
+                            <Text style={HomeStyle.Producttextstyle}>{item.name}</Text>
+                            {/* <Text style={HomeStyle.Producttextstyletwo}>{t(item.smalltext)}</Text> */}
                         </View>
                     </View>
                     <Spacing space={SH(30)} />
                     <View style={HomeStyle.Flexthreebutton}>
-                        <Button buttonStyle={HomeStyle.buttonstyle} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Administration")} />
-                        <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Junior_Text")} />
-                        <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Designers")} />
+                        <Button buttonStyle={HomeStyle.buttonstyle} buttonTextStyle={HomeStyle.buttontrxtstylers} title={"Open Positions: " + item.OpenPosition} />
+                        {/* <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Junior_Text")} />
+                        <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Designers")} /> */}
                     </View>
                     <Spacing space={SH(25)} />
                     <View style={HomeStyle.Flextextyearly}>
-                        <Text style={HomeStyle.YearlyTextset}>{t(item.yearlytext)}</Text>
-                        <Text style={HomeStyle.YearlyTextset}>{t(item.yearlytexttwo)}</Text>
+                        <Text style={HomeStyle.YearlyTextset}>Deadline:</Text>
+                        <Text style={HomeStyle.YearlyTextset}>{item.deadline}</Text>
                     </View>
                 </LinearGradient>
             </TouchableOpacity>
         );
     }
-    const Recommendeddataview = (item) => {
+
+    const CompaniesDataView = (item) => {
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={{ ...HomeStyle.Paddingright, backgroundColor: item.backgroundColorone }}>
+            <TouchableOpacity onPress={()=>fetchJobDetails(item.id)} style={HomeStyle.BoxViewStyle}>
+                <LinearGradient
+                    start={{ x: 0.0, y: 0.25 }}
+                    end={{ x: 0.5, y: 1.0 }}
+                    locations={[0, 0.5, 0.6]}
+                    colors={[Colors.theme_background_brink_pink, Colors.theme_background_brink_pink, Colors.theme_background_brink_pink]}
+                    style={HomeStyle.BoxViewStyle}>
+                    <View style={HomeStyle.FlexTextsrosewt}>
+                        <View style={HomeStyle.SetImagMinView}>
+                            <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
+                        </View>
+                        <View style={HomeStyle.Textviewwidth}>
+                            <Text style={HomeStyle.Producttextstyle}>{item.name}</Text>
+                            {/* <Text style={HomeStyle.Producttextstyletwo}>{t(item.smalltext)}</Text> */}
+                        </View>
+                    </View>
+                    <Spacing space={SH(30)} />
+                    <View style={HomeStyle.Flexthreebutton}>
+                        <Button buttonStyle={HomeStyle.buttonstyle} buttonTextStyle={HomeStyle.buttontrxtstylers} title={"Open Positions: " + item.OpenPosition} />
+                        {/* <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Junior_Text")} />
+                        <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Designers")} /> */}
+                    </View>
+                    <Spacing space={SH(25)} />
+                    <View style={HomeStyle.Flextextyearly}>
+                        <Text style={HomeStyle.YearlyTextset}>Deadline:</Text>
+                        <Text style={HomeStyle.YearlyTextset}>{item.deadline}</Text>
+                    </View>
+                </LinearGradient>
+            </TouchableOpacity>
+        );
+    }
+
+    const Recommendeddataview = (item, index) => {
+        return (
+            <TouchableOpacity onPress={() => {}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
                 <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
-                        <Lottie source={item.LottieAnimation} Lottiewidthstyle={HomeStyle.LottieStylesset} />
+                        <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
                     </View>
                     <View style={HomeStyle.Postionset}>
-                        <Text style={HomeStyle.Textcenter}>{t(item.designerrole)}</Text>
-                        <Text style={HomeStyle.Topboxtextstyle}>{t(item.Designer)}</Text>
-                        <Text style={HomeStyle.Textcenter}>{t(item.yearlytext)}</Text>
+                        <Text style={HomeStyle.Textcenter}>{item.name}</Text>
+                        {/* <Text style={HomeStyle.Topboxtextstyle}>{t(item.Designer)}</Text> */}
+                        <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
                         <Spacing space={SH(10)} />
                     </View>
                 </TouchableOpacity>
@@ -104,23 +223,23 @@ const HomeTab = () => {
         const img = "https://asicjobs.in/" + item.image
         console.log(img)
         return (
-            <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color }}>
-            <TouchableOpacity style={HomeStyle.RecommndBox}>
-                <View style={HomeStyle.CenterIcon}>
-                    <Image source={{uri: img}} style={{width:100, height:100, resizeMode:'cover'}}/>
-                </View>
-                <View style={HomeStyle.Postionset}>
-                    <Text style={{...HomeStyle.Textcenter, marginTop:4}}>{item.title}</Text>
-                    <Text style={HomeStyle.Topboxtextstyle}>{item.short_description}</Text>
-                    <Spacing space={SH(10)} />
-                </View>
+            <TouchableOpacity onPress={() => {}} style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color }}>
+                <TouchableOpacity style={HomeStyle.RecommndBox}>
+                    <View style={HomeStyle.CenterIcon}>
+                        <Image source={{ uri: img }} style={{ width: 100, height: 100, resizeMode: 'cover' }} />
+                    </View>
+                    <View style={HomeStyle.Postionset}>
+                        <Text style={{ ...HomeStyle.Textcenter, marginTop: 4 }}>{item.title}</Text>
+                        <Text style={HomeStyle.Topboxtextstyle}>{item.short_description}</Text>
+                        <Spacing space={SH(10)} />
+                    </View>
+
+                </TouchableOpacity>
+                <Spacing space={SH(10)} />
+
+                <Text style={{ ...HomeStyle.Textcenter, position: 'absolute', bottom: 4, right: 4 }}>{item.updated_at ? item.updated_at.substring(0, 10) : ""}</Text>
 
             </TouchableOpacity>
-            <Spacing space={SH(10)} />
-
-            <Text style={{...HomeStyle.Textcenter, position:'absolute', bottom:4, right:4}}>{item.updated_at.substring(0,11)}</Text>
-
-        </TouchableOpacity>
         );
     }
 
@@ -171,7 +290,7 @@ const HomeTab = () => {
                                 </TouchableOpacity>
 
                             </View>
-                            <View style={{ paddingHorizontal: 28, alignSelf: 'center', marginTop:8 }}>
+                            <View style={{ paddingHorizontal: 28, alignSelf: 'center', marginTop: 8 }}>
                                 <Text>
                                     Suggestions:
                                     <Text onPress={() => setSearch("Physical Design")} style={{ color: 'black' }}>   Physical Design,</Text>
@@ -184,7 +303,7 @@ const HomeTab = () => {
 
                             <Spacing space={SH(20)} />
                             <View style={HomeStyle.FlextTextStyles}>
-                                <Text style={HomeStyle.FeaturedTextaStylers}>{t("Featured_Text")}</Text>
+                                <Text style={HomeStyle.FeaturedTextaStylers}>Popular Vacancies</Text>
                                 <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
@@ -192,7 +311,7 @@ const HomeTab = () => {
                         </View>
 
                         <FlatList
-                            data={Featureddata}
+                            data={latestVacancies}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item, index }) => Featureddataview(item, index)}
@@ -203,7 +322,7 @@ const HomeTab = () => {
                         <Spacing space={SH(20)} />
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
-                                <Text style={HomeStyle.FeaturedTextaStylers}>{t("Recommended_Text")}</Text>
+                                <Text style={HomeStyle.FeaturedTextaStylers}>Popular Categories</Text>
                                 <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
@@ -211,10 +330,29 @@ const HomeTab = () => {
                         </View>
                         <Spacing space={SH(20)} />
                         <FlatList
-                            data={Recommendeddata}
+                            data={popularCategories}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             renderItem={({ item, index }) => Recommendeddataview(item, index)}
+                            keyExtractor={item => item.id}
+                            contentContainerStyle={HomeStyle.Recommendedboxleft}
+                        />
+
+                        <Spacing space={SH(20)} />
+                        <View style={HomeStyle.PaddingHorizontal}>
+                            <View style={HomeStyle.FlextTextStyles}>
+                                <Text style={HomeStyle.FeaturedTextaStylers}>Top Companies</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
+                                    <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                        <Spacing space={SH(20)} />
+                        <FlatList
+                            data={topCompanies}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            renderItem={({ item, index }) => CompaniesDataView(item, index)}
                             keyExtractor={item => item.id}
                             contentContainerStyle={HomeStyle.Recommendedboxleft}
                         />
