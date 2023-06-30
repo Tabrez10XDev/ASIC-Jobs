@@ -14,8 +14,11 @@ import {
   LoginScreen, RegisterScreen, OtpVeryfiveScreen,
   SplashScreen, RegistrationSuccessful,
   Swiperscreen, JobTypeScreen, JobTimesScreen, SelectJobandLocation,
-  TranslationScreen, ForgotPassword, FeaturedAllJob
+  TranslationScreen, ForgotPassword, FeaturedAllJob,
 } from '../screens';
+
+import AllCategories from '../screens/Home/Tab/AllCategories';
+import AllJobs from '../screens/Home/Tab/AllJobs';
 
 const RootNavigator = props => {
   
@@ -52,7 +55,8 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.SERLECT_JOB_AND_LOCATION} component={SelectJobandLocation} />
         <Stack.Screen name={RouteName.SELECT_LANGUAGE} component={TranslationScreen} />
         <Stack.Screen name={RouteName.Forget_Password} options={{ headerShown: false, headerShadowVisible: false }} component={ForgotPassword} />
-        <Stack.Screen name={RouteName.FEATURED_ALL_JOB} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={FeaturedAllJob} />
+        <Stack.Screen name={RouteName.ALL_CATEGORIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllCategories} />
+        <Stack.Screen name={RouteName.ALL_JOBS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllJobs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

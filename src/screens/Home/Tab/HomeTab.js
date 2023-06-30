@@ -203,8 +203,8 @@ const HomeTab = () => {
 
     const Recommendeddataview = (item, index) => {
         return (
-            <TouchableOpacity onPress={() => {}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
-                <TouchableOpacity onPress={() => navigation.navigate(RouteName.JOB_DETAILS_SCREEN)} style={HomeStyle.RecommndBox}>
+            <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
+                <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
                     </View>
@@ -304,9 +304,9 @@ const HomeTab = () => {
                             <Spacing space={SH(20)} />
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Popular Vacancies</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
+                                {/* <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                         </View>
 
@@ -323,7 +323,7 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Popular Categories</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
+                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.ALL_CATEGORIES)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -342,9 +342,9 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Top Companies</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
+                                {/* <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                         </View>
                         <Spacing space={SH(20)} />
@@ -361,9 +361,9 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Latest Posts</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
+                                {/* <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
-                                </TouchableOpacity>
+                                </TouchableOpacity> */}
                             </View>
                         </View>
                         <Spacing space={SH(20)} />

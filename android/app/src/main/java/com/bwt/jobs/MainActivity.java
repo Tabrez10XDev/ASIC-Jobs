@@ -1,4 +1,4 @@
-package com.vginfotec.jobs;
+package com.bwt.jobs;
 
 import com.facebook.react.ReactActivity;
 

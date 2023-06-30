@@ -27,7 +27,9 @@ const RouteName = {
     EDIT_PROFILE: 'Edit Profie',
     EXPERIENCE: 'Experience and Education',
     SOCIAL_MEDIA: 'Social Media',
-    ACCOUNT_SETTING: 'Account Setting'
+    ACCOUNT_SETTING: 'Account Setting',
+    ALL_CATEGORIES: 'All Categories',
+    ALL_JOBS: 'All Jobs'
 
 
 }
