@@ -4,6 +4,8 @@ import { HomeTabStyles } from '../../../styles';
 import { Input, Spacing, Button, Lottie, Pie } from '../../../components';
 import { SH, Featureddata, Recommendeddata } from '../../../utils';
 import Icon from 'react-native-vector-icons/AntDesign';
+import IconE from 'react-native-vector-icons/EvilIcons';
+
 import LinearGradient from 'react-native-linear-gradient';
 import { useTranslation } from "react-i18next";
 import { RouteName } from '../../../routes';
@@ -11,7 +13,6 @@ import { TextInput } from 'react-native';
 import { useNavigation, useTheme } from '@react-navigation/native';
 import { Colors, SF } from '../../../utils';
 import IconF from 'react-native-vector-icons/FontAwesome';
-import IconE from 'react-native-vector-icons/EvilIcons';
 import axios from 'axios';
 import images from '../../../images';
 
@@ -261,6 +262,7 @@ const HomeTab = () => {
                                         placeholder="Job Title, Keyword"
                                         onChangeText={(value) => setSearch(value)}
                                         value={Search}
+                                        onPressIn={()=>{navigation.navigate(RouteName.SEARCH_RESULTS)}}
                                         maxLength={30}
                                         inputprops={{ borderWidth: 0, borderColor: 0 }}
                                         style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}

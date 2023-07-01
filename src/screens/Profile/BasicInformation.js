@@ -42,6 +42,8 @@ const BasicInformation = ({route}) => {
 
   const [state, setState] = useState({
     name: data.candidates_details.name,
+    tagline: data.candidates_details.tagline,
+    website: data.candidates_details.website
   })
 
   const EducationData = [
@@ -56,6 +58,11 @@ const BasicInformation = ({route}) => {
 
   ]
   const img = "https://asicjobs.in/" + data.user_details.image
+
+  useEffect(()=>{
+    setExperience(data.candidates_details.experience_level)
+    setEducation(data.candidates_details.educational_level)
+  },[])
 
   return (
     <ScrollView>
@@ -77,6 +84,8 @@ const BasicInformation = ({route}) => {
           <Input
             inputprops={{ marginTop: 16 }}
             placeholder="Professional Tagline"
+            value={state.tagline}
+            onChange={(text)=>setState(...state, {tagline: text})}
           />
 
           <View style={isFocusExperience ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
@@ -132,6 +141,8 @@ const BasicInformation = ({route}) => {
           <Input
             inputprops={{ marginTop: 16 }}
             placeholder="Personal Website"
+            value={state.website}
+            onChange={(text)=>setState(...state, {website: text})}
           />
 
 

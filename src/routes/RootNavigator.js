@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useSelector } from "react-redux";
 import { Colors } from '../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import SearchResults from '../screens/Home/Tab/SearchResults';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +57,8 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.Forget_Password} options={{ headerShown: false, headerShadowVisible: false }} component={ForgotPassword} />
         <Stack.Screen name={RouteName.ALL_CATEGORIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllCategories} />
         <Stack.Screen name={RouteName.ALL_JOBS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllJobs} />
+        <Stack.Screen name={RouteName.SEARCH_RESULTS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={SearchResults} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

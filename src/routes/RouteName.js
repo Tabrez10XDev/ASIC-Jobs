@@ -29,7 +29,8 @@ const RouteName = {
     SOCIAL_MEDIA: 'Social Media',
     ACCOUNT_SETTING: 'Account Setting',
     ALL_CATEGORIES: 'All Categories',
-    ALL_JOBS: 'All Jobs'
+    ALL_JOBS: 'All Jobs',
+    SEARCH_RESULTS: 'Search Results'
 
 
 }

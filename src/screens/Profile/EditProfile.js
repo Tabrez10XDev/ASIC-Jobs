@@ -11,12 +11,13 @@ import DatePicker from 'react-native-date-picker'
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 
-const EditProfile = () => {
+const EditProfile = ({route}) => {
 
     const [selectedSkills, setSelectedSkills] = useState([])
     const [selectedLanguages, setSelectedLanguages] = useState([])
-
+    const data = route.params
     function onMultiChange() {
+        console.log(selectedSkills)
         return (item) => setSelectedSkills(xorBy(selectedSkills, [item], 'id'))
     }
 
@@ -133,6 +134,29 @@ const EditProfile = () => {
     const [profession, setProfession] = useState("")
     const [maritalStatus, setMaritalStatus] = useState("")
     const [availability, setAvailability] = useState("")
+
+    useEffect(()=>{
+        setGender(data.candidates_details.gender)
+        setMaritalStatus(data.candidates_details.marital_status)
+        setProfession(data.candidates_details.profession)
+        setAvailability(data.candidates_details.status)
+        let skillsTemp = []
+        data.candidates_skill.map((ele)=>{
+            let temp = {id: ele.candidate_id, item: ele.candidate_id}
+            skillsTemp.push(temp)
+        })
+
+        let languagesTemp = []
+        data.candidates_language.map((ele)=>{
+            let temp = {id: ele.language_name, item: ele.language_name}
+            languagesTemp.push(temp)
+        })
+
+        
+        // setSelectedSkills(skillsTemp)
+        // setSelectedLanguages(languagesTemp)
+        console.log(data.candidates_details)
+    },[])
 
 
     const GenderData = [
@@ -298,7 +322,7 @@ const EditProfile = () => {
 
                     <SelectBox
                         options={SkillsData}
-                        selectedValues={selectedSkills}
+                        selectedValues="hi"
                         onMultiSelect={onMultiChange()}
                         onTapClose={onMultiChange()}
                         isMulti
@@ -328,7 +352,7 @@ const EditProfile = () => {
                     />
 
 
-                    <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
+                    <TouchableOpacity onPress={onMultiChange} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>
