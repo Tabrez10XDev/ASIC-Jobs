@@ -17,7 +17,6 @@ const EditProfile = ({route}) => {
     const [selectedLanguages, setSelectedLanguages] = useState([])
     const data = route.params
     function onMultiChange() {
-        console.log(selectedSkills)
         return (item) => setSelectedSkills(xorBy(selectedSkills, [item], 'id'))
     }
 
@@ -134,6 +133,7 @@ const EditProfile = ({route}) => {
     const [profession, setProfession] = useState("")
     const [maritalStatus, setMaritalStatus] = useState("")
     const [availability, setAvailability] = useState("")
+    const [bio, setBio] = useState("")
 
     useEffect(()=>{
         setGender(data.candidates_details.gender)
@@ -152,10 +152,13 @@ const EditProfile = ({route}) => {
             languagesTemp.push(temp)
         })
 
-        
-        // setSelectedSkills(skillsTemp)
+        console.log("+++");
+        console.log(languagesTemp)
+        console.log([SkillsData[0]])
+        setSelectedSkills(skillsTemp)
+        setBio(data.candidates_details.bio)
         // setSelectedLanguages(languagesTemp)
-        console.log(data.candidates_details)
+        
     },[])
 
 
@@ -322,7 +325,7 @@ const EditProfile = ({route}) => {
 
                     <SelectBox
                         options={SkillsData}
-                        selectedValues="hi"
+                        selectedValues={selectedSkills}
                         onMultiSelect={onMultiChange()}
                         onTapClose={onMultiChange()}
                         isMulti
@@ -345,6 +348,8 @@ const EditProfile = ({route}) => {
 
 
                     <Input
+                        value={bio}
+                        onChangeText={(text)=>{setBio(text)}}
                         inputprops={{ marginTop: 16, textAlign: 'left', textAlignVertical: 'top' }}
                         placeholder="Write your Biography..."
                         numberOfLines={5}

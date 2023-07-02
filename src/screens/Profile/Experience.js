@@ -18,6 +18,8 @@ import AddEducation from "../../components/commonComponents/AddEducation";
 
 const Experience = ({route}) => {
 
+    const data = route.params
+
     const [educationList, setEducationList] = useState(route.params.candidate_education)
     const [experienceList, setExperienceList] = useState(route.params.candidates_experience) 
 

@@ -30,6 +30,7 @@ const HomeTab = () => {
     const { t } = useTranslation();
 
     async function fetchLatestVacancies() {
+        console.log("hyyy")
         let config = {
             method: 'get',
             maxBodyLength: Infinity,

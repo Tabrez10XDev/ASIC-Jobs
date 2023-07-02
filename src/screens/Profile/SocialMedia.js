@@ -22,7 +22,7 @@ const SocialMedia = ({ route }) => {
 
 
 
-    const data = [
+    const _mediaData = [
         { label: 'twitter', value: 'twitter' },
         { label: 'facebook', value: 'facebook' },
         { label: 'instagram', value: 'instagram' },
@@ -46,12 +46,7 @@ const SocialMedia = ({ route }) => {
     const [mediaList, setMediaList] = useState(route.params.social_links)
     const [value, setValue] = useState()
 
-    const DataofDropdown = [
-        { label: 'English', value: 'en' },
-        { label: 'Arabic', value: 'ara' },
-        { label: 'Spanish', value: 'Spa' },
-        { label: 'French', value: 'Fr' },
-    ];
+ 
 
     const SocialMediaView = (_item, index) => {
         const item = _item.item
@@ -63,7 +58,7 @@ const SocialMedia = ({ route }) => {
                     <Dropdown
                         placeholderStyle={{ fontSize: 12 }}
                         style={{}}
-                        data={data}
+                        data={_mediaData}
                         searchPlaceholder="Search"
                         renderRightIcon={() => (
                             <IconF
@@ -97,13 +92,14 @@ const SocialMedia = ({ route }) => {
                             // setMediaList(currentList)
                         }}
                         value={item.url}
-                        maxLength={10}
 
                         inputprops={{ borderWidth: 0, borderColor: 0 }}
                         style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
                     />
 
                 </View>
+
+
                 <TouchableOpacity onPress={()=>{
                     setMediaList(current=>current.filter((ele)=>ele.id != item.id))
                 }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>

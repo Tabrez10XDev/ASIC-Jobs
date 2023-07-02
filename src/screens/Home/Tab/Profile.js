@@ -71,6 +71,9 @@ const ProfileTab = (props) => {
     try {
       await AsyncStorage.setItem('AuthState', '-1')
       navigation.dispatch(StackActions.popToTop());
+      navigation.replace(RouteName.LOGIN_SCREEN)
+
+      
     } catch (err) {
       alert(err)
     }
@@ -204,7 +207,9 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => { logout() }}
+              onPress={() => { 
+                logout() 
+              }}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
