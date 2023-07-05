@@ -15,7 +15,7 @@ const RegistrationSuccessful = ({ navigation }) => {
   const animationProgress = useRef(new Animated.Value(0))
   const { t } = useTranslation();
   const OnLoginsPress = () => {
-    navigation.replace(RouteName.HOME_SCREEN);
+    navigation.replace(RouteName.LOGIN_SCREEN);
   }
 
   useEffect(() => {

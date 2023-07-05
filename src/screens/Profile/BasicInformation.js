@@ -29,22 +29,47 @@ const BasicInformation = ({route}) => {
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('Successfully Added Documents');
 
-  const ExperienceData = [
-    { label: 'Fresher', value: 'Fresher' },
-    { label: '1 Year', value: '1 Year' },
-    { label: '2 Year', value: '2 Year' },
-    { label: '3+ Years', value: '3+ Years' },
-    { label: '5+ Years', value: '5+ Years' },
-    { label: '8+ Years', value: '8+ Years' },
-    { label: '10+ Years', value: '10+ Years' },
-    { label: '15+ Years', value: '15+ Years' },
-  ]
 
   const [state, setState] = useState({
     name: data.candidates_details.name,
     tagline: data.candidates_details.tagline,
     website: data.candidates_details.website
   })
+
+  const ExperienceData = [
+    {
+        "id": "1",
+        "name": "Fresher"
+    },
+    {
+        "id": "2",
+        "name": "1 Year"
+    },
+    {
+        "id": "3",
+        "name": "2 Years"
+    },
+    {
+        "id": "4",
+        "name": "3+ Years"
+    },
+    {
+        "id": "5",
+        "name": "5+ Years"
+    },
+    {
+        "id": "6",
+        "name": "8+ Years"
+    },
+    {
+        "id": "7",
+        "name": "10+ Years"
+    },
+    {
+        "id": "8",
+        "name": "15+ Years"
+    }
+]
 
   const EducationData = [
     { label: 'High School', value: 'High School' },
@@ -105,8 +130,8 @@ const BasicInformation = ({route}) => {
               IconStyle={LanguageStyles.IconStyle}
               onFocus={() => setIsFocusExperience(true)}
               onBlur={() => setIsFocusExperience(false)}
-              labelField="label"
-              valueField="value"
+              labelField="name"
+              valueField="name"
               renderLeftIcon={() => (
                 <Icon color="black" name={isFocusExperience ? 'arrowup' : 'arrowdown'} size={SF(20)} />
               )}

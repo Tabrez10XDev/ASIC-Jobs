@@ -5,7 +5,9 @@ import { Input, Spacing, Button, Lottie, Pie } from '../../../components';
 import { SH, Featureddata, Recommendeddata } from '../../../utils';
 import Icon from 'react-native-vector-icons/AntDesign';
 import IconE from 'react-native-vector-icons/EvilIcons';
+import IconFont from 'react-native-vector-icons/FontAwesome';
 
+import FontAwesome, { SolidIcons, RegularIcons, BrandIcons, parseIconFromClassName } from 'react-native-fontawesome';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTranslation } from "react-i18next";
 import { RouteName } from '../../../routes';
@@ -15,6 +17,7 @@ import { Colors, SF } from '../../../utils';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import images from '../../../images';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const HomeTab = () => {
     const { Colors } = useTheme();
@@ -145,9 +148,9 @@ const HomeTab = () => {
                     colors={[Colors.theme_background_brink_pink, Colors.theme_background_brink_pink, Colors.theme_background_brink_pink]}
                     style={HomeStyle.BoxViewStyle}>
                     <View style={HomeStyle.FlexTextsrosewt}>
-                        <View style={HomeStyle.SetImagMinView}>
+                        {/* <View style={HomeStyle.SetImagMinView}>
                             <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
-                        </View>
+                        </View> */}
                         <View style={HomeStyle.Textviewwidth}>
                             <Text style={HomeStyle.Producttextstyle}>{item.name}</Text>
                             {/* <Text style={HomeStyle.Producttextstyletwo}>{t(item.smalltext)}</Text> */}
@@ -170,6 +173,8 @@ const HomeTab = () => {
     }
 
     const CompaniesDataView = (item) => {
+
+        const img = "https://asicjobs.in/" + item.logo
         return (
             <TouchableOpacity onPress={()=>fetchJobDetails(item.id)} style={HomeStyle.BoxViewStyle}>
                 <LinearGradient
@@ -180,7 +185,7 @@ const HomeTab = () => {
                     style={HomeStyle.BoxViewStyle}>
                     <View style={HomeStyle.FlexTextsrosewt}>
                         <View style={HomeStyle.SetImagMinView}>
-                            <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
+                            <Image source={{uri : img}} style={HomeStyle.Imagestyles} />
                         </View>
                         <View style={HomeStyle.Textviewwidth}>
                             <Text style={HomeStyle.Producttextstyle}>{item.name}</Text>
@@ -203,12 +208,13 @@ const HomeTab = () => {
         );
     }
 
-    const Recommendeddataview = (item, index) => {
+    const PopularCategories = (item, index) => {
         return (
             <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
                 <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
-                        <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
+
+                    {/* <IconFont name="glass" size={28} color={Colors.theme_background_brink_pink} /> */}
                     </View>
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
@@ -336,7 +342,7 @@ const HomeTab = () => {
                             data={popularCategories}
                             horizontal
                             showsHorizontalScrollIndicator={false}
-                            renderItem={({ item, index }) => Recommendeddataview(item, index)}
+                            renderItem={({ item, index }) => PopularCategories(item, index)}
                             keyExtractor={item => item.id}
                             contentContainerStyle={HomeStyle.Recommendedboxleft}
                         />

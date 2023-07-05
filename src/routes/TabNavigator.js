@@ -90,6 +90,14 @@ function HomeTabScreenStack({ navigation }) {
 
             </View>
           ),
+          headerRight: () => (
+            <View style={{...Style.flexrowsetaddresh, marginRight:8}}>
+              <TouchableOpacity onPress={() => navigation.navigate(RouteName.MESSAGE_TAB)}>
+              <IconM name="bell-ring" style={{ color: Colors.theme_background_brink_pink }} size={28} />
+              </TouchableOpacity>
+
+            </View>
+          ),
           // headerRight: () => (
           //   <ColorPicker />
           // ),
@@ -163,6 +171,14 @@ function SavedJobsListTabStack({ navigation }) {
 
             </View>
           ),
+          headerRight: () => (
+            <View style={{...Style.flexrowsetaddresh, marginRight:8}}>
+              <TouchableOpacity onPress={() => navigation.navigate(RouteName.MESSAGE_TAB)}>
+              <IconM name="bell-ring" style={{ color: Colors.theme_background_brink_pink }} size={28} />
+              </TouchableOpacity>
+
+            </View>
+          ),
           // headerRight: () => (
           //   <ColorPicker />
           // ),
@@ -203,9 +219,17 @@ function AppliedJobsListTabStack({ navigation }) {
               <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
                 <IconE style={Style.setbariconMarginright} name="navicon" color={Colors.theme_background_brink_pink} size={35} />
               </TouchableOpacity>
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{...Style.flexrowsetaddresh, marginRight:8}}>
+              <TouchableOpacity onPress={() => navigation.navigate(RouteName.MESSAGE_TAB)}>
+              <IconM name="bell-ring" style={{ color: Colors.theme_background_brink_pink }} size={28} />
+              </TouchableOpacity>
 
             </View>
           ),
+      
 
         }}
       />
@@ -244,6 +268,14 @@ function ProfileScreenStack({ navigation }) {
             <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
               <IconE style={Style.setbariconMarginright} name="navicon" color={Colors.theme_background_brink_pink} size={SF(35)} />
             </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <View style={{...Style.flexrowsetaddresh, marginRight:8}}>
+              <TouchableOpacity onPress={() => navigation.navigate(RouteName.MESSAGE_TAB)}>
+              <IconM name="bell-ring" style={{ color: Colors.theme_background_brink_pink }} size={28} />
+              </TouchableOpacity>
+
+            </View>
           ),
         }}
       />
@@ -299,7 +331,7 @@ export function HomeScsreenTabAll() {
           tabBarLabel: "Applied",
           tabBarIcon: ({ focused }) => (
             <IconZ
-              size={SF(23)}
+              size={SF(19)}
               name="work"
               style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }}
             />
@@ -313,25 +345,25 @@ export function HomeScsreenTabAll() {
           tabBarLabel: "Favourite",
           tabBarIcon: ({ focused }) => (
             <IconG
-              size={SF(23)}
+              size={SF(19)}
               name="bookmark"
               style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }}
             />
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={RouteName.MESSAGE_TAB}
         component={MessagesTabScreenStack}
         options={{
           tabBarLabel: "Alerts",
           tabBarIcon: ({ focused }) => (
             <View>
-              <IconM name="bell-ring" style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }} size={SF(27)} />
+              <IconM name="bell-ring" style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }} size={SF(19)} />
             </View>
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name={RouteName.PROFILE_TAB}
         component={ProfileScreenStack}
