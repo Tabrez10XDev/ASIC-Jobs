@@ -50,7 +50,7 @@ const ProfileTab = (props) => {
 
   const [id, setID] = useState(null)
 
-  const getData = async() => {
+  const getData = async () => {
     try {
       const result = await AsyncStorage.getItem('AuthState')
       if (result === "false") {
@@ -73,7 +73,7 @@ const ProfileTab = (props) => {
       navigation.dispatch(StackActions.popToTop());
       navigation.replace(RouteName.LOGIN_SCREEN)
 
-      
+
     } catch (err) {
       alert(err)
     }
@@ -114,7 +114,7 @@ const ProfileTab = (props) => {
         <View style={ProfileTabStyle.whilistminbody}>
           <View style={ProfileTabStyle.ImagCenter}>
             <View>
-              <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{uri: img}} />
+              <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{ uri: img }} />
               <Text style={ProfileTabStyle.UserName}>{userData.user_details.name}</Text>
             </View>
           </View>
@@ -122,7 +122,12 @@ const ProfileTab = (props) => {
 
             <Spacing space={SH(20)} />
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.BASIC_PROFILE, userData)}
+              onPress={() => {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                  navigation.navigate(RouteName.BASIC_PROFILE, userData)
+                }
+              }
+              }
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
@@ -139,8 +144,12 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.EDIT_PROFILE, userData)}
-            >
+              onPress={() => {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                  navigation.navigate(RouteName.EDIT_PROFILE, userData)
+                }
+              }
+              } >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
                   <Text style={ProfileTabStyle.logoutdivset}>Profile</Text>
@@ -156,8 +165,12 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.EXPERIENCE, userData)}
-            >
+              onPress={() => {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                  navigation.navigate(RouteName.EXPERIENCE, userData)
+                }
+              }
+              }            >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
                   <Text style={ProfileTabStyle.logoutdivset}>Experience & Education</Text>
@@ -173,8 +186,12 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.SOCIAL_MEDIA, userData)}
-            >
+              onPress={() => {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                  navigation.navigate(RouteName.SOCIAL_MEDIA, userData)
+                }
+              }
+              }            >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>
                   <Text style={ProfileTabStyle.logoutdivset}>Social Media</Text>
@@ -207,8 +224,8 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => { 
-                logout() 
+              onPress={() => {
+                logout()
               }}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
@@ -249,7 +266,7 @@ const ProfileTab = (props) => {
           onPress={() => {
             navigation.dispatch(StackActions.popToTop());
             navigation.replace(RouteName.LOGIN_SCREEN)
-          
+
             setAlertVisible(!alertVisible)
           }}
           buttonminview={Style.buttonotp}

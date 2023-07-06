@@ -52,7 +52,7 @@ const AppliedJobsList = (props) => {
           axios.request(config)
           .then((response) => {
             console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
           })
           .catch((error) => {
             console.log(error);

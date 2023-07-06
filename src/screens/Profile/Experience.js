@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { View, Text, TouchableOpacity, Image, TextInput, Modal } from "react-native";
-import { ProfileTabStyles } from "../../styles";
 import { useNavigation, useTheme } from '@react-navigation/native';
 import images from "../../index";
 import { Input, DropDown, DocumentPicker, Button, ConfirmationAlert, Spacing } from "../../components";
@@ -13,22 +12,58 @@ import LinearGradient from 'react-native-linear-gradient';
 import { width } from "react-native-bottom-tab/src/AnimatedTabBar/utils";
 import AddExperience from "../../components/commonComponents/AddExperience";
 import AddEducation from "../../components/commonComponents/AddEducation";
+import axios from "axios";
 
 
-
-const Experience = ({route}) => {
+const Experience = ({ route }) => {
 
     const data = route.params
 
-    const [educationList, setEducationList] = useState(route.params.candidate_education)
-    const [experienceList, setExperienceList] = useState(route.params.candidates_experience) 
+    const [educationList, setEducationList] = useState(route.params.candidate_education ?? [])
+    const [experienceList, setExperienceList] = useState(route.params.candidates_experience ?? [])
+
+
+    async function deleteEducation(id) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&education_row_id=${id}&user_id=56`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                const newList = educationList.filter((ele) => ele.id !== id);
+                setEducationList(newList)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    async function deleteExperience(id) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&experience_row_id=${id}&user_id=56`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                const newList = experienceList.filter((ele) => ele.id !== id);
+                setExperienceList(newList)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
     const Experiencedataview = (_item, index) => {
         const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
         const item = _item.item
         const img = "https://asicjobs.in/" + item.logo
         let appliedDate = item.applied_on
-        // appliedDate = appliedDate.substring(0,11)
         let state = item.status == "active" ? 1 : 0
 
         console.log("===============")
@@ -49,7 +84,7 @@ const Experience = ({route}) => {
                 shadowRadius: Platform.OS === 'ios' ? 2 : 25,
                 elevation: Platform.OS === 'ios' ? 1 : 2,
                 width: '95%', borderRadius: 10, padding: 16, alignItems: 'center', justifyContent: 'center',
-                marginTop:12
+                marginTop: 12
             }}>
                 <View style={{ flexDirection: 'row', width: '100%' }}>
 
@@ -71,7 +106,9 @@ const Experience = ({route}) => {
                         <Text numberOfLines={1} style={{ ...SaveJobListStyle.Normalsmalltext, color: 'black', textAlign: 'right', marginTop: 2 }}>{item.currently_working ?? "NA"}</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={{ width: '60%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, borderWidth: 1, borderStyle: 'dashed', marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
+                <TouchableOpacity
+                    onPress={() => deleteExperience(item.id)}
+                    style={{ width: '60%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, borderWidth: 1, borderStyle: 'dashed', marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                     <Text style={{ fontSize: 16, color: Colors.theme_background_brink_pink }}>
                         Delete
                     </Text>
@@ -107,7 +144,7 @@ const Experience = ({route}) => {
                 shadowRadius: Platform.OS === 'ios' ? 2 : 25,
                 elevation: Platform.OS === 'ios' ? 1 : 2,
                 width: '95%', borderRadius: 10, padding: 16, alignItems: 'center', justifyContent: 'center',
-                marginTop:12
+                marginTop: 12
             }}>
                 <View style={{ flexDirection: 'row', width: '100%' }}>
 
@@ -129,26 +166,14 @@ const Experience = ({route}) => {
                         <Text numberOfLines={1} style={{ ...SaveJobListStyle.Normalsmalltext, color: 'black', textAlign: 'right', marginTop: 2 }}>{item.notes}</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={{ width: '60%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, borderWidth: 1, borderStyle: 'dashed', marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
+                <TouchableOpacity
+                    onPress={() => deleteEducation(item.id)}
+                    style={{ width: '60%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, borderWidth: 1, borderStyle: 'dashed', marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                     <Text style={{ fontSize: 16, color: Colors.theme_background_brink_pink }}>
                         Delete
                     </Text>
                 </TouchableOpacity>
 
-                {/* <Spacing space={SH(5)} />
-                <View style={SaveJobListStyle.Twobuttonflexview}>
-                    {state == 1 ?
-                        <TouchableOpacity onPress={() => {}} style={{ ...SaveJobListStyle.Statusbutton}}>
-                            <Text style={SaveJobListStyle.Openbuttontextstyles}>{stateText}</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={() => {}} style={{ ...SaveJobListStyle.Statusbuttontwo, backgroundColor: item.backgroundwhite }}>
-                            <Text style={SaveJobListStyle.Applytextstyles}>{stateText}</Text>
-                        </TouchableOpacity>}
-                    <View>
-                        <Text style={SaveJobListStyle.Fulltimetextstyle}>{appliedDate}</Text>
-                    </View>
-                </View> */}
             </View>
         )
     }
@@ -165,11 +190,18 @@ const Experience = ({route}) => {
                 <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left', width: '95%', marginTop: 24 }}>
                     Experience
                 </Text>
-                {experienceList.map((ele,index)=>{
-                    return(
+                {experienceList.map((ele, index) => {
+                    return (
                         <Experiencedataview item={ele} />
                     )
                 })}
+
+{
+                    experienceList.length === 0 &&
+                    <Text style={{ fontSize: 16, color: 'black', marginTop:10, fontWeight:"500" }}>
+                        No Experience
+                    </Text>
+                }
                 <TouchableOpacity
                     onPress={() => { refRBSheet.current.open() }}
                     style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
@@ -180,11 +212,19 @@ const Experience = ({route}) => {
                 <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left', width: '95%', marginTop: 48 }}>
                     Education
                 </Text>
-                {educationList.map((ele,index)=>{
-                    return(
+                {educationList.map((ele, index) => {
+                    return (
                         <Educationdataview item={ele} />
                     )
-                })}                
+                })}
+
+                {
+                    educationList.length === 0 &&
+                    <Text style={{ fontSize: 16, color: 'black', marginTop:10, fontWeight:"500" }}>
+                        No Education
+                    </Text>
+                }
+
                 <TouchableOpacity
                     onPress={() => { refRBSheet2.current.open() }}
                     style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>

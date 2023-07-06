@@ -8,14 +8,15 @@ import { ScrollView } from "react-native";
 import { SettingStyle, Style, LanguageStyles, ResumeStyles } from '../../styles';
 import { Dimensions } from "react-native";
 import DatePicker from 'react-native-date-picker'
+import { Linking } from "react-native";
 
-const BasicInformation = ({route}) => {
+const BasicInformation = ({ route }) => {
 
   const data = route.params
   const { Colors } = useTheme();
-  const [formattedDate, setFormattedDate] = data.candidates_details.birth_date == "" ? useState(null) : useState(new Date(data.candidates_details.birth_date.substring(0,10)))
+  const [formattedDate, setFormattedDate] = data.candidates_details.birth_date == "" ? useState(null) : useState(new Date(data.candidates_details.birth_date.substring(0, 10)))
 
-  const [date, setDate] = data.candidates_details.birth_date == "" ? useState(new Date()) : useState(new Date(data.candidates_details.birth_date.substring(0,10)))
+  const [date, setDate] = data.candidates_details.birth_date == "" ? useState(new Date()) : useState(new Date(data.candidates_details.birth_date.substring(0, 10)))
   const [open, setOpen] = useState(false)
 
 
@@ -31,45 +32,46 @@ const BasicInformation = ({route}) => {
 
 
   const [state, setState] = useState({
-    name: data.candidates_details.name,
+    name: data.user_details.name,
     tagline: data.candidates_details.tagline,
-    website: data.candidates_details.website
+    website: data.candidates_details.website,
+    resumes: data.candidate_resumes
   })
 
   const ExperienceData = [
     {
-        "id": "1",
-        "name": "Fresher"
+      "id": "1",
+      "name": "Fresher"
     },
     {
-        "id": "2",
-        "name": "1 Year"
+      "id": "2",
+      "name": "1 Year"
     },
     {
-        "id": "3",
-        "name": "2 Years"
+      "id": "3",
+      "name": "2 Years"
     },
     {
-        "id": "4",
-        "name": "3+ Years"
+      "id": "4",
+      "name": "3+ Years"
     },
     {
-        "id": "5",
-        "name": "5+ Years"
+      "id": "5",
+      "name": "5+ Years"
     },
     {
-        "id": "6",
-        "name": "8+ Years"
+      "id": "6",
+      "name": "8+ Years"
     },
     {
-        "id": "7",
-        "name": "10+ Years"
+      "id": "7",
+      "name": "10+ Years"
     },
     {
-        "id": "8",
-        "name": "15+ Years"
+      "id": "8",
+      "name": "15+ Years"
     }
-]
+  ]
 
   const EducationData = [
     { label: 'High School', value: 'High School' },
@@ -84,24 +86,24 @@ const BasicInformation = ({route}) => {
   ]
   const img = "https://asicjobs.in/" + data.user_details.image
 
-  useEffect(()=>{
+  useEffect(() => {
     setExperience(data.candidates_details.experience_level)
     setEducation(data.candidates_details.educational_level)
-  },[])
+  }, [])
 
   return (
     <ScrollView>
       <View style={{ backgroundColor: 'white', height: '100%' }}>
         <View style={ProfileTabStyle.ImagCenter}>
           <View>
-            <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{uri: img}} />
+            <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{ uri: img }} />
             <Text style={ProfileTabStyle.UserName}>{data.user_details.name}</Text>
           </View>
         </View>
         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
           <Input
             value={state.name}
-            onChange={(text)=>setState(...state, {name: text})}
+            onChange={(text) => setState(...state, { name: text })}
             inputprops={{ marginTop: 16 }}
             placeholder="Full Name"
           />
@@ -110,7 +112,7 @@ const BasicInformation = ({route}) => {
             inputprops={{ marginTop: 16 }}
             placeholder="Professional Tagline"
             value={state.tagline}
-            onChange={(text)=>setState(...state, {tagline: text})}
+            onChange={(text) => setState(...state, { tagline: text })}
           />
 
           <View style={isFocusExperience ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
@@ -167,7 +169,7 @@ const BasicInformation = ({route}) => {
             inputprops={{ marginTop: 16 }}
             placeholder="Personal Website"
             value={state.website}
-            onChange={(text)=>setState(...state, {website: text})}
+            onChange={(text) => setState(...state, { website: text })}
           />
 
 
@@ -198,6 +200,9 @@ const BasicInformation = ({route}) => {
             }
           </TouchableOpacity>
 
+
+
+
           <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
             <Text style={{ fontSize: 16, color: 'white' }}>
               Save Changes
@@ -205,14 +210,30 @@ const BasicInformation = ({route}) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ ...ResumeStyle.BorderView, marginTop: 24, width: '95%', alignSelf: 'center', marginBottom: 12 }}>
-          <Text style={ResumeStyle.ParegraphTextStyle}>Upload your Cv or Resume</Text>
-          <DocumentPicker UploadViewdoqumnet={true} />
-          <Button onPress={() => {
-            setAlertVisible(true);
-            // Setokbutton(2);
-          }} buttonStyle={ResumeStyle.buttonStyle} title="Apply" />
-        </View>
+
+        {
+          state.resumes.map((ele, index) => {
+            return (
+              <View key={ele.id} style={{ ...ResumeStyle.BorderView, marginTop: 24, width: '95%', alignSelf: 'center', marginBottom: 12, height:140, flexDirection:'column', justifyContent:'space-between' }}>
+                <Text style={ResumeStyle.ParegraphTextStyle}>{ele.name}</Text>
+                <Button 
+                onPress={() => {
+                    Linking.openURL(ele.file);
+                }} buttonStyle={{...ResumeStyle.buttonStyle, marginTop:20}} title="Open Resume" />
+              </View>
+            )
+          })
+        }
+
+        {state.resumes.length <= 5 ? (
+          <View style={{ ...ResumeStyle.BorderView, marginTop: 24, width: '95%', alignSelf: 'center', marginBottom: 12 }}>
+            <Text style={ResumeStyle.ParegraphTextStyle}>Upload your Cv or Resume</Text>
+            <DocumentPicker UploadViewdoqumnet={true} />
+            <Button onPress={() => {
+              setAlertVisible(true);
+              // Setokbutton(2);
+            }} buttonStyle={ResumeStyle.buttonStyle} title="Apply" />
+          </View>) : null}
 
         <ConfirmationAlert
           message={alertMessage}

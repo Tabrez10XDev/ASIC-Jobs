@@ -16,6 +16,7 @@ const Register = () => {
     const { Colors } = useTheme();
     const Logins = useMemo(() => Login(Colors), [Colors]);
     const stateArray = {
+        name: "",
         username: "",
         emailId: "",
         mobileNumber: "",
@@ -41,12 +42,12 @@ const Register = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.username}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
           };
           
           axios.request(config)
           .then((response) => {
-            saveLogin(response.data.id)
+            saveLogin(response.data.id.toString())
 
             console.log(JSON.stringify(response.data));
             navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)
@@ -79,10 +80,22 @@ const Register = () => {
                         </View>
                         <Input
                             placeholder={t("Enter_Your_Name")}
+                            onChangeText={(text) => setState({ ...state, name: text })}
+                            value={state.name}
+                        />
+                        <Spacing space={SH(20)} />
+
+
+                        <View style={Logins.TopSpaceRegisterTwo}>
+                            <Text style={Logins.FirstNameTextStyle}>Username</Text>
+                        </View>
+                        <Input
+                            placeholder="Enter Username"
                             onChangeText={(text) => setState({ ...state, username: text })}
                             value={state.username}
                         />
                         <Spacing space={SH(20)} />
+
                         <View style={Logins.TopSpaceRegisterTwo}>
                             <Text style={Logins.FirstNameTextStyle}>{t("Mobile_number")}</Text>
                         </View>

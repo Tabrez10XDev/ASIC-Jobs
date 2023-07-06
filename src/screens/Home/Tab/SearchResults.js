@@ -62,7 +62,7 @@ const SearchResults = (props) => {
             console.log("----------------------------");
             console.log(id);
             console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
           })
           .catch((error) => {
             console.error(error);
@@ -99,12 +99,7 @@ const SearchResults = (props) => {
 
 
     const SearchDataView = (item, index) => {
-        // const img = "https://asicjobs.in/" + item.logo
-        // let appliedDate = item.deadline
-        // let state = item.status == "active" ? 1 : 0
 
-
-        // let stateText = item.status == "active" ? "Active" : "Expired"
         return (
             <TouchableOpacity onPress={() => fetchJobDetails(item.id)} style={{...SaveJobListStyle.MinBgColorWhite, width:'90%', alignSelf:'center'}}>
                 <View style={SaveJobListStyle.FlexRow}>
@@ -125,28 +120,7 @@ const SearchResults = (props) => {
                     </View>
                 </View>
                 <Spacing space={SH(5)} />
-                {/* <View style={SaveJobListStyle.Twobuttonflexview}>
-                    {state == 1 ?
-                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbutton, flex:1 }}>
-                            <Text style={SaveJobListStyle.Openbuttontextstyles}>{stateText}</Text>
-                        </TouchableOpacity>
-                        :
-                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbuttontwo, backgroundColor: item.backgroundwhite, flex:1 }}>
-                            <Text style={SaveJobListStyle.Applytextstyles}>{stateText}</Text>
-                        </TouchableOpacity>}
-                    <View>
-                        <Text style={{...SaveJobListStyle.Fulltimetextstyle, flex:1}}>Till {appliedDate}</Text>
-                    </View>
-                    <TouchableOpacity
-                    // onPress={()=>{setSavedState(!savedState)}}
-                    style={{width:30, height:30, borderRadius:4, backgroundColor:'white', justifyContent:'center',  alignItems:'center'}}>
-                        <IconG
-                            size={SF(23)}
-                            name="bookmark"
-                            style={{ color: savedState ? Colors.theme_background_brink_pink : 'white'}}
-                        />
-                    </TouchableOpacity> */}
-                {/* </View> */}
+          
             </TouchableOpacity>
         )
     }

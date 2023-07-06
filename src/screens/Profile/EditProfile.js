@@ -11,7 +11,7 @@ import DatePicker from 'react-native-date-picker'
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
 
-const EditProfile = ({route}) => {
+const EditProfile = ({ route }) => {
 
     const [selectedSkills, setSelectedSkills] = useState([])
     const [selectedLanguages, setSelectedLanguages] = useState([])
@@ -44,14 +44,14 @@ const EditProfile = ({route}) => {
         {
             item: 'laravel',
             id: 'laravel',
-        },{
+        }, {
             item: 'mysql',
             id: 'mysql',
         },
         {
             item: 'vuejs',
             id: 'vuejs',
-        },{
+        }, {
             item: 'reactjs',
             id: 'reactjs',
         },
@@ -62,10 +62,10 @@ const EditProfile = ({route}) => {
         {
             item: 'expressjs',
             id: 'expressjs',
-        },{
+        }, {
             item: 'python',
             id: 'python',
-        },{
+        }, {
             item: 'Django',
             id: 'Django',
         },
@@ -91,14 +91,14 @@ const EditProfile = ({route}) => {
         {
             item: 'laravel',
             id: 'laravel',
-        },{
+        }, {
             item: 'mysql',
             id: 'mysql',
         },
         {
             item: 'vuejs',
             id: 'vuejs',
-        },{
+        }, {
             item: 'reactjs',
             id: 'reactjs',
         },
@@ -109,10 +109,10 @@ const EditProfile = ({route}) => {
         {
             item: 'expressjs',
             id: 'expressjs',
-        },{
+        }, {
             item: 'python',
             id: 'python',
-        },{
+        }, {
             item: 'Django',
             id: 'Django',
         },
@@ -135,31 +135,29 @@ const EditProfile = ({route}) => {
     const [availability, setAvailability] = useState("")
     const [bio, setBio] = useState("")
 
-    useEffect(()=>{
-        setGender(data.candidates_details.gender)
-        setMaritalStatus(data.candidates_details.marital_status)
+    useEffect(() => {
+        setGender(data.candidates_details.gender.charAt(0).toUpperCase() + data.candidates_details.gender.slice(1))
+        setMaritalStatus(data.candidates_details.marital_status.charAt(0).toUpperCase() + data.candidates_details.marital_status.slice(1))
         setProfession(data.candidates_details.profession)
-        setAvailability(data.candidates_details.status)
+        setAvailability(data.candidates_details.status.charAt(0).toUpperCase() + data.candidates_details.status.slice(1))
         let skillsTemp = []
-        data.candidates_skill.map((ele)=>{
-            let temp = {id: ele.candidate_id, item: ele.candidate_id}
+        data.candidates_skill.map((ele) => {
+            let temp = { id: ele.candidate_id, item: ele.candidate_id }
             skillsTemp.push(temp)
         })
 
         let languagesTemp = []
-        data.candidates_language.map((ele)=>{
-            let temp = {id: ele.language_name, item: ele.language_name}
+        data.candidates_language.map((ele) => {
+            let temp = { id: ele.language_name, item: ele.language_name }
             languagesTemp.push(temp)
         })
 
-        console.log("+++");
-        console.log(languagesTemp)
-        console.log([SkillsData[0]])
+    
         setSelectedSkills(skillsTemp)
         setBio(data.candidates_details.bio)
         // setSelectedLanguages(languagesTemp)
-        
-    },[])
+
+    }, [])
 
 
     const GenderData = [
@@ -295,7 +293,7 @@ const EditProfile = ({route}) => {
                         />
                     </View>
 
-                 
+
 
                     <View style={isFocusAvailability ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
                         <DropDown
@@ -349,7 +347,7 @@ const EditProfile = ({route}) => {
 
                     <Input
                         value={bio}
-                        onChangeText={(text)=>{setBio(text)}}
+                        onChangeText={(text) => { setBio(text) }}
                         inputprops={{ marginTop: 16, textAlign: 'left', textAlignVertical: 'top' }}
                         placeholder="Write your Biography..."
                         numberOfLines={5}

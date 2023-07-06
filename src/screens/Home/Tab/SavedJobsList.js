@@ -55,7 +55,7 @@ const SavedJobsList = (props) => {
             console.log("----------------------------");
             console.log(id);
             console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
           })
           .catch((error) => {
             console.error(error);

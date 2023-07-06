@@ -82,7 +82,7 @@ const HomeTab = () => {
           axios.request(config)
           .then((response) => {
             console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details[0])
+            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
           })
           .catch((error) => {
             console.log(error);
@@ -140,7 +140,7 @@ const HomeTab = () => {
 
     const Featureddataview = (item) => {
         return (
-            <TouchableOpacity onPress={()=>{fetchJobDetails(item.id)}} style={HomeStyle.BoxViewStyle}>
+            <TouchableOpacity onPress={()=>{}} style={HomeStyle.BoxViewStyle}>
                 <LinearGradient
                     start={{ x: 0.0, y: 0.25 }}
                     end={{ x: 0.5, y: 1.0 }}
@@ -176,7 +176,7 @@ const HomeTab = () => {
 
         const img = "https://asicjobs.in/" + item.logo
         return (
-            <TouchableOpacity onPress={()=>fetchJobDetails(item.id)} style={HomeStyle.BoxViewStyle}>
+            <TouchableOpacity onPress={()=>{}} style={HomeStyle.BoxViewStyle}>
                 <LinearGradient
                     start={{ x: 0.0, y: 0.25 }}
                     end={{ x: 0.5, y: 1.0 }}
