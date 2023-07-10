@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { Colors } from '../utils';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchResults from '../screens/Home/Tab/SearchResults';
+import AllVacancies from '../screens/Home/Tab/AllVacancies';
+import CompanyDetails from '../screens/Home/Tab/CompanyDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +21,7 @@ import {
 
 import AllCategories from '../screens/Home/Tab/AllCategories';
 import AllJobs from '../screens/Home/Tab/AllJobs';
+import CategoriesSearch from '../screens/Home/Tab/CategoriesSearch';
 
 const RootNavigator = props => {
   
@@ -58,6 +61,9 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.ALL_CATEGORIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllCategories} />
         <Stack.Screen name={RouteName.ALL_JOBS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllJobs} />
         <Stack.Screen name={RouteName.SEARCH_RESULTS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={SearchResults} />
+        <Stack.Screen name={RouteName.ALL_VACANCIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllVacancies} />
+        <Stack.Screen name={RouteName.CATEGORIES_SEARCH} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={CategoriesSearch} />
+        <Stack.Screen name={RouteName.COMPANY_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={CompanyDetails} />
 
       </Stack.Navigator>
     </NavigationContainer>

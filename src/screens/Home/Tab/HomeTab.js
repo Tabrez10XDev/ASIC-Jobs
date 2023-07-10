@@ -33,7 +33,6 @@ const HomeTab = () => {
     const { t } = useTranslation();
 
     async function fetchLatestVacancies() {
-        console.log("hyyy")
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -43,7 +42,6 @@ const HomeTab = () => {
 
         axios.request(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 setLatestVacancies(response.data.latest_vacancies)
             })
             .catch((error) => {
@@ -62,7 +60,6 @@ const HomeTab = () => {
 
         axios.request(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 setPopularCategories(response.data.popular_categories)
             })
             .catch((error) => {
@@ -81,7 +78,6 @@ const HomeTab = () => {
           
           axios.request(config)
           .then((response) => {
-            console.log(JSON.stringify(response.data));
             navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
           })
           .catch((error) => {
@@ -89,6 +85,25 @@ const HomeTab = () => {
           });
           
     }
+
+
+    function fetchCompanyDetails(id){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_company_details&company_id=${id}`,
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            navigation.navigate(RouteName.COMPANY_DETAILS, response.data)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+          
+    }
+
 
     async function fetchTopCompanies() {
         let config = {
@@ -100,7 +115,6 @@ const HomeTab = () => {
 
         axios.request(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 setTopCompanies(response.data.top_companies)
             })
             .catch((error) => {
@@ -120,7 +134,6 @@ const HomeTab = () => {
 
         axios.request(config)
             .then((response) => {
-                console.log(JSON.stringify(response.data));
                 setLatestPosts(response.data.latest_posts)
             })
             .catch((error) => {
@@ -140,7 +153,7 @@ const HomeTab = () => {
 
     const Featureddataview = (item) => {
         return (
-            <TouchableOpacity onPress={()=>{}} style={HomeStyle.BoxViewStyle}>
+            <TouchableOpacity onPress={()=>{navigation.navigate(RouteName.ALL_VACANCIES, item.role_id)}} style={HomeStyle.BoxViewStyle}>
                 <LinearGradient
                     start={{ x: 0.0, y: 0.25 }}
                     end={{ x: 0.5, y: 1.0 }}
@@ -176,7 +189,7 @@ const HomeTab = () => {
 
         const img = "https://asicjobs.in/" + item.logo
         return (
-            <TouchableOpacity onPress={()=>{}} style={HomeStyle.BoxViewStyle}>
+            <TouchableOpacity onPress={()=>{fetchCompanyDetails(item.company_id)}} style={HomeStyle.BoxViewStyle}>
                 <LinearGradient
                     start={{ x: 0.0, y: 0.25 }}
                     end={{ x: 0.5, y: 1.0 }}
@@ -210,7 +223,7 @@ const HomeTab = () => {
 
     const PopularCategories = (item, index) => {
         return (
-            <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
+            <TouchableOpacity onPress={() => {navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
                 <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
 
@@ -229,7 +242,6 @@ const HomeTab = () => {
 
     const LatestPostDataView = (item, index) => {
         const img = "https://asicjobs.in/" + item.image
-        console.log(img)
         return (
             <TouchableOpacity onPress={() => {}} style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color }}>
                 <TouchableOpacity style={HomeStyle.RecommndBox}>
@@ -313,9 +325,6 @@ const HomeTab = () => {
                             <Spacing space={SH(20)} />
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Popular Vacancies</Text>
-                                {/* <TouchableOpacity onPress={() => navigation.navigate(RouteName.FEATURED_ALL_JOB)}>
-                                    <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
-                                </TouchableOpacity> */}
                             </View>
                         </View>
 

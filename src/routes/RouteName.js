@@ -30,7 +30,10 @@ const RouteName = {
     ACCOUNT_SETTING: 'Account Setting',
     ALL_CATEGORIES: 'All Categories',
     ALL_JOBS: 'All Jobs',
-    SEARCH_RESULTS: 'Search Results'
+    SEARCH_RESULTS: 'Search Results',
+    ALL_VACANCIES: 'All Vacancies',
+    CATEGORIES_SEARCH: 'Cateogry Based Results',
+    COMPANY_DETAILS: 'Company Details'
 
 
 }
