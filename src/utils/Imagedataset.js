@@ -12,7 +12,7 @@ import { RouteName } from '../routes';
 export const Swiperdata = [
   {
     key: 's1',
-    text: 'Swiper_First',
+    text: 'Discover the Path to Success in Electronics and Semiconductor Jobs',
     title: "Swiper_Title",
     animation: <Lottie
       source={images.First_Swiper}
@@ -21,7 +21,7 @@ export const Swiperdata = [
   },
   {
     key: 's2',
-    text: 'Swiper_First_Two',
+    text: 'Connecting Talent with Opportunity in Electronics and Semiconductor Industry',
     title: 'Swiper_Title_Two',
     animation: <Lottie
       source={images.Two_Swiper}
@@ -29,7 +29,7 @@ export const Swiperdata = [
   },
   {
     key: 's3',
-    text: 'Swiper_First_Three',
+    text: 'Empowering Professionals in the Electronics and Semiconductor Industry',
     title: 'Swiper_Title_Three',
     animation: <Lottie
       source={images.Three_Swiper}

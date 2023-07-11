@@ -34,11 +34,11 @@ const App = ({ navigation }) => {
             </View>
           </View>
         </ScrollView>
-        <Text style={SwiperStyles.titleStyle}>
+        {/* <Text style={SwiperStyles.titleStyle}>
           {t(item.title)}
-        </Text>
+        </Text> */}
         <Text style={SwiperStyles.textstyle}>
-          {t(item.text)}
+          {item.text}
         </Text>
       </View>
     );

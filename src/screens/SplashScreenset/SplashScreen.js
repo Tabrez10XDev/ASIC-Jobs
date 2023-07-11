@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StatusBar } from 'react-native';
+import { View, StatusBar, Image } from 'react-native';
 import images from '../../index';
 import { Style } from '../../styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -22,9 +22,9 @@ const SplashScreen = ({ navigation }) => {
             const result = await AsyncStorage.getItem('BoardingState')
             if (result === "true") {
                 const result = await AsyncStorage.getItem('AuthState')
-                if(result !== null && result != "-1" && result != undefined){
+                if (result !== null && result != "-1" && result != undefined) {
                     navigation.replace(RouteName.HOME_SCREEN)
-                }else{
+                } else {
                     navigation.replace(RouteName.LOGIN_SCREEN)
                 }
             } else {
@@ -50,6 +50,8 @@ const SplashScreen = ({ navigation }) => {
     return (
         <View style={Style.Splashminview}>
             <View style={Style.setminviewstylesplasg}>
+                <Image style={{ width: 250 }} resizeMode='contain' source={images.App_logo} />
+
                 <Lottie source={images.Splash_Swiper} />
             </View>
         </View>
