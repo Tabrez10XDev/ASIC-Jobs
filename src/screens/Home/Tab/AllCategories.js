@@ -19,6 +19,26 @@ const AllCategories = (props) => {
 
     const [categories, setAllCategories] = useState([])
 
+    
+    function fetchJobDetails(id) {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (response.data.job_details != null && response.data.job_details != undefined) {
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+
 
     async function fetchAllCategories() {
         let config = {
@@ -50,7 +70,9 @@ const AllCategories = (props) => {
 
     const Recommendeddataview = (item, index) => {
         return (
-            <TouchableOpacity  style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
+            <TouchableOpacity 
+            onPress={()=>fetchJobDetails(item.id)}
+            style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
                 <TouchableOpacity  style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />

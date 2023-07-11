@@ -38,26 +38,27 @@ const AppliedJobsList = (props) => {
         } catch (e) {
             console.error(e)
         }
-        
+
     }
 
-    function fetchJobDetails(id){
+    function fetchJobDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
-            headers: { }
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-          
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (response.data.job_details != null && response.data.job_details != undefined) {
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
 

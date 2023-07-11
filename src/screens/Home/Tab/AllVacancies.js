@@ -20,6 +20,25 @@ const AllVacancies = (props) => {
     const [categories, setAllCategories] = useState([])
 
 
+    function fetchJobDetails(id) {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (response.data.job_details != null && response.data.job_details != undefined) {
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+
     async function fetchAllRoles() {
         let config = {
             method: 'get',
@@ -28,7 +47,6 @@ const AllVacancies = (props) => {
             headers: {}
         };
 
-        console.log(`https://asicjobs.in/api/webapi.php?api_action=fetch_job_based_on_roles&role_id=${route.params}`);
 
         axios.request(config)
             .then((response) => {
@@ -50,7 +68,9 @@ const AllVacancies = (props) => {
 
     const Recommendeddataview = (item, index) => {
         return (
-            <TouchableOpacity  style={{ backgroundColor: index % 2 == 1 ? '#ebf1fe' : '#fdebf3', width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
+            <TouchableOpacity
+            onPress={()=>fetchJobDetails(item.id)}
+              style={{ backgroundColor: index % 2 == 1 ? '#ebf1fe' : '#fdebf3', width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
                 <TouchableOpacity  style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={{uri: item.logo}} style={{...HomeStyle.Imagestyles, resizeMode:'contain'}} />

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import Input from "./Input";
 import DatePicker from "react-native-date-picker";
-
+import axios from "axios";
 
 import {
     Text,
@@ -20,7 +20,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
 
 
-export default AddExperience = ({ refRBSheet, travellers, setTravellers }) => {
+export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
 
 
     const [formattedDate, setFormattedDate] = useState(null)
@@ -31,6 +31,41 @@ export default AddExperience = ({ refRBSheet, travellers, setTravellers }) => {
     const [formattedDate2, setFormattedDate2] = useState(null)
     const [date2, setDate2] = useState(new Date())
     const [open2, setOpen2] = useState(false)
+    const [state, setState] = useState({
+        company: "",
+        dept: "",
+        designation: "",
+        responsibilities: ""
+    })
+
+
+
+    async function createExperience(){
+
+        if(formattedDate === null || state.degree.trim() === "" || state.level.trim() === "" || state.notes.trim() === ""){
+            return
+        }
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_user_experience&user_id=${id}&company=%27${state.company}%27&department=%27qwerty%27&designation=%27yyyy%27&start=%272019-10-8%27&end=%272020-10-02%27&responsibilities=%27ddddddd%20ddddd%20eeeee%27&currently_working=1`,
+          };
+
+          axios.request(config)
+          .then((response) => {
+            refRBSheet.current.close()
+            setEducationList((current)=>[...current, {
+                level: state.level,
+                degree: state.degree,
+                notes: state.notes,
+                year: formattedDate.getFullYear()
+            } ])
+          })
+          .catch((error) => {
+            console.log(error.response.data);
+          });
+    }
 
 
     return (
@@ -86,14 +121,20 @@ export default AddExperience = ({ refRBSheet, travellers, setTravellers }) => {
 
 
                     <Input
+                        value={state.company}
+                        onChangeText={(text) => setState({ ...state, company: text })}
                         inputStyle={{ marginTop: 16 }}
                         placeholder="Company" />
 
                     <Input
+                        value={state.dept}
+                        onChangeText={(text) => setState({ ...state, dept: text })}
                         inputStyle={{ marginTop: 16 }}
                         placeholder="Department" />
 
                     <Input
+                        value={state.designation}
+                        onChangeText={(text) => setState({ ...state, designation: text })}
                         inputStyle={{ marginTop: 16 }}
                         placeholder="Designation" />
 
@@ -149,13 +190,15 @@ export default AddExperience = ({ refRBSheet, travellers, setTravellers }) => {
                     </TouchableOpacity>
 
                     <Input
+                        value={state.responsibilities}
+                        onChangeText={(text) => setState({ ...state, responsibilities: text })}
                         inputprops={{ marginTop: 16, textAlign: 'left', textAlignVertical: 'top' }}
                         placeholder="Responsibilities"
                         numberOfLines={5}
                         inputStyle={{ height: 300 }}
                     />
 
-                    <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf:'center' }}>
+                    <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf: 'center' }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>

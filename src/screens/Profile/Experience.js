@@ -66,8 +66,7 @@ const Experience = ({ route }) => {
         let appliedDate = item.applied_on
         let state = item.status == "active" ? 1 : 0
 
-        console.log("===============")
-        console.log(item)
+
         let stateText = item.status == "active" ? "Active" : "Expired"
         return (
             <View style={{
@@ -122,13 +121,6 @@ const Experience = ({ route }) => {
         const item = _item.item
         const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
 
-        const img = "https://asicjobs.in/" + item.logo
-        let appliedDate = item.applied_on
-        // appliedDate = appliedDate.substring(0,11)
-        let state = item.status == "active" ? 1 : 0
-
-
-        let stateText = item.status == "active" ? "Active" : "Expired"
         return (
             <View style={{
                 color: Colors.gray_text_color,
@@ -196,9 +188,9 @@ const Experience = ({ route }) => {
                     )
                 })}
 
-{
+                {
                     experienceList.length === 0 &&
-                    <Text style={{ fontSize: 16, color: 'black', marginTop:10, fontWeight:"500" }}>
+                    <Text style={{ fontSize: 16, color: 'black', marginTop: 10, fontWeight: "500" }}>
                         No Experience
                     </Text>
                 }
@@ -220,7 +212,7 @@ const Experience = ({ route }) => {
 
                 {
                     educationList.length === 0 &&
-                    <Text style={{ fontSize: 16, color: 'black', marginTop:10, fontWeight:"500" }}>
+                    <Text style={{ fontSize: 16, color: 'black', marginTop: 10, fontWeight: "500" }}>
                         No Education
                     </Text>
                 }
@@ -234,8 +226,8 @@ const Experience = ({ route }) => {
                 </TouchableOpacity>
 
             </View>
-            <AddExperience refRBSheet={refRBSheet} />
-            <AddEducation refRBSheet={refRBSheet2} />
+            <AddExperience refRBSheet={refRBSheet} setExperienceList={setExperienceList} id={data.user_details.id}  />
+            <AddEducation refRBSheet={refRBSheet2} setEducationList={setEducationList}  id={data.user_details.id} />
 
         </ScrollView>
     )

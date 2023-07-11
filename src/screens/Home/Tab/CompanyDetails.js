@@ -17,15 +17,36 @@ const CompanyDetails = (props) => {
     const { t } = useTranslation();
     const { navigation } = props;
     const [tabshow, settabshow] = useState(1);
-
-
     const data = props.route.params.company_data
     const openJobs = props.route.params.open_positions
+    console.log("---")
+    console.log(props.route.params)
     const img = data.logo
 
+    
+    function fetchJobDetails(id) {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (response.data.job_details != null && response.data.job_details != undefined) {
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    
     const TabshowFunction = (item) => {
         settabshow(item)
     }
+
     const Descrptiontextview = (item) => {
         return (
             <View>
@@ -41,17 +62,20 @@ const CompanyDetails = (props) => {
     }
 
 
+
     const Recommendeddataview = (item, index) => {
         return (
-            <TouchableOpacity style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width: '90%', marginVertical: 16, alignSelf: 'center', borderRadius: 12 }}>
+            <TouchableOpacity 
+            onPress={()=>fetchJobDetails(item.id)}
+            style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width: '90%', marginVertical: 16, alignSelf: 'center', borderRadius: 12 }}>
                 <TouchableOpacity style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
                     </View>
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
-                        {/* <Text style={HomeStyle.Topboxtextstyle}>{t(item.Designer)}</Text> */}
                         <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
+                        <Text style={HomeStyle.Textcenter}>{"Deadline: " + item.deadline}</Text>
                         <Spacing space={SH(10)} />
                     </View>
                 </TouchableOpacity>

@@ -42,25 +42,23 @@ const SavedJobsList = (props) => {
         }
     }
 
-    function fetchJobDetails(id){
+    function fetchJobDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
-            headers: { }
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            console.log("----------------------------");
-            console.log(id);
-            console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-          
+            headers: {}
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (response.data.job_details != null && response.data.job_details != undefined) {
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     const Trendingdataview = (item, index) => {
@@ -92,23 +90,23 @@ const SavedJobsList = (props) => {
                 <Spacing space={SH(5)} />
                 <View style={SaveJobListStyle.Twobuttonflexview}>
                     {state == 1 ?
-                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbutton, flex:1 }}>
+                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbutton, flex: 1 }}>
                             <Text style={SaveJobListStyle.Openbuttontextstyles}>{stateText}</Text>
                         </TouchableOpacity>
                         :
-                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbuttontwo, backgroundColor: item.backgroundwhite, flex:1 }}>
+                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbuttontwo, backgroundColor: item.backgroundwhite, flex: 1 }}>
                             <Text style={SaveJobListStyle.Applytextstyles}>{stateText}</Text>
                         </TouchableOpacity>}
                     <View>
-                        <Text style={{...SaveJobListStyle.Fulltimetextstyle, flex:1}}>Till {appliedDate}</Text>
+                        <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, flex: 1 }}>Till {appliedDate}</Text>
                     </View>
                     <TouchableOpacity
-                    // onPress={()=>{setSavedState(!savedState)}}
-                    style={{width:30, height:30, borderRadius:4, backgroundColor:'white', justifyContent:'center',  alignItems:'center'}}>
+                        // onPress={()=>{setSavedState(!savedState)}}
+                        style={{ width: 30, height: 30, borderRadius: 4, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
                         <IconG
                             size={SF(23)}
                             name="bookmark"
-                            style={{ color: savedState ? Colors.theme_background_brink_pink : 'white'}}
+                            style={{ color: savedState ? Colors.theme_background_brink_pink : 'white' }}
                         />
                     </TouchableOpacity>
                 </View>
@@ -146,9 +144,9 @@ const SavedJobsList = (props) => {
                 contentContainerStyle={{
                     width: '100%',
                     height: 'auto',
-                }}> 
-                <View style={{marginTop:16}}>
-            
+                }}>
+                <View style={{ marginTop: 16 }}>
+
                     <FlatList
                         data={jobList}
                         numColumns={1}

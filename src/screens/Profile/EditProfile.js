@@ -153,7 +153,7 @@ const EditProfile = ({ route }) => {
         })
 
     
-        setSelectedSkills(skillsTemp)
+        // setSelectedSkills(skillsTemp)
         setBio(data.candidates_details.bio)
         // setSelectedLanguages(languagesTemp)
 
