@@ -42,24 +42,27 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
 
     async function createExperience(){
 
-        if(formattedDate === null || state.degree.trim() === "" || state.level.trim() === "" || state.notes.trim() === ""){
+        if(formattedDate === null || state.company.trim() === "" || state.dept.trim() === "" || state.designation.trim() === ""){
             return
         }
+
+        const start = formattedDate.getDate() + "/" + formattedDate.getMonth() + "/" + formattedDate.getFullYear()
+        const end = formattedDate2.getDate() + "/" + formattedDate2.getMonth() + "/" + formattedDate2.getFullYear()
 
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=update_user_experience&user_id=${id}&company=%27${state.company}%27&department=%27qwerty%27&designation=%27yyyy%27&start=%272019-10-8%27&end=%272020-10-02%27&responsibilities=%27ddddddd%20ddddd%20eeeee%27&currently_working=1`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_user_experience&user_id=${id}&company=%27${encodeURIComponent(state.company)}%27&department=%27${encodeURIComponent(state.dept)}%27&designation=%27${encodeURIComponent(state.designation)}%27&start=%27${start}%27&end=%27${end}%27&responsibilities=%27${encodeURIComponent(state.responsibilities)}%27&currently_working=1`,
           };
 
           axios.request(config)
           .then((response) => {
             refRBSheet.current.close()
-            setEducationList((current)=>[...current, {
-                level: state.level,
-                degree: state.degree,
-                notes: state.notes,
-                year: formattedDate.getFullYear()
+            setExperienceList((current)=>[...current, {
+                company: state.company,
+                department: state.dept,
+                designation: state.designation,
+                currently_working: "Yes"
             } ])
           })
           .catch((error) => {
@@ -198,7 +201,9 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                         inputStyle={{ height: 300 }}
                     />
 
-                    <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf: 'center' }}>
+                    <TouchableOpacity 
+                    onPress={()=>createExperience()}
+                    style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf: 'center' }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>
@@ -227,6 +232,7 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                 modal
                 open={open}
                 date={date}
+                mode="date"
                 onConfirm={(date) => {
                     setOpen(false)
                     setDate(date)
@@ -241,6 +247,7 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                 modal
                 open={open2}
                 date={date2}
+                mode="date"
                 onConfirm={(date) => {
                     setOpen2(false)
                     setDate2(date)

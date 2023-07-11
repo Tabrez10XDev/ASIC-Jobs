@@ -62,12 +62,7 @@ const Experience = ({ route }) => {
     const Experiencedataview = (_item, index) => {
         const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
         const item = _item.item
-        const img = "https://asicjobs.in/" + item.logo
-        let appliedDate = item.applied_on
-        let state = item.status == "active" ? 1 : 0
 
-
-        let stateText = item.status == "active" ? "Active" : "Expired"
         return (
             <View style={{
                 color: Colors.gray_text_color,
