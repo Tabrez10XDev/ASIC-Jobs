@@ -33,7 +33,8 @@ const RouteName = {
     SEARCH_RESULTS: 'Search Results',
     ALL_VACANCIES: 'All Vacancies',
     CATEGORIES_SEARCH: 'Cateogry Based Results',
-    COMPANY_DETAILS: 'Company Details'
+    COMPANY_DETAILS: 'Company Details',
+    BLOG_DETAILS: 'Blog Info'
 
 
 }

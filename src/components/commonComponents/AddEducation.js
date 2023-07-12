@@ -39,6 +39,7 @@ export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
           .then((response) => {
             refRBSheet.current.close()
             setEducationList((current)=>[...current, {
+                id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
                 level: state.level,
                 degree: state.degree,
                 notes: state.notes,

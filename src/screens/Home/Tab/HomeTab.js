@@ -100,8 +100,24 @@ const HomeTab = () => {
           })
           .catch((error) => {
             console.log(error);
-          });
+          });     
+    }
+
+
+    function fetchBlogDetails(id){
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=blog_details&id=${id}`,
+          };
           
+          axios.request(config)
+          .then((response) => {
+            navigation.navigate(RouteName.BLOG_DETAILS, response.data.blog_data)
+          })
+          .catch((error) => {
+            console.log(error);
+          });     
     }
 
 
@@ -243,8 +259,8 @@ const HomeTab = () => {
     const LatestPostDataView = (item, index) => {
         const img = "https://asicjobs.in/" + item.image
         return (
-            <TouchableOpacity onPress={() => {}} style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color }}>
-                <TouchableOpacity style={HomeStyle.RecommndBox}>
+            <TouchableOpacity  style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color }}>
+                <TouchableOpacity onPress={() => {fetchBlogDetails(item.id)}} style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={{ uri: img }} style={{ width: 100, height: 100, resizeMode: 'cover' }} />
                     </View>

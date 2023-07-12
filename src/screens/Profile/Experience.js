@@ -27,7 +27,7 @@ const Experience = ({ route }) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&education_row_id=${id}&user_id=56`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&education_row_id=${id}&user_id=${data.user_details.id}`,
         };
 
         axios.request(config)
@@ -45,8 +45,10 @@ const Experience = ({ route }) => {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&experience_row_id=${id}&user_id=56`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_experience&experience_row_id=${id}&user_id=${data.user_details.id}`,
         };
+
+
 
         axios.request(config)
             .then((response) => {
@@ -55,7 +57,7 @@ const Experience = ({ route }) => {
                 setExperienceList(newList)
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error.response.data);
             });
     }
 

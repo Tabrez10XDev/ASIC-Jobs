@@ -59,6 +59,7 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
           .then((response) => {
             refRBSheet.current.close()
             setExperienceList((current)=>[...current, {
+                id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
                 company: state.company,
                 department: state.dept,
                 designation: state.designation,

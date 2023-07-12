@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchResults from '../screens/Home/Tab/SearchResults';
 import AllVacancies from '../screens/Home/Tab/AllVacancies';
 import CompanyDetails from '../screens/Home/Tab/CompanyDetails';
+import BlogDetails from '../screens/Home/Tab/BlogDetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -64,6 +65,7 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.ALL_VACANCIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllVacancies} />
         <Stack.Screen name={RouteName.CATEGORIES_SEARCH} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={CategoriesSearch} />
         <Stack.Screen name={RouteName.COMPANY_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={CompanyDetails} />
+        <Stack.Screen name={RouteName.BLOG_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={BlogDetails} />
 
       </Stack.Navigator>
     </NavigationContainer>
