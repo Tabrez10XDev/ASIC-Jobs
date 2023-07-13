@@ -18,7 +18,7 @@ const BlogDetails = (props) => {
     const { navigation } = props;
     const [tabshow, settabshow] = useState(1);
     const data = props.route.params
-    const img = data.logo
+    const img = data.image
 
     
    
@@ -61,37 +61,29 @@ const BlogDetails = (props) => {
                     <View style={ApplyJobStyle.Backgroundcolorview}>
                         <Spacing space={SH(30)} />
                         <View style={ApplyJobStyle.Centerimage}>
-                            <Image source={{ uri: img }} resizeMode="cover" style={ApplyJobStyle.Imagestyles} />
-                        </View>
-                        <Spacing space={SH(10)} />
-                        <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>
-                        <Text style={ApplyJobStyle.Googleteam}>{data.company_name}</Text>
-                        <Spacing space={SH(10)} />
-                        <View style={{ ...ApplyJobStyle.Flexrowcenter }}>
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg25} buttonTextStyle={ApplyJobStyle.textstyles} title={"Total Views: " + data.total_views} />
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg33} buttonTextStyle={ApplyJobStyle.textstyles} title={"Since " + data.establishment_date} />
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg25} buttonTextStyle={ApplyJobStyle.textstyles} title={data.organization_type_name} />
+                            <Image source={{ uri: img }} resizeMode="contain" style={{...ApplyJobStyle.Imagestyles, borderRadius:8, width:'90%'    }} />
                         </View>
                         <Spacing space={SH(20)} />
-                        <View style={ApplyJobStyle.Flexrowcenter}>
-                            <Text style={ApplyJobStyle.ProductDesignertwo}>{data.industry_types_name}</Text>
-                            <Text style={ApplyJobStyle.ProductDesignertwo}>{data.district}/{data.country}</Text>
-                        </View>
+                        <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>
+                        <Spacing space={SH(10)} />
+                        <Text style={ApplyJobStyle.ProductDesignertwo}>{data.short_description}</Text>
+
+                     
                     </View>
                     <Spacing space={SH(10)} />
                     <View style={{ ...ApplyJobStyle.FlexRowText, justifyContent: 'space-evenly' }}>
                         <TouchableOpacity onPress={() => TabshowFunction(1)} style={tabshow == 1 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
-                            <Text style={tabshow == 1 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>About</Text>
+                            <Text style={tabshow == 1 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Description</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => TabshowFunction(2)} style={tabshow == 2 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
+                        {/* <TouchableOpacity onPress={() => TabshowFunction(2)} style={tabshow == 2 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
                             <Text style={tabshow == 2 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Vision</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                     </View>
-                    {/* {tabshow === 1 &&
+                    {tabshow === 1 &&
                         <View>
                             <FlatList
-                                data={[data.bio]}
+                                data={[data.description]}
                                 numColumns={1}
                                 showsHorizontalScrollIndicator={false}
                                 renderItem={({ item, index }) => Descrptiontextview(item, index)}
@@ -100,7 +92,7 @@ const BlogDetails = (props) => {
                             />
                         </View>
                     }
-                    {tabshow === 2 &&
+                    {/* {tabshow === 2 &&
                         <View>
                             <FlatList
                                 data={[data.vision]}

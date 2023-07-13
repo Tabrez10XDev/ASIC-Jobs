@@ -105,7 +105,7 @@ const ProfileTab = (props) => {
       setmodalcontent(0);
     });
   }, [navigation]);
-  const img = "https://asicjobs.in/" + userData.user_details.image
+  const img = userData.user_details.image
 
   return (
 
@@ -207,7 +207,11 @@ const ProfileTab = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate(RouteName.SETTING_SCREEN)}
+              onPress={() => {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                  navigation.navigate(RouteName.ACCOUNT_SETTING, userData)
+                }
+              }}
             >
               <View style={ProfileTabStyle.iconandtextflexset}>
                 <View>

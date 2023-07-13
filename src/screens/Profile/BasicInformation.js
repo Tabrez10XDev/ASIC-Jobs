@@ -84,7 +84,7 @@ const BasicInformation = ({ route }) => {
 
 
   ]
-  const img = "https://asicjobs.in/" + data.user_details.image
+  const img = data.user_details.image
 
   useEffect(() => {
     setExperience(data.candidates_details.experience_level)

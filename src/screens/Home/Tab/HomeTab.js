@@ -241,7 +241,7 @@ const HomeTab = () => {
         return (
             <TouchableOpacity onPress={() => {navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
                 <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={HomeStyle.RecommndBox}>
-                    <View style={HomeStyle.CenterIcon}>
+                    <View style={{...HomeStyle.CenterIcon, height:60, width:60}}>
 
                     {/* <IconFont name="glass" size={28} color={Colors.theme_background_brink_pink} /> */}
                     </View>
@@ -249,7 +249,6 @@ const HomeTab = () => {
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
                         {/* <Text style={HomeStyle.Topboxtextstyle}>{t(item.Designer)}</Text> */}
                         <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
-                        <Spacing space={SH(10)} />
                     </View>
                 </TouchableOpacity>
             </TouchableOpacity>
