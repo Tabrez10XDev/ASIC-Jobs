@@ -22,8 +22,31 @@ const SavedJobsList = (props) => {
     const { navigation } = props;
     const [savedState, setSavedState] = useState(true)
     const [alertVisible, setAlertVisible] = useState(false);
+    const [_state, setState] = useState({})
+
 
     const [id, setID] = useState(null)
+
+
+    async function toggleBookmark(job_id){
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${job_id}&user_id=${id}`,
+          };
+
+          console.log(job_id)
+          
+        //   axios.request(config)
+        //   .then((response) => {
+        //     console.log(response.data)
+        //     setState(current => ({ ...current, [job_id]: !_state[job_id] }))
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
+    }
+
 
     const getData = async () => {
         try {
@@ -101,12 +124,17 @@ const SavedJobsList = (props) => {
                         <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, flex: 1 }}>Till {appliedDate}</Text>
                     </View>
                     <TouchableOpacity
-                        // onPress={()=>{setSavedState(!savedState)}}
-                        style={{ width: 30, height: 30, borderRadius: 4, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
+                        onPress={() => {
+
+                            // console.log(item.job_id)
+                          toggleBookmark(item.job_id)
+
+                        }}
+                        style={{ width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
                         <IconG
-                            size={SF(23)}
+                            size={20}
                             name="bookmark"
-                            style={{ color: savedState ? Colors.theme_background_brink_pink : 'white' }}
+                           style={{ color: _state[item.job_id] ? Colors.theme_background_brink_pink : 'grey' }}
                         />
                     </TouchableOpacity>
                 </View>
@@ -130,6 +158,10 @@ const SavedJobsList = (props) => {
 
         axios.request(config)
             .then((response) => {
+                response.data.favourite_job.map((ele,index)=>{
+                    setState(current=>({...current, [ele.job_id]: true}))
+                })
+
                 setJobList(response.data.favourite_job)
             })
             .catch((error) => {

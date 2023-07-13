@@ -17,7 +17,7 @@ import { Colors, SF } from '../../../utils';
 import IconF from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import images from '../../../images';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeTab = () => {
     const { Colors } = useTheme();
@@ -31,6 +31,23 @@ const HomeTab = () => {
     const [topCompanies, setTopCompanies] = useState([])
 
     const { t } = useTranslation();
+
+
+    const [id, setID] = useState(null)
+    const [userID, setUserID] = useState(null)
+
+    const getData = async () => {
+      try {
+        const result = await AsyncStorage.getItem('AuthState')
+        if (result !== null && result != "-1" && result != undefined) {
+          setID(result)
+          setUserID(result)
+        }
+  
+      } catch (e) {
+        console.error(e)
+      }
+    }
 
     async function fetchLatestVacancies() {
         let config = {
@@ -96,7 +113,7 @@ const HomeTab = () => {
           
           axios.request(config)
           .then((response) => {
-            navigation.navigate(RouteName.COMPANY_DETAILS, response.data)
+            navigation.navigate(RouteName.COMPANY_DETAILS, {...response.data, userID: userID})
           })
           .catch((error) => {
             console.log(error);
@@ -160,6 +177,7 @@ const HomeTab = () => {
 
     useEffect(() => {
         navigation.addListener('focus', () => {
+            getData()
             fetchLatestVacancies()
             fetchLatestPosts()
             fetchPopularCategories()
@@ -296,7 +314,7 @@ const HomeTab = () => {
                                         placeholder="Job Title, Keyword"
                                         onChangeText={(value) => setSearch(value)}
                                         value={Search}
-                                        onPressIn={()=>{navigation.navigate(RouteName.SEARCH_RESULTS)}}
+                                        onPressIn={()=>{navigation.navigate(RouteName.SEARCH_RESULTS, userID)}}
                                         maxLength={30}
                                         inputprops={{ borderWidth: 0, borderColor: 0 }}
                                         style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}

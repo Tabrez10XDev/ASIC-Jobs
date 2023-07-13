@@ -64,7 +64,7 @@ const AppliedJobsList = (props) => {
 
     const Trendingdataview = (item, index) => {
         const img = "https://asicjobs.in/" + item.logo
-        let appliedDate = item.applied_on
+        let appliedDate = item.applied_on ?? ""
         appliedDate = appliedDate.substring(0, 11)
         let state = item.status == "active" ? 1 : 0
 
@@ -79,7 +79,7 @@ const AppliedJobsList = (props) => {
                                 <Image source={{ uri: img }} style={{ height: 60, width: 60, resizeMode: 'contain', borderRadius: 8 }} />
                             </View>
                             <View>
-                                <Text style={SaveJobListStyle.DevelperText}>{item.title}</Text>
+                                <Text numberOfLines={2} style={{...SaveJobListStyle.DevelperText, maxWidth:180}}>{item.title}</Text>
                                 <Text numberOfLines={1} style={SaveJobListStyle.Normalsmalltext}>{item.year}</Text>
                             </View>
                         </View>

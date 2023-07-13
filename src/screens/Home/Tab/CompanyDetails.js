@@ -19,8 +19,7 @@ const CompanyDetails = (props) => {
     const [tabshow, settabshow] = useState(1);
     const data = props.route.params.company_data
     const openJobs = props.route.params.open_positions
-    console.log("---")
-    console.log(props.route.params)
+    const userID = props.route.params.userID
     const img = data.logo
 
     
