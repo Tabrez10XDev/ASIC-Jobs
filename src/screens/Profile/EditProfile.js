@@ -10,6 +10,7 @@ import { Dimensions } from "react-native";
 import DatePicker from 'react-native-date-picker'
 import SelectBox from 'react-native-multi-selectbox'
 import { xorBy } from 'lodash'
+import axios from "axios";
 
 const EditProfile = ({ route }) => {
 
@@ -24,99 +25,97 @@ const EditProfile = ({ route }) => {
         return (item) => setSelectedLanguages(xorBy(selectedLanguages, [item], 'id'))
     }
 
-    const K_OPTIONS = [
-        {
-            item: 'html',
-            id: 'html',
-        },
-        {
-            item: 'css',
-            id: 'css',
-        },
-        {
-            item: 'js',
-            id: 'js',
-        },
-        {
-            item: 'php',
-            id: 'php',
-        },
-        {
-            item: 'laravel',
-            id: 'laravel',
-        }, {
-            item: 'mysql',
-            id: 'mysql',
-        },
-        {
-            item: 'vuejs',
-            id: 'vuejs',
-        }, {
-            item: 'reactjs',
-            id: 'reactjs',
-        },
-        {
-            item: 'nodejs',
-            id: 'nodejs',
-        },
-        {
-            item: 'expressjs',
-            id: 'expressjs',
-        }, {
-            item: 'python',
-            id: 'python',
-        }, {
-            item: 'Django',
-            id: 'Django',
-        },
-    ]
 
-    const SkillsData = [
-        {
-            item: 'html',
-            id: 'html',
-        },
-        {
-            item: 'css',
-            id: 'css',
-        },
-        {
-            item: 'js',
-            id: 'js',
-        },
-        {
-            item: 'php',
-            id: 'php',
-        },
-        {
-            item: 'laravel',
-            id: 'laravel',
-        }, {
-            item: 'mysql',
-            id: 'mysql',
-        },
-        {
-            item: 'vuejs',
-            id: 'vuejs',
-        }, {
-            item: 'reactjs',
-            id: 'reactjs',
-        },
-        {
-            item: 'nodejs',
-            id: 'nodejs',
-        },
-        {
-            item: 'expressjs',
-            id: 'expressjs',
-        }, {
-            item: 'python',
-            id: 'python',
-        }, {
-            item: 'Django',
-            id: 'Django',
-        },
-    ]
+    async function updateProfile(){
+
+        let skills = ""
+        let langs = ""
+        selectedSkills.forEach((ele,index)=>{
+            skills = skills + ele.id + ","
+        })
+
+        selectedLanguages.forEach((ele,index)=>{
+            langs = langs + ele.id + ","
+        })
+
+        skills = skills.slice(0,-1)
+        langs = langs.slice(0,-1)
+
+        console.log(langs)
+
+
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_users_profile&gender=%27${gender.toLowerCase()}%27&marital_status=%27${maritalStatus.toLowerCase()}%27&profession_id=5&available_status=%27${availability.toLowerCase()}%27&bio=%27${encodeURIComponent(bio)}%27&skills=${skills}&languages=${langs}&user_id=${data.user_details.id}`,
+          };
+          
+          axios.request(config)
+          .then((response) => {
+            console.log(JSON.stringify(response.data));
+          })
+          .catch((error) => {
+            console.log(error);
+            console.log(`https://asicjobs.in/api/webapi.php?api_action=update_users_profile&gender=%27${gender.toLowerCase()}%27&marital_status=%27${maritalStatus.toLowerCase()}%27&profession_id=5&available_status=%27${availability.toLowerCase()}%27&bio=%27${encodeURIComponent(bio)}%27&skills=${skills}&languages=${langs}&user_id=${data.user_details.id}`)
+          });
+          
+    }
+
+
+    async function getMapping() {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://asicjobs.in/api/webapi.php?api_action=all_master_data',
+        };
+
+        axios.request(config)
+            .then((response) => {
+                const formattedItems = response.data.skill_data.map(item => ({
+                    id: item.id,
+                    item: item.name,
+                }));
+
+
+                const formattedItems2 = response.data.lang_data.map(item => ({
+                    id: item.id,
+                    item: item.name,
+                }));
+
+                setSkillsMap(formattedItems)
+                setLangMap(formattedItems2)
+                setProfessionMap(response.data.professions_data)
+
+                let skillsTemp = []
+                data.candidates_skill.map((ele) => {
+                    let temp = { id: ele.id, item: ele.candidate_id }
+                    skillsTemp.push(temp)
+                })
+        
+                let languagesTemp = []
+                data.candidates_language.map((ele) => {
+                    let temp = { id: ele.id, item: ele.language_name }
+                    languagesTemp.push(temp)
+                })
+        
+        
+                setSelectedSkills(skillsTemp)
+                setSelectedLanguages(languagesTemp)
+         
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const [skillsMap, setSkillsMap] = useState([])
+    const [langMap, setLangMap] = useState([])
+    const [professionMap, setProfessionMap] = useState([])
+
+
+
 
 
 
@@ -136,26 +135,15 @@ const EditProfile = ({ route }) => {
     const [bio, setBio] = useState("")
 
     useEffect(() => {
+
+        getMapping()
+
         setGender(data.candidates_details.gender.charAt(0).toUpperCase() + data.candidates_details.gender.slice(1))
         setMaritalStatus(data.candidates_details.marital_status.charAt(0).toUpperCase() + data.candidates_details.marital_status.slice(1))
         setProfession(data.candidates_details.profession)
         setAvailability(data.candidates_details.status.charAt(0).toUpperCase() + data.candidates_details.status.slice(1))
-        let skillsTemp = []
-        data.candidates_skill.map((ele) => {
-            let temp = { id: ele.candidate_id, item: ele.candidate_id }
-            skillsTemp.push(temp)
-        })
 
-        let languagesTemp = []
-        data.candidates_language.map((ele) => {
-            let temp = { id: ele.language_name, item: ele.language_name }
-            languagesTemp.push(temp)
-        })
-
-    
-        // setSelectedSkills(skillsTemp)
         setBio(data.candidates_details.bio)
-        // setSelectedLanguages(languagesTemp)
 
     }, [])
 
@@ -179,40 +167,6 @@ const EditProfile = ({ route }) => {
     ];
 
 
-
-    const ProfessionData = [
-        { label: 'Physician', value: 'Physician' },
-        { label: 'Engineer', value: 'Engineer' },
-        { label: 'Chef', value: 'Chef' },
-        { label: 'Lawyer', value: 'Lawyer' },
-        { label: 'Designer', value: 'Designer' },
-        { label: 'Labourer', value: 'Labourer' },
-        { label: 'Dentist', value: 'Dentist' },
-        { label: 'Accountant', value: 'Accountant' },
-        { label: 'Dental Hygienist', value: 'Dental Hygienist' },
-        { label: 'Actor', value: 'Actor' },
-        { label: 'Electrician', value: 'Electrician' },
-        { label: 'Software Developer', value: 'Software Developer' },
-        { label: 'Pharmacist', value: 'Pharmacist' },
-        { label: 'Technician', value: 'Technician' },
-        { label: 'Artist', value: 'Artist' },
-        { label: 'Teacher', value: 'Teacher' },
-        { label: 'Jounralist', value: 'Jounralist' },
-        { label: 'Cashier', value: 'Cashier' },
-        { label: 'Secretary', value: 'Secretary' },
-        { label: 'Scientist', value: 'Scientist' },
-        { label: 'Soldier', value: 'Soldier' },
-        { label: 'Gardener', value: 'Gardener' },
-        { label: 'Farmer', value: 'Farmer' },
-        { label: 'Librarian', value: 'Librarian' },
-        { label: 'Driver', value: 'Driver' },
-        { label: 'Fishermen', value: 'Fishermen' },
-        { label: 'Police Officer', value: 'Police Officer' },
-        { label: 'Tailor', value: 'Tailor' },
-
-
-
-    ]
 
     return (
         <ScrollView>
@@ -271,7 +225,7 @@ const EditProfile = ({ route }) => {
 
                     <View style={isFocusProfession ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
                         <DropDown
-                            data={ProfessionData}
+                            data={professionMap}
                             dropdownStyle={LanguageStyles.LeadDropdown}
                             value={profession}
                             onChange={item => {
@@ -285,8 +239,8 @@ const EditProfile = ({ route }) => {
                             IconStyle={LanguageStyles.IconStyle}
                             onFocus={() => setIsFocusProfession(true)}
                             onBlur={() => setIsFocusProfession(false)}
-                            labelField="label"
-                            valueField="value"
+                            labelField="name"
+                            valueField="name"
                             renderLeftIcon={() => (
                                 <Icon color="black" name={isFocusProfession ? 'arrowup' : 'arrowdown'} size={SF(20)} />
                             )}
@@ -322,7 +276,7 @@ const EditProfile = ({ route }) => {
 
 
                     <SelectBox
-                        options={SkillsData}
+                        options={skillsMap}
                         selectedValues={selectedSkills}
                         onMultiSelect={onMultiChange()}
                         onTapClose={onMultiChange()}
@@ -334,7 +288,7 @@ const EditProfile = ({ route }) => {
 
 
                     <SelectBox
-                        options={K_OPTIONS}
+                        options={langMap}
                         selectedValues={selectedLanguages}
                         onMultiSelect={onMultiChange2()}
                         onTapClose={onMultiChange2()}
@@ -355,7 +309,7 @@ const EditProfile = ({ route }) => {
                     />
 
 
-                    <TouchableOpacity onPress={onMultiChange} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
+                    <TouchableOpacity onPress={()=>updateProfile()} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>

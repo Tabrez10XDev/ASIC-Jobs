@@ -245,11 +245,8 @@ const HomeTab = () => {
                         {/* <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Junior_Text")} />
                         <Button buttonStyle={HomeStyle.buttonstyletwo} buttonTextStyle={HomeStyle.buttontrxtstylers} title={t("Designers")} /> */}
                     </View>
-                    <Spacing space={SH(25)} />
-                    <View style={HomeStyle.Flextextyearly}>
-                        <Text style={HomeStyle.YearlyTextset}>Deadline:</Text>
-                        <Text style={HomeStyle.YearlyTextset}>{item.deadline}</Text>
-                    </View>
+                    <Spacing space={SH(10)} />
+                    
                 </LinearGradient>
             </TouchableOpacity>
         );
@@ -259,9 +256,9 @@ const HomeTab = () => {
         return (
             <TouchableOpacity onPress={() => {navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
                 <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={HomeStyle.RecommndBox}>
-                    <View style={{...HomeStyle.CenterIcon, height:60, width:60}}>
+                    <View style={{...HomeStyle.CenterIcon, height:60, width:60, alignSelf:'center', justifyContent:'center', alignItems:'center'}}>
 
-                    {/* <IconFont name="glass" size={28} color={Colors.theme_background_brink_pink} /> */}
+                    <IconFont name="image" size={28} color={Colors.theme_background_brink_pink} />
                     </View>
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
