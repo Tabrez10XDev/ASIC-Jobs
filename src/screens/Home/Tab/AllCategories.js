@@ -20,7 +20,7 @@ const AllCategories = (props) => {
     const [categories, setAllCategories] = useState([])
 
     
-    function fetchJobDetails(id) {
+    async function fetchJobDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -73,7 +73,7 @@ const AllCategories = (props) => {
             <TouchableOpacity 
             onPress={()=>fetchJobDetails(item.id)}
             style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
-                <TouchableOpacity  style={HomeStyle.RecommndBox}>
+                <View  style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
                     </View>
@@ -83,7 +83,7 @@ const AllCategories = (props) => {
                         <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
                         <Spacing space={SH(10)} />
                     </View>
-                </TouchableOpacity>
+                </View>
             </TouchableOpacity>
         );
     }

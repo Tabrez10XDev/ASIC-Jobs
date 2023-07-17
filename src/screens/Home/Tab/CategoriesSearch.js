@@ -21,7 +21,7 @@ const CategoriesSearch = (props) => {
 
 
 
-    function fetchJobDetails(id) {
+    async function fetchJobDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -30,6 +30,7 @@ const CategoriesSearch = (props) => {
 
         axios.request(config)
             .then((response) => {
+                console.log(response.data)
                 if (response.data.job_details != null && response.data.job_details != undefined) {
                     navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
                 }
@@ -51,7 +52,7 @@ const CategoriesSearch = (props) => {
 
         axios.request(config)
             .then((response) => {
-                console.log(response.data);
+                // console.log(response.data);
                 setAllCategories(response.data.categories_job)
             })
             .catch((error) => {
@@ -70,9 +71,11 @@ const CategoriesSearch = (props) => {
     const Recommendeddataview = (item, index) => {
         return (
             <TouchableOpacity  
-            onPress={()=>fetchJobDetails(item.id)}
+            onPress={()=>{
+                fetchJobDetails(item.id)
+            }}
             style={{ backgroundColor: index % 2 == 1 ? '#ebf1fe' : '#fdebf3', width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
-                <TouchableOpacity  style={HomeStyle.RecommndBox}>
+                <View  style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={{uri: item.logo}} style={{...HomeStyle.Imagestyles, resizeMode:'contain'}} />
                     </View>
@@ -81,8 +84,10 @@ const CategoriesSearch = (props) => {
                         <Text style={HomeStyle.Topboxtextstyle}>{item.title}</Text>
                         <Text style={HomeStyle.Topboxtextstyle}>{item.name}</Text>
                         <Text style={HomeStyle.Topboxtextstyle}>${item.min_salary}-{item.max_salary}</Text>
+                        {/* <Text style={HomeStyle.Topboxtextstyle}>{item.id}</Text> */}
+
                     </View>
-                </TouchableOpacity>
+                </View>
             </TouchableOpacity>
         );
     }

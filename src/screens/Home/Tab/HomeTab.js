@@ -254,8 +254,8 @@ const HomeTab = () => {
 
     const PopularCategories = (item, index) => {
         return (
-            <TouchableOpacity onPress={() => {navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id)}} style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
-                <TouchableOpacity onPress={() => {navigation.navigate(RouteName.ALL_JOBS, item.category_id)}} style={HomeStyle.RecommndBox}>
+            <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
+                <TouchableOpacity onPress={() => {navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id)}} style={HomeStyle.RecommndBox}>
                     <View style={{...HomeStyle.CenterIcon, height:60, width:60, alignSelf:'center', justifyContent:'center', alignItems:'center'}}>
 
                     <IconFont name="image" size={28} color={Colors.theme_background_brink_pink} />

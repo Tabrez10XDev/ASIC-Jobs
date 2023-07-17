@@ -18,6 +18,28 @@ const AllJobs = (props) => {
 
     const [jobs, setJobs] = useState([])
 
+    async function fetchJobDetails(id) {
+        
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log("hey")
+                console(response.data)
+                if (response.data.job_details != null && response.data.job_details != undefined) {
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                }
+            })
+            .catch((error) => {
+                console.log("err")
+
+                console.error(error);
+            });
+    }
 
     async function fetchAllJobs() {
         console.log("----------")
