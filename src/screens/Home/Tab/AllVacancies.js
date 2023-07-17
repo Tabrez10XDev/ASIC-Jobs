@@ -71,7 +71,7 @@ const AllVacancies = (props) => {
             <TouchableOpacity
             onPress={()=>fetchJobDetails(item.id)}
               style={{ backgroundColor: index % 2 == 1 ? '#ebf1fe' : '#fdebf3', width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
-                <TouchableOpacity  style={HomeStyle.RecommndBox}>
+                <View  style={HomeStyle.RecommndBox}>
                     <View style={HomeStyle.CenterIcon}>
                         <Image source={{uri: item.logo}} style={{...HomeStyle.Imagestyles, resizeMode:'contain'}} />
                     </View>
@@ -81,7 +81,7 @@ const AllVacancies = (props) => {
                         <Text style={HomeStyle.Topboxtextstyle}>{item.name}</Text>
                         <Text style={HomeStyle.Topboxtextstyle}>${item.min_salary}-{item.max_salary}</Text>
                     </View>
-                </TouchableOpacity>
+                </View>
             </TouchableOpacity>
         );
     }
