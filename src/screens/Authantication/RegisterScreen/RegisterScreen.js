@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 const Register = () => {
     const navigation = useNavigation();
@@ -33,9 +34,9 @@ const Register = () => {
     };
 
 
-    function authenticate(){
+    function authenticate() {
 
-        if(state.toggleCheckBox === false){
+        if (state.toggleCheckBox === false) {
             return
         }
 
@@ -43,19 +44,25 @@ const Register = () => {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            saveLogin(response.data.id.toString())
+        };
 
-            console.log(JSON.stringify(response.data));
-            navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-          
+        axios.request(config)
+            .then((response) => {
+                if (response.data.status == "true") {
+                    saveLogin(response.data.id.toString())
+                    console.log(JSON.stringify(response.data));
+                    navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)
+                } else {
+                    Toast.show({
+                        type: 'error',
+                        text1: response.data.msg
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
     const saveLogin = async (id) => {
@@ -169,9 +176,9 @@ const Register = () => {
                         <View style={Logins.ButtonView}>
                             <Button
                                 title={t("Sign_Up_Text")}
-                                onPress={() => 
+                                onPress={() =>
                                     authenticate()
-                                    }
+                                }
                                 style={Logins.button} />
                         </View>
                         <Spacing space={SH(20)} />
@@ -186,6 +193,10 @@ const Register = () => {
                     </View>
                 </View>
             </ScrollView>
+            <Toast
+                position='bottom'
+                bottomOffset={20}
+            />
         </View>
     );
 };

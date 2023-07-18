@@ -69,7 +69,7 @@ const SavedJobsList = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
             headers: {}
         };
 

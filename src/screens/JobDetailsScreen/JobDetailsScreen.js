@@ -126,7 +126,7 @@ const JobDetailsScreen = (props) => {
     }
 
     const data = props.route.params
-    const img = "https://asicjobs.in/" + data.logo
+    const img = data.logo
 
     return (
         <View style={ApplyJobStyle.MinViewScreen}>

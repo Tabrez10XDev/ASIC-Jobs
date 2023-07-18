@@ -11,10 +11,11 @@ import { useTranslation } from "react-i18next";
 import axios from 'axios';
 import SvgUri from 'react-native-svg-uri';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = () => {
 
- 
+
 
 
     const { Colors } = useTheme();
@@ -52,9 +53,16 @@ const LoginScreen = () => {
 
         axios.request(config)
             .then((response) => {
-                saveLogin(response.data.id)
-                console.log(JSON.stringify(response.data));
-                navigation.navigate(RouteName.HOME_SCREEN)
+                if (response.data.status == "true") {
+                    saveLogin(response.data.id)
+                    console.log(JSON.stringify(response.data));
+                    navigation.navigate(RouteName.HOME_SCREEN)
+                } else {
+                    Toast.show({
+                        type: 'error',
+                        text1: response.data.msg
+                      });
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -63,18 +71,18 @@ const LoginScreen = () => {
 
     return (
         <Container>
-            <View style={{...Logins.MinViewScreen, height:'100%'}}>
+            <View style={{ ...Logins.MinViewScreen, height: '100%' }}>
                 <ScrollView
                     keyboardShouldPersistTaps="handled"
                     contentContainerStyle={{
                         width: '100%',
                         height: '100%',
                     }}>
-                    <View style={{...Logins.container, height:'100%'}}>
+                    <View style={{ ...Logins.container, height: '100%' }}>
                         <View style={Style.MinViewContent}>
                             <View style={Logins.ManViewLogins}>
-                                
-                                <Image style={{...Logins.imagesetus, width:250}} resizeMode='contain' source={images.App_logo} />
+
+                                <Image style={{ ...Logins.imagesetus, width: 250 }} resizeMode='contain' source={images.App_logo} />
                             </View>
                             <Text style={Logins.LoginText}>{t("Login_Text")}</Text>
                             <Spacing space={SH(20)} />
@@ -121,15 +129,20 @@ const LoginScreen = () => {
                                 <Text style={Logins.Forgetpasswordstyles}>{t("Forgot_Password")}</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={{position:'absolute', bottom:36, right:12}} onPress={() => {
+                            <TouchableOpacity style={{ position: 'absolute', bottom: 36, right: 12 }} onPress={() => {
                                 saveLogin("false")
-                                navigation.navigate(RouteName.HOME_SCREEN)}}>
+                                navigation.navigate(RouteName.HOME_SCREEN)
+                            }}>
                                 <Text style={Logins.Forgetpasswordstyles}>Skip</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </ScrollView>
             </View>
+            <Toast
+                position='bottom'
+                bottomOffset={20}
+            />
         </Container>
     );
 }

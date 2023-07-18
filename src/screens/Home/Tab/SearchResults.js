@@ -68,14 +68,14 @@ const SearchResults = (props) => {
             })
             .catch((error) => {
                 console.error(error);
-            });
+            }); 
 
     }
 
     async function fetchAllJobs(title) {
-
+        
         setState({})
-
+        
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
