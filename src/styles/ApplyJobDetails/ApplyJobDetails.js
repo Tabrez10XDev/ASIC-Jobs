@@ -151,11 +151,11 @@ export default ApplyJobStyles = (Colors) => StyleSheet.create({
     paddingTop: SH(12),
     paddingBottom: SH(7),
     height: SH(47),
-    color: Colors.gray_text_color,
     fontSize: SF(17),
     fontFamily: Fonts.Poppins_Medium,
     borderRadius: 7,
     backgroundColor: Colors.white_text_color,
+    color: Colors.gray_text_color,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -20,19 +20,26 @@ const BlogDetails = (props) => {
     const data = props.route.params
     const img = data.image
 
-    
-   
-    
+
+
+
     const TabshowFunction = (item) => {
         settabshow(item)
     }
 
     const Descrptiontextview = (item) => {
+
+        if(item.trim() == ""){
+            return null
+        }
+
         return (
             <View>
                 <Spacing space={SH(20)} />
                 <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-
+                    {/* <View style={ApplyJobStyle.Discriptiontextview}>
+                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
+                    </View> */}
                     <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
                         <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item}</Text>
                     </View>
@@ -61,14 +68,14 @@ const BlogDetails = (props) => {
                     <View style={ApplyJobStyle.Backgroundcolorview}>
                         <Spacing space={SH(30)} />
                         <View style={ApplyJobStyle.Centerimage}>
-                            <Image source={{ uri: img }} resizeMode="contain" style={{...ApplyJobStyle.Imagestyles, borderRadius:8, width:'90%'    }} />
+                            <Image source={{ uri: img }} resizeMode="contain" style={{ ...ApplyJobStyle.Imagestyles, borderRadius: 8, width: '90%' }} />
                         </View>
                         <Spacing space={SH(20)} />
                         <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>
                         <Spacing space={SH(10)} />
                         <Text style={ApplyJobStyle.ProductDesignertwo}>{data.short_description}</Text>
 
-                     
+
                     </View>
                     <Spacing space={SH(10)} />
                     <View style={{ ...ApplyJobStyle.FlexRowText, justifyContent: 'space-evenly' }}>
@@ -83,7 +90,7 @@ const BlogDetails = (props) => {
                     {tabshow === 1 &&
                         <View>
                             <FlatList
-                                data={[data.description]}
+                                data={data.description}
                                 numColumns={1}
                                 showsHorizontalScrollIndicator={false}
                                 renderItem={({ item, index }) => Descrptiontextview(item, index)}
@@ -104,7 +111,7 @@ const BlogDetails = (props) => {
                             />
                         </View>
                     } */}
-                 
+
 
                     <Spacing space={SH(87)} />
                 </View>

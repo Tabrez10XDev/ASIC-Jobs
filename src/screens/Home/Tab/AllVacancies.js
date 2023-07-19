@@ -71,17 +71,23 @@ const AllVacancies = (props) => {
             <TouchableOpacity
             onPress={()=>fetchJobDetails(item.id)}
               style={{ backgroundColor: index % 2 == 1 ? '#ebf1fe' : '#fdebf3', width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12 }}>
-                <View  style={HomeStyle.RecommndBox}>
-                    <View style={HomeStyle.CenterIcon}>
-                        <Image source={{uri: item.logo}} style={{...HomeStyle.Imagestyles, resizeMode:'contain'}} />
-                    </View>
+                <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-evenly'}}>
+                <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
+                <Image source={{uri: item.logo}} style={{...HomeStyle.Imagestyles, resizeMode:'contain'}} />
+                <Text style={HomeStyle.Textcenter}>{item.CompanyName}</Text>
+
+                </View>
+               
+                <View  style={{...HomeStyle.RecommndBox, flex:2}}>
                     <View style={HomeStyle.Postionset}>
-                        <Text style={HomeStyle.Textcenter}>{item.CompanyName}</Text>
-                        <Text style={HomeStyle.Topboxtextstyle}>{item.title}</Text>
+                        <Text  style={HomeStyle.Topboxtextstyle}>{item.title}</Text>
                         <Text style={HomeStyle.Topboxtextstyle}>{item.name}</Text>
                         <Text style={HomeStyle.Topboxtextstyle}>${item.min_salary}-{item.max_salary}</Text>
                     </View>
                 </View>
+                
+                </View>
+                
             </TouchableOpacity>
         );
     }

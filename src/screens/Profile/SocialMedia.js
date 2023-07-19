@@ -67,63 +67,41 @@ const SocialMedia = ({ route }) => {
     const SocialMediaView = (_item, index) => {
         const item = _item.item
         return (
-            <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 2, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8, width: '95%', marginVertical: 12 }}>
+            <View style={{
+                alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderRadius: 4, paddingVertical: 8, width: '95%', marginVertical: 12,
+                backgroundColor: Colors.white_text_color,
+                color: Colors.gray_text_color,
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: Platform.OS === 'ios' ? 2 : 4,
+                }, 
+                shadowOpacity: 0.45,
+                shadowRadius: Platform.OS === 'ios' ? 2 : 4,
+                elevation: Platform.OS === 'ios' ? 1 : 4,
+            }}>
 
-                <View style={{ width: '95%' }}>
-
-                    <Dropdown
-                        placeholderStyle={{ fontSize: 12 }}
-                        style={{}}
-                        data={_mediaData}
-                        searchPlaceholder="Search"
-                        renderRightIcon={() => (
-                            <IconF
-                                color="black"
-                                name="chevron-down"
-                                size={20}
-                            />
-                        )}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Select"
-                        value={item.social_media}
-                        onChange={item => {
-                            setValue(item.value);
-                        }}
-                        itemTextStyle={{ color: '#000' }}
-                    />
-                </View>
-
-                <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
-                    <TextInput
-                        editable={item.new ? true : false}
-                        placeholder="Link"
-                        onChangeText={(value) => {
-                            setSearch(value)
-                            let currentVal = item
-                            const currentList = mediaList
-                            currentVal["url"] = value
-                            currentList[index] = currentVal
-
-                            // setMediaList(currentList)
-                        }}
-                        value={item.url}
-
-                        inputprops={{ borderWidth: 0, borderColor: 0 }}
-                        style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
-                    />
-
-                </View>
+                <View style={{ width: '95%', flexDirection: 'row', alignItems: 'center' }}>
 
 
-                <TouchableOpacity onPress={() => {
-                    deleteMedia(item.id)
-                    // setMediaList(current=>current.filter((ele)=>ele.id != item.id))
-                }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
-                    <Text style={{ fontSize: 16, color: 'white' }}>
-                        Delete
+                    <Text numberOfLines={1} style={{ maxWidth: '25%' }}>
+                        {item.social_media}
                     </Text>
-                </TouchableOpacity>
+
+                    <Text numberOfLines={1} style={{ color: Colors.theme_background_brink_pink, maxWidth: '50%', position: 'absolute', left: '30%' }}>
+                        {item.url}
+                    </Text>
+
+                    <TouchableOpacity onPress={() => {
+                        deleteMedia(item.id)
+                    }} style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'F5F5F5', borderRadius: 4, padding: 8, position: 'absolute', right: 4 }}>
+                        <IconF name="trash" size={16} color='red' />
+                    </TouchableOpacity>
+
+                </View>
+
+
+
 
             </View>
         )
@@ -160,7 +138,7 @@ const SocialMedia = ({ route }) => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <AddMedia refRBSheet={refRBSheet} setMediaList={setMediaList} id={data.user_details.id}/>
+            <AddMedia refRBSheet={refRBSheet} setMediaList={setMediaList} id={data.user_details.id} />
 
         </ScrollView>
     )

@@ -101,7 +101,14 @@ const SearchResults = (props) => {
 
     }
 
-
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (Search != '') {
+                fetchAllJobs(Search)
+            }
+        }, 500)
+        return () => clearTimeout(delayDebounceFn)
+    }, [Search])
 
 
     const SearchDataView = (item, index) => {
@@ -155,7 +162,7 @@ const SearchResults = (props) => {
                     height: 'auto',
                 }}>
                 <View style={HomeStyle.PaddingHorizontal}>
-                    <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 2, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8 }}>
+                    <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 0, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8 }}>
                         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
                             <TextInput
                                 placeholder="Job Title, Keyword"
@@ -164,8 +171,20 @@ const SearchResults = (props) => {
                                 onPressIn={() => { }}
                                 maxLength={30}
                                 inputprops={{ borderWidth: 0, borderColor: 0 }}
-                                style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
-                            />
+                                style={{
+                                    width: '100%', borderWidth: 0, borderColor: 'white',
+                                    backgroundColor: Colors.white_text_color,
+                                    color: Colors.gray_text_color,
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: Platform.OS === 'ios' ? 2 : 8,
+                                    },
+                                    shadowOpacity: 0.7,
+                                    shadowRadius: Platform.OS === 'ios' ? 2 : 8,
+                                    elevation: Platform.OS === 'ios' ? 1 : 8,
+                                    borderRadius:8
+                                }}                            />
                             <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
                                 <Icon name="search1" size={20} color={Colors.theme_background_brink_pink} />
                             </View>
@@ -178,20 +197,32 @@ const SearchResults = (props) => {
                                 value={Search2}
                                 maxLength={30}
                                 inputprops={{ borderWidth: 0, borderColor: 0 }}
-                                style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
-                            />
+                                style={{
+                                    width: '100%', borderWidth: 0, borderColor: 'white',
+                                    backgroundColor: Colors.white_text_color,
+                                    color: Colors.gray_text_color,
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: Platform.OS === 'ios' ? 2 : 8,
+                                    },
+                                    shadowOpacity: 0.7,
+                                    shadowRadius: Platform.OS === 'ios' ? 2 : 8,
+                                    elevation: Platform.OS === 'ios' ? 1 : 8,
+                                    borderRadius:8
+                                }}                            />
                             <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
                                 <IconE name="location" size={28} color={Colors.theme_background_brink_pink} />
                             </View>
                         </View>
-                        <TouchableOpacity onPress={() => { fetchAllJobs(Search) }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
+                        {/* <TouchableOpacity onPress={() => { fetchAllJobs(Search) }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
                             <Text style={{ fontSize: 16, color: 'white' }}>
                                 Find Jobs
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
                     </View>
-                    <View style={{ paddingHorizontal: 28, alignSelf: 'center', marginTop: 8 }}>
+                    <View style={{ paddingHorizontal: 0, alignSelf: 'center', marginTop: 8 }}>
                         <Text>
                             Suggestions:
                             <Text onPress={() => setSearch("Physical Design")} style={{ color: 'black' }}>   Physical Design,</Text>

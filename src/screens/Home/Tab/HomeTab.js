@@ -37,16 +37,16 @@ const HomeTab = () => {
     const [userID, setUserID] = useState(null)
 
     const getData = async () => {
-      try {
-        const result = await AsyncStorage.getItem('AuthState')
-        if (result !== null && result != "-1" && result != undefined) {
-          setID(result)
-          setUserID(result)
+        try {
+            const result = await AsyncStorage.getItem('AuthState')
+            if (result !== null && result != "-1" && result != undefined) {
+                setID(result)
+                setUserID(result)
+            }
+
+        } catch (e) {
+            console.error(e)
         }
-  
-      } catch (e) {
-        console.error(e)
-      }
     }
 
     async function fetchLatestVacancies() {
@@ -86,55 +86,55 @@ const HomeTab = () => {
     }
 
 
-    function fetchJobDetails(id){
+    function fetchJobDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-          
+        };
+
+        axios.request(config)
+            .then((response) => {
+                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
     }
 
 
-    function fetchCompanyDetails(id){
+    function fetchCompanyDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=fetch_company_details&company_id=${id}`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            navigation.navigate(RouteName.COMPANY_DETAILS, {...response.data, userID: userID})
-          })
-          .catch((error) => {
-            console.log(error);
-          });     
+        };
+
+        axios.request(config)
+            .then((response) => {
+                navigation.navigate(RouteName.COMPANY_DETAILS, { ...response.data, userID: userID })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
 
-    function fetchBlogDetails(id){
+    function fetchBlogDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=blog_details&id=${id}`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            navigation.navigate(RouteName.BLOG_DETAILS, response.data.blog_data)
-          })
-          .catch((error) => {
-            console.log(error);
-          });     
+        };
+
+        axios.request(config)
+            .then((response) => {
+                navigation.navigate(RouteName.BLOG_DETAILS, response.data.blog_data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
 
@@ -187,9 +187,9 @@ const HomeTab = () => {
 
     const Featureddataview = (item) => {
         return (
-            <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingVertical:10}}>
-                <TouchableOpacity onPress={()=>{navigation.navigate(RouteName.ALL_VACANCIES, item.role_id)}} style={HomeStyle.RecommndBox}>
-                    
+            <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingVertical: 10 }}>
+                <TouchableOpacity onPress={() => { navigation.navigate(RouteName.ALL_VACANCIES, item.role_id) }} style={HomeStyle.RecommndBox}>
+
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
                         <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
@@ -204,10 +204,10 @@ const HomeTab = () => {
         const img = "https://asicjobs.in/" + item.logo
 
         return (
-            <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingVertical:10}}>
-                <TouchableOpacity onPress={()=>{navigation.navigate(RouteName.ALL_VACANCIES, item.role_id)}} style={HomeStyle.RecommndBox}>
-                    <View style={{...HomeStyle.CenterIcon, height:60, width:60, alignSelf:'center', justifyContent:'center', alignItems:'center'}}>
-                        <Image source={{uri : img}} style={{...HomeStyle.Imagestyles, resizeMode:'contain'}} />
+            <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingVertical: 10 }}>
+                <TouchableOpacity onPress={() => { fetchCompanyDetails(item.company_id) }} style={HomeStyle.RecommndBox}>
+                    <View style={{ ...HomeStyle.CenterIcon, height: 60, width: 60, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
+                        <Image source={{ uri: img }} style={{ ...HomeStyle.Imagestyles, resizeMode: 'contain' }} />
                     </View>
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
@@ -222,10 +222,10 @@ const HomeTab = () => {
     const PopularCategories = (item, index) => {
         return (
             <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color }}>
-                <TouchableOpacity onPress={() => {navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id)}} style={HomeStyle.RecommndBox}>
-                    <View style={{...HomeStyle.CenterIcon, height:60, width:60, alignSelf:'center', justifyContent:'center', alignItems:'center'}}>
+                <TouchableOpacity onPress={() => { navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id) }} style={HomeStyle.RecommndBox}>
+                    <View style={{ ...HomeStyle.CenterIcon, height: 60, width: 60, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
 
-                    <IconFont name="image" size={28} color={Colors.theme_background_brink_pink} />
+                        <IconFont name="image" size={28} color={Colors.theme_background_brink_pink} />
                     </View>
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
@@ -239,9 +239,9 @@ const HomeTab = () => {
     const LatestPostDataView = (item, index) => {
         const img = "https://asicjobs.in/" + item.image
         return (
-            <TouchableOpacity  style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingHorizontal:0, paddingTop:0 }}>
-                <TouchableOpacity onPress={() => {fetchBlogDetails(item.id)}} style={HomeStyle.RecommndBox}>
-                        <Image source={{ uri: img }} style={{ width: '100%', height: 120, resizeMode: 'cover', borderRadius:6, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }} />
+            <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingHorizontal: 0, paddingTop: 0 }}>
+                <TouchableOpacity onPress={() => { fetchBlogDetails(item.id) }} style={HomeStyle.RecommndBox}>
+                    <Image source={{ uri: img }} style={{ width: '100%', height: 120, resizeMode: 'cover', borderRadius: 6, borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }} />
                     <View style={HomeStyle.Postionset}>
                         <Text style={{ ...HomeStyle.Textcenter, marginTop: 4 }}>{item.title}</Text>
                         <Text style={HomeStyle.Topboxtextstyle}>{item.short_description}</Text>
@@ -269,43 +269,39 @@ const HomeTab = () => {
                     <View style={HomeStyle.MinViewContent}>
                         <Spacing space={SH(10)} />
                         <View style={HomeStyle.PaddingHorizontal}>
-                            <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 2, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8 }}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 0, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8 }}>
                                 <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
                                     <TextInput
                                         placeholder="Job Title, Keyword"
                                         onChangeText={(value) => setSearch(value)}
                                         value={Search}
-                                        onPressIn={()=>{navigation.navigate(RouteName.SEARCH_RESULTS, userID)}}
+                                        onPressIn={() => { navigation.navigate(RouteName.SEARCH_RESULTS, userID) }}
                                         maxLength={30}
                                         inputprops={{ borderWidth: 0, borderColor: 0 }}
-                                        style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
+                                        style={{
+                                            width: '100%', borderWidth: 0, borderColor: 'white',
+                                            backgroundColor: Colors.white_text_color,
+                                            color: Colors.gray_text_color,
+                                            shadowColor: "#000",
+                                            shadowOffset: {
+                                                width: 0,
+                                                height: Platform.OS === 'ios' ? 2 : 8,
+                                            },
+                                            shadowOpacity: 0.7,
+                                            shadowRadius: Platform.OS === 'ios' ? 2 : 8,
+                                            elevation: Platform.OS === 'ios' ? 1 : 8,
+                                            borderRadius:8
+                                        }}
                                     />
                                     <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
                                         <Icon name="search1" size={20} color={Colors.theme_background_brink_pink} />
                                     </View>
                                 </View>
 
-                                <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TextInput
-                                        placeholder="Enter Location"
-                                        onChangeText={(value) => setSearch2(value)}
-                                        value={Search2}
-                                        maxLength={30}
-                                        inputprops={{ borderWidth: 0, borderColor: 0 }}
-                                        style={{ width: '100%', borderWidth: 0, borderColor: 'white' }}
-                                    />
-                                    <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
-                                        <IconE name="location" size={28} color={Colors.theme_background_brink_pink} />
-                                    </View>
-                                </View>
-                                <TouchableOpacity style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
-                                    <Text style={{ fontSize: 16, color: 'white' }}>
-                                        Find Jobs
-                                    </Text>
-                                </TouchableOpacity>
+                            
 
                             </View>
-                            <View style={{ paddingHorizontal: 28, alignSelf: 'center', marginTop: 8 }}>
+                            <View style={{ paddingHorizontal: 0, alignSelf: 'center', marginTop: 8 }}>
                                 <Text>
                                     Suggestions:
                                     <Text onPress={() => setSearch("Physical Design")} style={{ color: 'black' }}>   Physical Design,</Text>
@@ -319,7 +315,7 @@ const HomeTab = () => {
                             <Spacing space={SH(20)} />
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Popular Vacancies</Text>
-                                <TouchableOpacity onPress={() => {}}>
+                                <TouchableOpacity onPress={() => { }}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -357,7 +353,7 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Top Companies</Text>
-                                <TouchableOpacity onPress={() => {}}>
+                                <TouchableOpacity onPress={() => { }}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -376,10 +372,10 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Latest Posts</Text>
-                                <TouchableOpacity onPress={() => {}}>
+                                <TouchableOpacity onPress={() => { }}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
-                               
+
                             </View>
                         </View>
                         <Spacing space={SH(20)} />

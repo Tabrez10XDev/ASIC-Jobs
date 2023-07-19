@@ -13,6 +13,7 @@ import { width } from "react-native-bottom-tab/src/AnimatedTabBar/utils";
 import AddExperience from "../../components/commonComponents/AddExperience";
 import AddEducation from "../../components/commonComponents/AddEducation";
 import axios from "axios";
+import IconFont from 'react-native-vector-icons/FontAwesome';
 
 
 const Experience = ({ route }) => {
@@ -176,9 +177,17 @@ const Experience = ({ route }) => {
     return (
         <ScrollView>
             <View style={{ backgroundColor: 'white', height: '100%', alignItems: 'center' }}>
-                <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left', width: '95%', marginTop: 24 }}>
-                    Experience
-                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 24, justifyContent: 'space-between', width: '95%' }}>
+                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left' }}>
+                        Experience
+                    </Text>
+
+                    <TouchableOpacity
+                        onPress={() => { refRBSheet.current.open() }}
+                        style={{ height: 30, width: 30, borderRadius: 40, backgroundColor: Colors.theme_background_brink_pink, alignItems: 'center', justifyContent: 'center' }}>
+                        <IconFont name="plus" size={14} color='black' />
+                    </TouchableOpacity>
+                </View>
                 {experienceList.map((ele, index) => {
                     return (
                         <Experiencedataview item={ele} />
@@ -191,16 +200,20 @@ const Experience = ({ route }) => {
                         No Experience
                     </Text>
                 }
-                <TouchableOpacity
-                    onPress={() => { refRBSheet.current.open() }}
-                    style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
-                    <Text style={{ fontSize: 16, color: 'white' }}>
-                        Add Experience
+                <View style={{ borderBottomWidth: 1, height: 1, width: '95%', borderStyle: 'dashed' }}>
+
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 36, justifyContent: 'space-between', width: '95%' }}>
+                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left' }}>
+                        Education
                     </Text>
-                </TouchableOpacity>
-                <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left', width: '95%', marginTop: 48 }}>
-                    Education
-                </Text>
+
+                    <TouchableOpacity
+                        onPress={() => { refRBSheet2.current.open() }}
+                        style={{ height: 30, width: 30, borderRadius: 40, backgroundColor: Colors.theme_background_brink_pink, alignItems: 'center', justifyContent: 'center' }}>
+                        <IconFont name="plus" size={14} color='black' />
+                    </TouchableOpacity>
+                </View>
                 {educationList.map((ele, index) => {
                     return (
                         <Educationdataview item={ele} />
@@ -214,17 +227,12 @@ const Experience = ({ route }) => {
                     </Text>
                 }
 
-                <TouchableOpacity
-                    onPress={() => { refRBSheet2.current.open() }}
-                    style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
-                    <Text style={{ fontSize: 16, color: 'white' }}>
-                        Add Education
-                    </Text>
-                </TouchableOpacity>
+                <View style={{ borderBottomWidth: 1, height: 1, width: '95%', borderStyle: 'dashed' }}>
+                </View>
 
             </View>
-            <AddExperience refRBSheet={refRBSheet} setExperienceList={setExperienceList} id={data.user_details.id}  />
-            <AddEducation refRBSheet={refRBSheet2} setEducationList={setEducationList}  id={data.user_details.id} />
+            <AddExperience refRBSheet={refRBSheet} setExperienceList={setExperienceList} id={data.user_details.id} />
+            <AddEducation refRBSheet={refRBSheet2} setEducationList={setEducationList} id={data.user_details.id} />
 
         </ScrollView>
     )
