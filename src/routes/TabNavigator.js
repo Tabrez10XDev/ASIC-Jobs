@@ -103,12 +103,12 @@ function HomeTabScreenStack({ navigation }) {
           // ),
         }}
       />
-       <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
+       {/* <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
        options={{
-        title: "Job Detail", headerShown: false,
+        title: "Job Detail", headerShown: true,
         headerShadowVisible: false,
       
-      }} />
+      }} /> */}
     </Stack.Navigator>
   );
 }

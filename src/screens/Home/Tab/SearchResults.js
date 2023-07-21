@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, ScrollView, TextInput } from 'react-native';
 import { HomeTabStyles, SaveJobListStyles } from '../../../styles';
 import { Spacing, Button, } from '../../../components';
@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import IconE from 'react-native-vector-icons/EvilIcons';
 import { search } from 'react-native-country-picker-modal/lib/CountryService';
 import IconG from 'react-native-vector-icons/Entypo';
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 
 
 const SearchResults = (props) => {
@@ -21,6 +22,8 @@ const SearchResults = (props) => {
     const { Colors } = useTheme();
     const HomeStyle = useMemo(() => HomeTabStyles(Colors), [Colors]);
     const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
+    const [jobList, setJobList] = useState([]);
+    const refOne = useRef();
 
     const [Search, setSearch] = useState('');
     const [Search2, setSearch2] = useState('');
@@ -28,25 +31,52 @@ const SearchResults = (props) => {
 
     const [jobs, setJobs] = useState([])
 
+    const [searchTerm, setSearchTerm] = useState('')
 
     const id = route.params
 
 
-    async function toggleBookmark(job_id){
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (searchTerm != '') {
+                fetchJobTitles(searchTerm)
+            }
+        }, 500)
+        return () => clearTimeout(delayDebounceFn)
+    }, [searchTerm])
+
+
+    async function fetchJobTitles(title){
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${job_id}&user_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=search_jobs_title&title_string=${title}`,
           };
           
           axios.request(config)
           .then((response) => {
-            setState(current => ({ ...current, [job_id]: !state[job_id] }))
+            setJobList(response.data.search_title)
           })
           .catch((error) => {
-            console.error(`https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${job_id}&user_id=${id}`)
             console.log(error);
           });
+    }
+
+    async function toggleBookmark(job_id) {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${job_id}&user_id=${id}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                setState(current => ({ ...current, [job_id]: !state[job_id] }))
+            })
+            .catch((error) => {
+                console.error(`https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${job_id}&user_id=${id}`)
+                console.log(error);
+            });
     }
 
 
@@ -64,18 +94,18 @@ const SearchResults = (props) => {
                 console.log("----------------------------");
                 console.log(id);
                 console.log(JSON.stringify(response.data));
-                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, userID : id})
+                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, { ...response.data.job_details, userID: id })
             })
             .catch((error) => {
                 console.error(error);
-            }); 
+            });
 
     }
 
     async function fetchAllJobs(title) {
-        
+
         setState({})
-        
+
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -86,11 +116,11 @@ const SearchResults = (props) => {
             .then((response) => {
 
                 console.log(response.data);
-                response.data.search_jobs.map((ele,index)=>{
-                    if(ele.bokkmarked == 1){
-                        setState(current=>({...current, [ele.id]: true}))
-                    }else{
-                        setState(current=>({...current, [ele.id]: false}))
+                response.data.search_jobs.map((ele, index) => {
+                    if (ele.bokkmarked == 1) {
+                        setState(current => ({ ...current, [ele.id]: true }))
+                    } else {
+                        setState(current => ({ ...current, [ele.id]: false }))
                     }
                 })
                 setJobs(response.data.search_jobs)
@@ -120,7 +150,7 @@ const SearchResults = (props) => {
                     <View style={SaveJobListStyle.DevelperStyles}>
                         <View style={SaveJobListStyle.ImagWidthTextFlex}>
                             <View style={SaveJobListStyle.ImageViewStyles}>
-                                <Image source={{ uri: "" }} style={{ height: 60, width: 60, resizeMode: 'contain', borderRadius: 8 }} />
+                                <Image source={{ uri: item.logo }} style={{ height: 60, width: 60, resizeMode: 'contain', borderRadius: 8 }} />
                             </View>
                             <View>
                                 <Text maxLength={10} numberOfLines={1} style={{ ...SaveJobListStyle.DevelperText }}>{item.title}</Text>
@@ -133,16 +163,15 @@ const SearchResults = (props) => {
                         <Text style={SaveJobListStyle.Normalsmalltexttwo}>{item.country}</Text>
                     </View>
                 </View>
-                <Spacing space={SH(5)} />
                 <TouchableOpacity
                     onPress={() => {
-                            console.log(id)
-                            toggleBookmark(item.id)
+                        console.log(id)
+                        toggleBookmark(item.id)
 
                     }}
                     style={{ width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
                     <IconG
-                        size={20}
+                        size={18}
                         name="bookmark"
                         style={{ color: state[item.id] ? Colors.theme_background_brink_pink : 'grey' }}
                     />
@@ -164,7 +193,9 @@ const SearchResults = (props) => {
                 <View style={HomeStyle.PaddingHorizontal}>
                     <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderWidth: 0, borderColor: '#dbebc4', borderRadius: 16, paddingVertical: 8 }}>
                         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
-                            <TextInput
+
+
+                        <TextInput
                                 placeholder="Job Title, Keyword"
                                 onChangeText={(value) => setSearch(value)}
                                 value={Search}
@@ -173,6 +204,7 @@ const SearchResults = (props) => {
                                 inputprops={{ borderWidth: 0, borderColor: 0 }}
                                 style={{
                                     width: '100%', borderWidth: 0, borderColor: 'white',
+                                    paddingHorizontal: 10,
                                     backgroundColor: Colors.white_text_color,
                                     color: Colors.gray_text_color,
                                     shadowColor: "#000",
@@ -183,14 +215,59 @@ const SearchResults = (props) => {
                                     shadowOpacity: 0.7,
                                     shadowRadius: Platform.OS === 'ios' ? 2 : 8,
                                     elevation: Platform.OS === 'ios' ? 1 : 8,
-                                    borderRadius:8
-                                }}                            />
+                                    borderRadius: 8
+                                }} />
                             <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
                                 <Icon name="search1" size={20} color={Colors.theme_background_brink_pink} />
                             </View>
                         </View>
 
-                        <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
+                        
+                        {/* <View style={{ zIndex: 5, width: '95%', marginTop:10 }}>
+                            <AutocompleteDropdown
+                                controller={(controller) => {
+                                    refOne.current = controller
+                                }}
+                                direction="down"
+                                suggestionsListContainerStyle={{}}
+                                containerStyle={{ width: '100%', backgroundColor: 'white' }}
+                                textInputProps={{
+                                    placeholder: "Location",
+                                    style:{
+                                        color: 'black',
+                                    }
+
+                                }}
+                                inputContainerStyle={{
+                                    paddingHorizontal:10,
+                                    alignItems: 'center',
+                                    backgroundColor: Colors.white_text_color,
+                                    color: Colors.gray_text_color,
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: Platform.OS === 'ios' ? 2 : 8,
+                                    },
+                                    shadowOpacity: 0.7,
+                                    shadowRadius: Platform.OS === 'ios' ? 2 : 8,
+                                    elevation: Platform.OS === 'ios' ? 1 : 8,
+                                    borderRadius: 8
+                                }}
+                                showClear={false}
+                                onSelectItem={item => {
+                                    setSearch(item)
+                                }}
+                                showChevron={false}
+                                onChangeText={(text) => { setSearchTerm(text) }}
+
+                                dataSet={jobList}
+                            />
+                        </View>
+                         */}
+                        
+                        <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+
+
                             <TextInput
                                 placeholder="Enter Location"
                                 onChangeText={(value) => setSearch2(value)}
@@ -199,6 +276,7 @@ const SearchResults = (props) => {
                                 inputprops={{ borderWidth: 0, borderColor: 0 }}
                                 style={{
                                     width: '100%', borderWidth: 0, borderColor: 'white',
+                                    paddingHorizontal: 10,
                                     backgroundColor: Colors.white_text_color,
                                     color: Colors.gray_text_color,
                                     shadowColor: "#000",
@@ -209,17 +287,13 @@ const SearchResults = (props) => {
                                     shadowOpacity: 0.7,
                                     shadowRadius: Platform.OS === 'ios' ? 2 : 8,
                                     elevation: Platform.OS === 'ios' ? 1 : 8,
-                                    borderRadius:8
-                                }}                            />
+                                    borderRadius: 8
+                                }} />
                             <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
                                 <IconE name="location" size={28} color={Colors.theme_background_brink_pink} />
                             </View>
                         </View>
-                        {/* <TouchableOpacity onPress={() => { fetchAllJobs(Search) }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 6, borderRadius: 4, paddingVertical: 10 }}>
-                            <Text style={{ fontSize: 16, color: 'white' }}>
-                                Find Jobs
-                            </Text>
-                        </TouchableOpacity> */}
+                      
 
                     </View>
                     <View style={{ paddingHorizontal: 0, alignSelf: 'center', marginTop: 8 }}>

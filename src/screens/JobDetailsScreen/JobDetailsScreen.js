@@ -130,7 +130,16 @@ const JobDetailsScreen = (props) => {
 
     return (
         <View style={ApplyJobStyle.MinViewScreen}>
-            <TouchableOpacity onPress={() => navigation.dispatch(StackActions.pop(1))} style={ApplyJobStyle.centerlottw}>
+            <TouchableOpacity onPress={() => navigation.dispatch(StackActions.pop())} style={{...ApplyJobStyle.centerlottw,
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: Platform.OS === 'ios' ? 2 : 2,
+            },
+            shadowOpacity: 0.45,
+            shadowRadius: Platform.OS === 'ios' ? 2 : 4,
+            elevation: Platform.OS === 'ios' ? 1 : 8,
+            }}>
                 <IconA name="chevron-left" color={Colors.white_text_color} size={30} />
             </TouchableOpacity>
             <ScrollView
@@ -140,7 +149,7 @@ const JobDetailsScreen = (props) => {
                     <View style={ApplyJobStyle.Backgroundcolorview}>
                         <Spacing space={SH(30)} />
                         <View style={ApplyJobStyle.Centerimage}>
-                            <Image source={{uri: img}} resizeMode="cover" style={ApplyJobStyle.Imagestyles} />
+                            <Image source={{uri: img}} resizeMode="contain" style={{...ApplyJobStyle.Imagestyles, width:'100%'}} />
                         </View>
                         <Spacing space={SH(10)} />
                         <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>

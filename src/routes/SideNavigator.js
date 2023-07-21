@@ -102,12 +102,12 @@ const SideNavigator = (props) => {
           headerRight: (props) => <ColorPicker {...props} />,
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
-      />
+      /> */}
       <Drawer.Screen
         name={RouteName.CHAT_SCREEN} component={Chatscreen}
         options={{

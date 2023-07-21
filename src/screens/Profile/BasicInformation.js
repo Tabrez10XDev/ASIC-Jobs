@@ -9,6 +9,7 @@ import { SettingStyle, Style, LanguageStyles, ResumeStyles } from '../../styles'
 import { Dimensions } from "react-native";
 import DatePicker from 'react-native-date-picker'
 import { Linking } from "react-native";
+import IconG from 'react-native-vector-icons/Entypo';
 
 const BasicInformation = ({ route }) => {
 
@@ -214,12 +215,32 @@ const BasicInformation = ({ route }) => {
         {
           state.resumes.map((ele, index) => {
             return (
-              <View key={ele.id} style={{ ...ResumeStyle.BorderView, marginTop: 24, width: '95%', alignSelf: 'center', marginBottom: 12, height:140, flexDirection:'column', justifyContent:'space-between' }}>
-                <Text style={ResumeStyle.ParegraphTextStyle}>{ele.name}</Text>
-                <Button 
-                onPress={() => {
+              <View key={ele.id} style={{ ...ResumeStyle.BorderView, marginTop: 24, width: '95%', alignSelf: 'center', flexDirection: 'column', alignItems: 'center', flexDirection: 'row', height:60, justifyContent:'flex-start', padding:16 }}>
+                <Text style={{fontWeight:'600', color:'black'}}>{ele.name}</Text>
+                <TouchableOpacity
+                  onPress={() => {
                     Linking.openURL(ele.file);
-                }} buttonStyle={{...ResumeStyle.buttonStyle, marginTop:20}} title="Open Resume" />
+                  }}
+                  style={{ width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignItems: 'center', justifyContent: 'center', borderRadius: 4, position:'absolute', right:60 }}>
+                  <IconG
+                    size={18}
+                    name="link"
+                    style={{ color: Colors.theme_background_brink_pink }}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL(ele.file);
+                  }}
+                  style={{ width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignItems: 'center', justifyContent: 'center', borderRadius: 4, position:'absolute', right:16 }}>
+                  <IconG
+                    size={18}
+                    name="trash"
+                    style={{ color: 'red' }}
+                  />
+                </TouchableOpacity>
+             
               </View>
             )
           })

@@ -8,6 +8,7 @@ import SearchResults from '../screens/Home/Tab/SearchResults';
 import AllVacancies from '../screens/Home/Tab/AllVacancies';
 import CompanyDetails from '../screens/Home/Tab/CompanyDetails';
 import BlogDetails from '../screens/Home/Tab/BlogDetails';
+import JobDetailsScreen from '../screens/JobDetailsScreen/JobDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,9 +24,11 @@ import {
 import AllCategories from '../screens/Home/Tab/AllCategories';
 import AllJobs from '../screens/Home/Tab/AllJobs';
 import CategoriesSearch from '../screens/Home/Tab/CategoriesSearch';
+import AllPosts from '../screens/Home/Tab/AllPosts';
+import AllCompanies from '../screens/Home/Tab/AllCompanies';
 
 const RootNavigator = props => {
-  
+
   const { colorrdata } = useSelector(state => state.commonReducer) || {};
   const MyTheme = {
     ...DefaultTheme,
@@ -66,6 +69,9 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.CATEGORIES_SEARCH} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={CategoriesSearch} />
         <Stack.Screen name={RouteName.COMPANY_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={CompanyDetails} />
         <Stack.Screen name={RouteName.BLOG_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={BlogDetails} />
+        <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen} options={{title: "Job Detail", headerShown: false,headerShadowVisible: false}} />
+        <Stack.Screen name={RouteName.ALL_POSTS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllPosts} />
+        <Stack.Screen name={RouteName.ALL_COMPANIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllCompanies} />
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -53,7 +53,7 @@ const LoginScreen = () => {
 
         axios.request(config)
             .then((response) => {
-                if (response.data.status == "true") {
+                if (response.data.status == true) {
                     saveLogin(response.data.id)
                     console.log(JSON.stringify(response.data));
                     navigation.navigate(RouteName.HOME_SCREEN)

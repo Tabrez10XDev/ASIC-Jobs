@@ -98,7 +98,7 @@ const CompanyDetails = (props) => {
                     <View style={ApplyJobStyle.Backgroundcolorview}>
                         <Spacing space={SH(30)} />
                         <View style={ApplyJobStyle.Centerimage}>
-                            <Image source={{ uri: img }} resizeMode="cover" style={ApplyJobStyle.Imagestyles} />
+                            <Image source={{ uri: img }} resizeMode="contain" style={{...ApplyJobStyle.Imagestyles, width:'90%'}} />
                         </View>
                         <Spacing space={SH(10)} />
                         <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>

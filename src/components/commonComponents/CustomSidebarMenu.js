@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, ScrollView } from "react-native";
 import IconE from 'react-native-vector-icons/Feather';
 import IconL from 'react-native-vector-icons/Entypo';
@@ -11,6 +11,7 @@ import IconP from 'react-native-vector-icons/AntDesign';
 import { ConfirmationAlert } from '../../components';
 import { Colors, SF } from '../../utils';
 import { useTranslation } from "react-i18next";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import IconF from 'react-native-vector-icons/FontAwesome';
 // import IconE from 'react-native-vector-icons/EvilIcons';
@@ -26,15 +27,44 @@ const CustomSidebarMenu = (props) => {
   const [alertMessage, setAlertMessage] = useState('');
   const [okbutton, Setokbutton] = useState('');
   const [cancelbutton, SetCancelbutton] = useState(t("Cancel_Button"));
+  const [showBtn, setShowBtn] = useState(true)
 
   var alertdata = {
     'logout': t("Are_You_Sure_Logout"),
   }
 
-  const onoknutton = () => {
-    navigation.navigate(RouteName.LOGIN_SCREEN);
-    okbutton;
+  const onoknutton = async () => {
+    try {
+      await AsyncStorage.setItem('AuthState', "-1")
+      navigation.replace(RouteName.LOGIN_SCREEN);
+      okbutton;
+    } catch (err) {
+      alert(err)
+    }
   }
+
+
+  const getData = async () => {
+    try {
+      const result = await AsyncStorage.getItem('AuthState')
+      console.log("-=-=-=-=")
+      console.log(result)
+      if (result !== null && result != "-1" && result != undefined && result != "false") {
+        setShowBtn(true)
+      } else {
+        setShowBtn(false)
+      }
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+
+  useEffect(() => {
+    getData()
+  }, [])
+
+
   const Onpressfunction = (e) => {
     navigation.toggleDrawer();
     navigation.navigate(e)
@@ -54,7 +84,7 @@ const CustomSidebarMenu = (props) => {
         </TouchableOpacity>
 
 
-         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
+        <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.SAVE_JOB_LIST)
         }>
           <IconMI name="work" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
@@ -74,9 +104,9 @@ const CustomSidebarMenu = (props) => {
           <IconMC name="bell-ring" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>Job Alerts</Text>
         </TouchableOpacity>
-   
 
-       
+
+
         {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.Resume_And_Portfolio)
         }>
@@ -114,16 +144,26 @@ const CustomSidebarMenu = (props) => {
           <IconP size={SF(19)} name="setting" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} />
           <Text style={Sidemenu.hometextstyle}>{t("Setting_Text")}</Text>
         </TouchableOpacity> */}
-        <View style={Sidemenu.settingandlogout}>
-          <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
-            setAlertVisible(true);
-            setAlertMessage(alertdata.logout);
-            Setokbutton('');
-          }}>
-            <IconL name="log-out" color={Colors.theme_background_brink_pink} size={SF(23)} />
-            <Text style={Sidemenu.hometextstyle}>{t("Log_Out")}</Text>
-          </TouchableOpacity>
-        </View>
+        {showBtn ?
+          <View style={Sidemenu.settingandlogout}>
+            <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
+              setAlertVisible(true);
+              setAlertMessage(alertdata.logout);
+              Setokbutton('');
+            }}>
+              <IconL name="log-out" color={Colors.theme_background_brink_pink} size={SF(23)} />
+              <Text style={Sidemenu.hometextstyle}>{t("Log_Out")}</Text>
+            </TouchableOpacity>
+          </View> :
+          <View style={Sidemenu.settingandlogout}>
+            <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
+              navigation.replace(RouteName.LOGIN_SCREEN)
+            }}>
+              <IconL name="log-out" color={Colors.theme_background_brink_pink} size={SF(23)} />
+              <Text style={Sidemenu.hometextstyle}>Log In</Text>
+            </TouchableOpacity>
+          </View>
+        }
         <ConfirmationAlert
           message={alertMessage}
           modalVisible={alertVisible}

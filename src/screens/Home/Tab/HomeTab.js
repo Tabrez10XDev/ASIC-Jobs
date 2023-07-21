@@ -201,7 +201,7 @@ const HomeTab = () => {
 
     const CompaniesDataView = (item) => {
 
-        const img = "https://asicjobs.in/" + item.logo
+        const img = item.logo
 
         return (
             <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingVertical: 10 }}>
@@ -251,7 +251,7 @@ const HomeTab = () => {
                 </TouchableOpacity>
                 <Spacing space={SH(10)} />
 
-                <Text style={{ ...HomeStyle.Textcenter, position: 'absolute', bottom: 4, right: 4 }}>{item.updated_at ? item.updated_at.substring(0, 10) : ""}</Text>
+                <Text style={{ ...HomeStyle.Textcenter, position: 'absolute', bottom: 4, right: 4 }}>{item.updated_at ? moment(item.updated_at.substring(0, 10), "YYYY-MM-DD").fromNow() : ""}</Text>
 
             </TouchableOpacity>
         );
@@ -313,13 +313,14 @@ const HomeTab = () => {
                             </View>
 
                             <Spacing space={SH(20)} />
-                            <View style={HomeStyle.FlextTextStyles}>
+                            {/* <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Popular Vacancies</Text>
                                 <TouchableOpacity onPress={() => { }}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
-                            </View>
+                            </View> */}
                         </View>
+                        <Spacing space={SH(20)} />
 
                         <FlatList
                             data={latestVacancies}
@@ -353,7 +354,7 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Top Companies</Text>
-                                <TouchableOpacity onPress={() => { }}>
+                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.ALL_COMPANIES)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
                             </View>
@@ -372,7 +373,7 @@ const HomeTab = () => {
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Latest Posts</Text>
-                                <TouchableOpacity onPress={() => { }}>
+                                <TouchableOpacity onPress={() => navigation.navigate(RouteName.ALL_POSTS)}>
                                     <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
                                 </TouchableOpacity>
 

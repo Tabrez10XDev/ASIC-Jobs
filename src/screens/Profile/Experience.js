@@ -178,7 +178,7 @@ const Experience = ({ route }) => {
         <ScrollView>
             <View style={{ backgroundColor: 'white', height: '100%', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 24, justifyContent: 'space-between', width: '95%' }}>
-                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left' }}>
+                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '700', textAlign: 'left' }}>
                         Experience
                     </Text>
 
@@ -204,7 +204,7 @@ const Experience = ({ route }) => {
 
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 36, justifyContent: 'space-between', width: '95%' }}>
-                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '500', textAlign: 'left' }}>
+                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '700', textAlign: 'left' }}>
                         Education
                     </Text>
 
