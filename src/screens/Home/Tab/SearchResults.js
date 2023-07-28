@@ -14,6 +14,7 @@ import IconE from 'react-native-vector-icons/EvilIcons';
 import { search } from 'react-native-country-picker-modal/lib/CountryService';
 import IconG from 'react-native-vector-icons/Entypo';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
+import SearchableDropdown from 'react-native-searchable-dropdown';
 
 
 const SearchResults = (props) => {
@@ -24,6 +25,43 @@ const SearchResults = (props) => {
     const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
     const [jobList, setJobList] = useState([]);
     const refOne = useRef();
+    const refTwo = useRef();
+
+
+    var items = [
+        {
+            id: 1,
+            name: 'JavaScript',
+        },
+        {
+            id: 2,
+            name: 'Java',
+        },
+        {
+            id: 3,
+            name: 'Ruby',
+        },
+        {
+            id: 4,
+            name: 'React Native',
+        },
+        {
+            id: 5,
+            name: 'PHP',
+        },
+        {
+            id: 6,
+            name: 'Python',
+        },
+        {
+            id: 7,
+            name: 'Go',
+        },
+        {
+            id: 8,
+            name: 'Swift',
+        },
+    ];
 
     const [Search, setSearch] = useState('');
     const [Search2, setSearch2] = useState('');
@@ -35,32 +73,32 @@ const SearchResults = (props) => {
 
     const id = route.params
 
+    const [geoData, setGeoData] = useState([])
+
+    async function getGeoData() {
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: 'https://asicjobs.in/api/webapi.php?api_action=geo_location',
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log("-----")
+                console.log(JSON.stringify(response.data));
+                setGeoData(response.data.geo_data)
+            })
+            .catch((error) => {
+                console.log("-----")
+                console.log(error);
+            });
+
+    }
 
     useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if (searchTerm != '') {
-                fetchJobTitles(searchTerm)
-            }
-        }, 500)
-        return () => clearTimeout(delayDebounceFn)
-    }, [searchTerm])
+        getGeoData()
+    }, [])
 
-
-    async function fetchJobTitles(title){
-        let config = {
-            method: 'post',
-            maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=search_jobs_title&title_string=${title}`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            setJobList(response.data.search_title)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-    }
 
     async function toggleBookmark(job_id) {
         let config = {
@@ -78,9 +116,6 @@ const SearchResults = (props) => {
                 console.log(error);
             });
     }
-
-
-
 
     async function fetchJobDetails(id) {
         let config = {
@@ -131,6 +166,9 @@ const SearchResults = (props) => {
 
     }
 
+
+
+
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             if (Search != '') {
@@ -139,6 +177,19 @@ const SearchResults = (props) => {
         }, 500)
         return () => clearTimeout(delayDebounceFn)
     }, [Search])
+
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            if (Search2 != '') {
+                // fetchAllJobs(Search)
+            }
+        }, 500)
+        return () => clearTimeout(delayDebounceFn)
+    }, [Search2])
+
+
+    const [selectedItems, setSelectedItems] = useState([])
 
 
     const SearchDataView = (item, index) => {
@@ -195,7 +246,7 @@ const SearchResults = (props) => {
                         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center' }}>
 
 
-                        <TextInput
+                            <TextInput
                                 placeholder="Job Title, Keyword"
                                 onChangeText={(value) => setSearch(value)}
                                 value={Search}
@@ -222,78 +273,61 @@ const SearchResults = (props) => {
                             </View>
                         </View>
 
-                        
-                        {/* <View style={{ zIndex: 5, width: '95%', marginTop:10 }}>
-                            <AutocompleteDropdown
-                                controller={(controller) => {
-                                    refOne.current = controller
+                        <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
+
+                           
+
+                            <SearchableDropdown
+
+                                containerStyle={{ padding: 5, width: '100%' }}
+
+                                itemStyle={{
+                                    padding: 10,
+                                    marginTop: 2,
+                                    backgroundColor: 'white',
+
                                 }}
-                                direction="down"
-                                suggestionsListContainerStyle={{}}
-                                containerStyle={{ width: '100%', backgroundColor: 'white' }}
-                                textInputProps={{
-                                    placeholder: "Location",
-                                    style:{
-                                        color: 'black',
+                                selectedItems={selectedItems}
+                                // multi={true}
+                                itemTextStyle={{ color: '#222' }}
+                                onItemSelect={(item) => {
+                                    // const items = selectedItems
+                                    // items.push(item)
+                                    setSelectedItems(item);
+                                }}
+                                onRemoveItem={(item, index) => {
+                                    const items = selectedItems.filter((sitem) => sitem.id !== item.id);
+                                    setSelectedItems({ selectedItems: items });
+                                }}
+                                itemsContainerStyle={{ maxHeight: 140 }}
+                                items={geoData}
+                                defaultIndex={2}
+                                resetValue={false}
+                                textInputProps={
+                                    {
+                                        placeholder: "Location",
+                                        underlineColorAndroid: "transparent",
+                                        style: {
+                                            padding: 12,
+                                            borderWidth: 1,
+                                            borderColor: '#ccc',
+                                            borderRadius: 5,
+                                        },
+                                        // onTextChange: text => alert(text)
                                     }
-
-                                }}
-                                inputContainerStyle={{
-                                    paddingHorizontal:10,
-                                    alignItems: 'center',
-                                    backgroundColor: Colors.white_text_color,
-                                    color: Colors.gray_text_color,
-                                    shadowColor: "#000",
-                                    shadowOffset: {
-                                        width: 0,
-                                        height: Platform.OS === 'ios' ? 2 : 8,
-                                    },
-                                    shadowOpacity: 0.7,
-                                    shadowRadius: Platform.OS === 'ios' ? 2 : 8,
-                                    elevation: Platform.OS === 'ios' ? 1 : 8,
-                                    borderRadius: 8
-                                }}
-                                showClear={false}
-                                onSelectItem={item => {
-                                    setSearch(item)
-                                }}
-                                showChevron={false}
-                                onChangeText={(text) => { setSearchTerm(text) }}
-
-                                dataSet={jobList}
+                                }
+                                listProps={
+                                    {
+                                        nestedScrollEnabled: true,
+                                    }
+                                }
                             />
-                        </View>
-                         */}
-                        
-                        <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
 
-
-                            <TextInput
-                                placeholder="Enter Location"
-                                onChangeText={(value) => setSearch2(value)}
-                                value={Search2}
-                                maxLength={30}
-                                inputprops={{ borderWidth: 0, borderColor: 0 }}
-                                style={{
-                                    width: '100%', borderWidth: 0, borderColor: 'white',
-                                    paddingHorizontal: 10,
-                                    backgroundColor: Colors.white_text_color,
-                                    color: Colors.gray_text_color,
-                                    shadowColor: "#000",
-                                    shadowOffset: {
-                                        width: 0,
-                                        height: Platform.OS === 'ios' ? 2 : 8,
-                                    },
-                                    shadowOpacity: 0.7,
-                                    shadowRadius: Platform.OS === 'ios' ? 2 : 8,
-                                    elevation: Platform.OS === 'ios' ? 1 : 8,
-                                    borderRadius: 8
-                                }} />
-                            <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
+                            <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 10, alignSelf: 'center', top:22 }}>
                                 <IconE name="location" size={28} color={Colors.theme_background_brink_pink} />
                             </View>
                         </View>
-                      
+
 
                     </View>
                     <View style={{ paddingHorizontal: 0, alignSelf: 'center', marginTop: 8 }}>
