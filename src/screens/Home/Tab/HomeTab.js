@@ -18,6 +18,7 @@ import IconF from 'react-native-vector-icons/FontAwesome';
 import axios from 'axios';
 import images from '../../../images';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment/moment';
 
 const HomeTab = () => {
     const { Colors } = useTheme();
@@ -167,7 +168,7 @@ const HomeTab = () => {
 
         axios.request(config)
             .then((response) => {
-                setLatestPosts(response.data.latest_posts)
+                setLatestPosts(response.data.all_posts)
             })
             .catch((error) => {
                 console.log(error);
@@ -312,13 +313,10 @@ const HomeTab = () => {
                                 </Text>
                             </View>
 
-                            <Spacing space={SH(20)} />
-                            {/* <View style={HomeStyle.FlextTextStyles}>
+                            <Spacing space={SH(40)} />
+                            <View style={HomeStyle.FlextTextStyles}>
                                 <Text style={HomeStyle.FeaturedTextaStylers}>Popular Vacancies</Text>
-                                <TouchableOpacity onPress={() => { }}>
-                                    <Text style={HomeStyle.Seealltextstyle}>{t("See_All_Text")}</Text>
-                                </TouchableOpacity>
-                            </View> */}
+                            </View>
                         </View>
                         <Spacing space={SH(20)} />
 
@@ -392,63 +390,7 @@ const HomeTab = () => {
 
 
 
-                        {/* <View style={{ width: '95%', heigh: 70, backgroundColor: "#f0f7fb", borderRadius: 4, alignSelf: 'center', marginTop: 16, paddingVertical: 24 }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
-                                <View>
-                                    <Text style={{ fontSize: 24, fontWeight: '600' }}>
-                                        4
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                                        Job Applied
-                                    </Text>
-                                </View>
-                                <View style={{ backgroundColor: 'white', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 12 }}>
-                                    <IconZ
-                                        size={SF(45)}
-                                        name="work"
-                                        style={{ color: Colors.theme_background_brink_pink }}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={{ width: '95%', heigh: 70, backgroundColor: "#FFF7E6", borderRadius: 4, alignSelf: 'center', marginTop: 16, paddingVertical: 24 }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
-                                <View>
-                                    <Text style={{ fontSize: 24, fontWeight: '600' }}>
-                                        2
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                                        Favourite Jobs
-                                    </Text>
-                                </View>
-                                <View style={{ backgroundColor: 'white', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 12 }}>
-                                    <IconG
-                                        size={SF(45)}
-                                        name="bookmark"
-                                        style={{ color: Colors.theme_background_brink_pink }}
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                        <View style={{ width: '95%', heigh: 70, backgroundColor: "#EDF9EB", borderRadius: 4, alignSelf: 'center', marginTop: 16, paddingVertical: 24 }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 16 }}>
-                                <View>
-                                    <Text style={{ fontSize: 24, fontWeight: '600' }}>
-                                        4
-                                    </Text>
-                                    <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                                        Job Alert
-                                    </Text>
-                                </View>
-                                <View style={{ backgroundColor: 'white', borderRadius: 4, alignItems: 'center', justifyContent: 'center', padding: 12 }}>
-                                    <IconM
-                                        size={SF(45)}
-                                        name="bell-ring"
-                                        style={{ color: Colors.theme_background_brink_pink }}
-                                    />
-                                </View>
-                            </View>
-                        </View> */}
+                        
                         <Spacing space={SH(30)} />
                     </View>
                 </View>

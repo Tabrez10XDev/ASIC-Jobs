@@ -45,8 +45,21 @@ const LoginScreen = () => {
 
     function authenticate() {
 
+
+        let data = new FormData();
+        data.append('api_action', 'login');
+        data.append('email', email);
+        data.append('password', TextInputPassword);
+
+        // let config = {
+        //     method: 'post',
+        //     maxBodyLength: Infinity,
+        //     url: 'https://asicjobs.in/api/webapi.php?email=testing001@testing.com&password=lj123',
+        //     data: data
+        // };
+
         let config = {
-            method: 'get',
+            method: 'post',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=login&email=${email}&password=${TextInputPassword}`,
         };
@@ -61,7 +74,7 @@ const LoginScreen = () => {
                     Toast.show({
                         type: 'error',
                         text1: response.data.msg
-                      });
+                    });
                 }
             })
             .catch((error) => {

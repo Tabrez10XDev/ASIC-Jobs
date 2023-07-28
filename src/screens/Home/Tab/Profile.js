@@ -58,6 +58,7 @@ const ProfileTab = (props) => {
       }
       else if (result !== null && result != "-1" && result != undefined) {
         setID(result)
+        getMapping()
         getUserData(result)
       }
 
@@ -79,6 +80,13 @@ const ProfileTab = (props) => {
     }
   }
 
+  // let experience = []
+  const [experience, setExperience] = useState([])
+  const [education, setEducation] = useState([])
+  // let education = []
+
+   
+
   function getUserData(id) {
     let config = {
       method: 'get',
@@ -97,6 +105,41 @@ const ProfileTab = (props) => {
       });
 
   }
+
+  async function getMapping() {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'https://asicjobs.in/api/webapi.php?api_action=all_master_data',
+    };
+
+    axios.request(config)
+        .then((response) => {
+           
+
+
+            const formattedItems2 = response.data.education_data.map(item => ({
+                label: item.id,
+                value: item.name,
+            }));
+
+            setExperience(response.data.experience_data)
+            // console.log(response.data.experience_data)
+            setEducation(formattedItems2)
+            // setEducationData(formattedItems2)
+            // setExperience(data.candidates_details.experience_level)
+            // setEducation(data.candidates_details.educational_level)
+         
+         
+
+     
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+      }
 
   useEffect(() => {
     navigation.addListener('focus', () => {
@@ -124,7 +167,7 @@ const ProfileTab = (props) => {
             <TouchableOpacity
               onPress={() => {
                 if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
-                  navigation.navigate(RouteName.BASIC_PROFILE, userData)
+                  navigation.navigate(RouteName.BASIC_PROFILE, {data : userData, experience: experience, education: education })
                 }
               }
               }

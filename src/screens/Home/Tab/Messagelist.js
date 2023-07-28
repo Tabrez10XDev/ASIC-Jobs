@@ -8,6 +8,8 @@ import { useTheme } from '@react-navigation/native';
 import { Spacing, ConfirmationAlert } from '../../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions } from '@react-navigation/native';
+import axios from "axios";
+import moment from "moment/moment";
 
 const Messagelist = (props) => {
   const { navigation } = props;
@@ -17,7 +19,28 @@ const Messagelist = (props) => {
 
   const [alertVisible, setAlertVisible] = useState(false);
 
+  const [notifications, setNotifications] = useState([])
+
   const [id, setID] = useState(null)
+
+
+  async function getNotifications(stateID){
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `https://asicjobs.in/api/webapi.php?api_action=notification&user_id=${stateID}`,
+    };
+    
+    axios.request(config)
+    .then((response) => {
+      setNotifications(response.data.notification_data)
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    
+  }
 
   const getData = async () => {
     try {
@@ -25,8 +48,9 @@ const Messagelist = (props) => {
       if (result === "false") {
         setAlertVisible(true)
       }
-      else if (result !== null && result != "-1" && result != undefined) {
+      else if (result !== null && result != "-1" && result != undefined && result != false) {
         setID(result)
+        getNotifications(result)
       }
 
     } catch (e) {
@@ -43,19 +67,13 @@ const Messagelist = (props) => {
   const Messagedata = (item) => {
     return (
       <TouchableOpacity onPress={() => navigation.navigate(RouteName.CHAT_SCREEN)}>
-        <View style={ChatStyle.SetWhiteBox}>
+        <View style={{...ChatStyle.SetWhiteBox, borderWidth:1, marginTop:4, borderRadius: 10, borderColor: Colors.theme_background_brink_pink}}>
           <View style={ChatStyle.FlexRowSetImage}>
-            <View style={ChatStyle.ImageCenterStyleTop}>
-              <Image style={ChatStyle.imagsetstyle} resizeMode="cover" source={item.image} />
-            </View>
-            <View style={ChatStyle.ListDotViewStyle}>
-              {item.icon}
-            </View>
-            <View style={ChatStyle.ImageCenterStyle}>
-              <Text style={ChatStyle.textsetdoctore}>{t(item.text)}</Text>
+            <View style={{...ChatStyle.ImageCenterStyle, width:'100%'}}>
+              <Text style={{...ChatStyle.textsetdoctore, fontSize: 16}}>{item.title}</Text>
               <View style={ChatStyle.setflextimeroe}>
-                <Text style={ChatStyle.textsetdoctoretwo}>{t(item.texttwoset)}</Text>
-                <Text style={ChatStyle.textsetdoctoretwo}>{t(item.settime)}</Text>
+                {/* <Text style={ChatStyle.textsetdoctoretwo}>{t(item.texttwoset)}</Text> */}
+                <Text style={ChatStyle.textsetdoctoretwo}>{moment(item.created_at.substring(0, 10), "YYYY-MM-DD").fromNow()}</Text>
               </View>
             </View>
           </View>
@@ -76,11 +94,16 @@ const Messagelist = (props) => {
             <View style={ChatStyle.MinViewSecond}>
               <Spacing space={SH(5)} />
               <FlatList
-                data={Messagelistdata}
+                data={notifications}
                 renderItem={({ item, index }) => Messagedata(item, index)}
                 keyExtractor={item => item.id}
                 showsHorizontalScrollIndicator={false}
               />
+
+              {
+                notifications.length === 0 &&
+                <Text style={{...ChatStyle.textsetdoctore, fontSize: 16, marginTop:100, alignSelf:'center'}}>No notifications to show</Text>
+              }
             </View>
           </View>
           <ConfirmationAlert

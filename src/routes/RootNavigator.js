@@ -21,6 +21,7 @@ import {
   TranslationScreen, ForgotPassword, FeaturedAllJob,
 } from '../screens';
 
+import {Messagelist} from '../screens';;
 import AllCategories from '../screens/Home/Tab/AllCategories';
 import AllJobs from '../screens/Home/Tab/AllJobs';
 import CategoriesSearch from '../screens/Home/Tab/CategoriesSearch';
@@ -72,6 +73,7 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen} options={{title: "Job Detail", headerShown: false,headerShadowVisible: false}} />
         <Stack.Screen name={RouteName.ALL_POSTS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllPosts} />
         <Stack.Screen name={RouteName.ALL_COMPANIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllCompanies} />
+        <Stack.Screen name={RouteName.MESSAGE_TAB} options={{ headerShown: false, headerShadowVisible: false }} component={Messagelist} />
 
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,92 +1,58 @@
-import React, { useMemo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Image, View } from 'react-native';
-import PropTypes from 'prop-types';
-import { SH, SF, SW, widthPercent, Colors } from '../../utils';
+import React, { useState, useCallback, useMemo } from 'react';
+import { TouchableOpacity, View, Text } from 'react-native';
+import DocumentPicker, { types } from 'react-native-document-picker';
+import { Spacing } from '../../components';
+import { ApplyJobStyles, ResumeStyles } from '../../styles';
+import { useTranslation } from "react-i18next";
+import { SH } from '../../utils';
+import Icon from 'react-native-vector-icons/AntDesign';
+import { useTheme } from '@react-navigation/native';
 
-import { launchImageLibrary } from 'react-native-image-picker';
+function ImagePicker(props) {
+    const { UploadView, UploadViewdoqumnet, Textstyles, Graybackgeoundpdfview } = props;
+    const { t } = useTranslation();
+    const { Colors } = useTheme();
+    const ResumeStyle = useMemo(() => ResumeStyles(Colors), [Colors]);
+    const ApplyJobStyle = useMemo(() => ApplyJobStyles(Colors), [Colors]);
+    const [fileResponse, setFileResponse] = useState([]);
+    const handleDocumentSelection = useCallback(async () => {
+        try {
+            const response = await DocumentPicker.pick({
 
-function ImgPicker(props) {
-    const { userimagstyle, text } = props;
-    const [imgpathselect, SetImgpathselect] = useState('');
-    const [filePath, setFilePath] = useState('');
-    const [AlertData, setAlertData] = useState(false);
-    const Styles = useMemo(
-        () =>
-            StyleSheet.create({
-                userimagstyle: {
-                    width: Platform.OS === 'ios' ? '30%' : '30%',
-                    height: Platform.OS === 'ios' ? 100 : SH(100),
-                    overflow: 'hidden',
-                    borderRadius: 10,
-                    position: "absolute",
-                    alignSelf: "center",
-                },
-                userimagstyletwo: {
-                    width: Platform.OS === 'ios' ? 100 : '100%',
-                    height: Platform.OS === 'ios' ? 100 : SH(200),
-                    borderRadius: 10,
-                },
-                borderroundimage: {
-                    position: 'relative',
-                    width: SW(153),
-                    height: SH(153)
-                },
-                mainView: {
-                    position: "relative",
-                    flexDirection: "column",
-                    alignItems: "baseline",
-                },
-                Setwidthminview: {
-                    width: '100%'
-                }
-            }),
-        [],
-    );
-    const chooseFile = () => {
-        let options = {
-            mediaType: 'photo',
-            cropping: true,
-            includeBase64: false,
-            saveToPhotos: true,
-            maxWidth: 200,
-            maxHeight: 200,
-            quality: 10,
-            allowsEditing: true,
-        };
-        launchImageLibrary(options, (response) => {
-            console.log(response, '=====>')
-            if (response.didCancel) {
-                setAlertData(current => !current)
-                return;
-            }
-            setFilePath(response.assets[0].base64);
-            SetImgpathselect(response.assets[0].uri);
-        });
-    };
+                type: [types.images],
+                presentationStyle: 'fullScreen',
+            });
+            setFileResponse(response);
+            props.setImage(response[0].uri)
+            props.setFileResponse(response)
+        } catch (err) {
+            console.warn(err);
+        }
+    }, []);
+
+
     return (
-        <View style={Styles.mainView}>
-            <TouchableOpacity>
-                {imgpathselect ?
-                    <TouchableOpacity onPress={() => chooseFile()}>
-                        <Image style={[Styles.userimagstyle, { ...userimagstyle }]} resizeMode="cover" source={{ uri: imgpathselect }} />
+        <View>
+            <View>
+                {UploadViewdoqumnet &&
+                    <TouchableOpacity onPress={handleDocumentSelection} style={{alignSelf:'flex-end', marginBottom:10, marginTop:0, top:-14}} >
+                        <Icon color="black" name='edit' size={20} />
+
                     </TouchableOpacity>
-                    :
-                    null
                 }
-            </TouchableOpacity>
+                {UploadView &&
+                    <TouchableOpacity onPress={handleDocumentSelection}>
+                        <View style={ApplyJobStyle.Iconcenter}>
+                            <Icon name="upload" color={Colors.theme_background_brink_pink} size={26} />
+                        </View>
+                        <Spacing space={SH(10)} />
+                        <Text style={ApplyJobStyle.Uploadtextstyle}>{t("Upload")}</Text>
+                    </TouchableOpacity>
+                }
+            </View>
+
+
         </View>
-    );
+    )
 }
-ImgPicker.defaultProps = {
-    userImage: '',
-    noImageType: '',
-    onPress: () => { }
-};
-
-ImgPicker.propTypes = {
-    userImage: PropTypes.string,
-    noImageType: PropTypes.string,
-    onPress: PropTypes.func,
-};
-
-export default ImgPicker;
+export default ImagePicker;
