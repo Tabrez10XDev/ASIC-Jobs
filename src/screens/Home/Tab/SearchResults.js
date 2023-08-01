@@ -149,7 +149,6 @@ const SearchResults = (props) => {
 
         axios.request(config)
             .then((response) => {
-
                 console.log(response.data);
                 response.data.search_jobs.map((ele, index) => {
                     if (ele.bokkmarked == 1) {

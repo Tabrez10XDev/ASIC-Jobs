@@ -8,8 +8,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, ConfirmationAlert } from '../../../components';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
 
-const OtpScreenset = () => {
+const OtpScreenset = ({route}) => {
     const { t } = useTranslation();
     const { Colors } = useTheme();
     const Style = useMemo(() => Styles(Colors), [Colors]);
@@ -19,11 +22,54 @@ const OtpScreenset = () => {
     const [okbutton, Setokbutton] = useState('');
     var alertdata = {
         'logout': t("Resand_Otp_Text_Modal"),
-        'loginSuccess': t("Login_Successfull"),
+        'loginSuccess': "Registration Successful",
     }
+
+    const state = route.params
+
+    const saveLogin = async (id) => {
+        try {
+            await AsyncStorage.setItem('AuthState', id)
+        } catch (err) {
+            alert(err)
+        }
+    }
+
+    function authenticate() {
+
+        if (state.toggleCheckBox === false) {
+            return
+        }
+
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (response.data.status == true) {
+                    saveLogin(response.data.id.toString())
+                    console.log(JSON.stringify(response.data));
+                    navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL);
+                 } else {
+                    Toast.show({
+                        type: 'error',
+                        text1: response.data.msg
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+
     const onoknutton = () => {
         if (okbutton === 1) okbutton;
-        if (okbutton === 2) navigation.navigate(RouteName.JOB_TYPES_SCREEN)
+        if (okbutton === 2) authenticate()
     }
     return (
         <ImageBackground source={images.full_bg_img_hospital} resizeMode='cover'>
@@ -45,6 +91,10 @@ const OtpScreenset = () => {
                                     autoFocusOnLoad={false}
                                     codeInputFieldStyle={Style.CodeInputStyles}
                                     codeInputHighlightStyle={Style.CodeInputStyles}
+                                    onCodeFilled = {(code) => {
+                                        console.log(`Code is ${code}, you are good to go!`)
+                                        authenticate()
+                                    }}
                                 />
                                 <View style={Style.FlexRowText}>
                                     <Text style={Style.ParegraPhotpBottom}>{t("Didnt_Recevip_Otp")}</Text>
@@ -56,13 +106,13 @@ const OtpScreenset = () => {
                                         <Text style={Style.ResendTextBold}>{t("Resend")}</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View>
+                                {/* <View>
                                     <Button onPress={() => {
                                         setAlertVisible(true);
                                         setAlertMessage(alertdata.loginSuccess);
                                         Setokbutton(2);
                                     }} title={t("Verify_Text")} />
-                                </View>
+                                </View> */}
                             </View>
                         </View>
                     </KeyboardAvoidingView>

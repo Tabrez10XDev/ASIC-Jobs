@@ -28,15 +28,15 @@ const SavedJobsList = (props) => {
     const [id, setID] = useState(null)
 
 
-    async function toggleBookmark(job_id){
+    async function toggleBookmark(job_id) {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${job_id}&user_id=${id}`,
-          };
+        };
 
-          console.log(job_id)
-          
+        console.log(job_id)
+
         //   axios.request(config)
         //   .then((response) => {
         //     console.log(response.data)
@@ -85,16 +85,19 @@ const SavedJobsList = (props) => {
     }
 
     const Trendingdataview = (item, index) => {
-        const img = "https://asicjobs.in/" + item.logo
+        const img = item.logo
         let appliedDate = item.deadline
         let state = item.status == "active" ? 1 : 0
 
 
         let stateText = item.status == "active" ? "Active" : "Expired"
         return (
-            <TouchableOpacity onPress={() => fetchJobDetails(item.job_id)} style={SaveJobListStyle.MinBgColorWhite}>
+            <TouchableOpacity onPress={() => {
+                if (stateText == "Active")
+                    fetchJobDetails(item.job_id)
+            }} style={SaveJobListStyle.MinBgColorWhite}>
                 <View style={SaveJobListStyle.FlexRow}>
-                    <View style={SaveJobListStyle.DevelperStyles}>
+                    <View style={{ ...SaveJobListStyle.DevelperStyles }}>
                         <View style={SaveJobListStyle.ImagWidthTextFlex}>
                             <View style={SaveJobListStyle.ImageViewStyles}>
                                 <Image source={{ uri: img }} style={{ height: 60, width: 60, resizeMode: 'contain', borderRadius: 8 }} />
@@ -127,14 +130,14 @@ const SavedJobsList = (props) => {
                         onPress={() => {
 
                             // console.log(item.job_id)
-                          toggleBookmark(item.job_id)
+                            toggleBookmark(item.job_id)
 
                         }}
                         style={{ width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignSelf: 'flex-end', alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
                         <IconG
                             size={20}
                             name="bookmark"
-                           style={{ color: _state[item.job_id] ? Colors.theme_background_brink_pink : 'grey' }}
+                            style={{ color: _state[item.job_id] ? Colors.theme_background_brink_pink : 'grey' }}
                         />
                     </TouchableOpacity>
                 </View>
@@ -158,8 +161,8 @@ const SavedJobsList = (props) => {
 
         axios.request(config)
             .then((response) => {
-                response.data.favourite_job.map((ele,index)=>{
-                    setState(current=>({...current, [ele.job_id]: true}))
+                response.data.favourite_job.map((ele, index) => {
+                    setState(current => ({ ...current, [ele.job_id]: true }))
                 })
 
                 setJobList(response.data.favourite_job)

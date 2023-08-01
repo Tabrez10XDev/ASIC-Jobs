@@ -66,7 +66,7 @@ const Messagelist = (props) => {
 
   const Messagedata = (item) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate(RouteName.CHAT_SCREEN)}>
+      <TouchableOpacity >
         <View style={{...ChatStyle.SetWhiteBox, borderWidth:1, marginTop:4, borderRadius: 10, borderColor: Colors.theme_background_brink_pink}}>
           <View style={ChatStyle.FlexRowSetImage}>
             <View style={{...ChatStyle.ImageCenterStyle, width:'100%'}}>

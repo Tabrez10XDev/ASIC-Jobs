@@ -52,6 +52,8 @@ const AppliedJobsList = (props) => {
         axios.request(config)
             .then((response) => {
                 if (response.data.job_details != null && response.data.job_details != undefined) {
+                    console.log(id)
+
                     navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
                 }
             })
@@ -63,7 +65,7 @@ const AppliedJobsList = (props) => {
 
 
     const Trendingdataview = (item, index) => {
-        const img = "https://asicjobs.in/" + item.logo
+        const img = item.logo
         let appliedDate = item.applied_on ?? ""
         appliedDate = appliedDate.substring(0, 11)
         let state = item.status == "active" ? 1 : 0
@@ -71,20 +73,24 @@ const AppliedJobsList = (props) => {
 
         let stateText = item.status == "active" ? "Active" : "Expired"
         return (
-            <TouchableOpacity onPress={() => fetchJobDetails(item.id)} style={SaveJobListStyle.MinBgColorWhite}>
+            <TouchableOpacity onPress={() => {
+                if (stateText == "Active")
+                    fetchJobDetails(item.id)
+            }
+            } style={SaveJobListStyle.MinBgColorWhite}>
                 <View style={SaveJobListStyle.FlexRow}>
-                    <View style={SaveJobListStyle.DevelperStyles}>
+                    <View style={{ maxWidth: '50%' }}>
                         <View style={SaveJobListStyle.ImagWidthTextFlex}>
                             <View style={SaveJobListStyle.ImageViewStyles}>
                                 <Image source={{ uri: img }} style={{ height: 60, width: 60, resizeMode: 'contain', borderRadius: 8 }} />
                             </View>
                             <View>
-                                <Text numberOfLines={2} style={{...SaveJobListStyle.DevelperText, maxWidth:180}}>{item.title}</Text>
+                                <Text numberOfLines={2} style={{ ...SaveJobListStyle.DevelperText, maxWidth: 180 }}>{item.title}</Text>
                                 <Text numberOfLines={1} style={SaveJobListStyle.Normalsmalltext}>{item.year}</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={SaveJobListStyle.Widthfifty}>
+                    <View style={{}}>
                         <Text style={SaveJobListStyle.DevelperTexttwo}>$ {item.min_salary} - {item.max_salary}</Text>
                         <Text style={SaveJobListStyle.Normalsmalltexttwo}>{item.country}</Text>
                     </View>

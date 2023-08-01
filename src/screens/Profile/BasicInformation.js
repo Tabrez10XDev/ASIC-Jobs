@@ -314,7 +314,7 @@ const BasicInformation = ({ route }) => {
 
 
           <TouchableOpacity onPress={async () => {
-            if (response2.status === undefined) {
+            if (response2.status != undefined) {
               await uploadProfile(response2[0].type, response2[0].name, response2[0].uri)
             }
             updateProfile()

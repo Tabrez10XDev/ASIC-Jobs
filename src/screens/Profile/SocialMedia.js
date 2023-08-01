@@ -68,17 +68,17 @@ const SocialMedia = ({ route }) => {
         const item = _item.item
         return (
             <View style={{
-                alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderRadius: 4, paddingVertical: 8, width: '95%', marginVertical: 12,
+                alignItems: 'center', justifyContent: 'center', paddingHorizontal: 4, borderRadius: 4, paddingVertical: 10, width: '95%', marginVertical: 12,
                 backgroundColor: Colors.white_text_color,
                 color: Colors.gray_text_color,
                 shadowColor: "#000",
                 shadowOffset: {
                     width: 0,
-                    height: Platform.OS === 'ios' ? 2 : 4,
+                    height: Platform.OS === 'ios' ? 2 : 2,
                 }, 
                 shadowOpacity: 0.45,
-                shadowRadius: Platform.OS === 'ios' ? 2 : 4,
-                elevation: Platform.OS === 'ios' ? 1 : 4,
+                shadowRadius: Platform.OS === 'ios' ? 2 : 2,
+                elevation: Platform.OS === 'ios' ? 1 : 2,
             }}>
 
                 <View style={{ width: '95%', flexDirection: 'row', alignItems: 'center' }}>
@@ -111,7 +111,7 @@ const SocialMedia = ({ route }) => {
 
     return (
         <ScrollView contentContainerStyle={{ backgroundColor: 'white', paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
-            <View style={{ backgroundColor: 'white', alignItems: 'center' }}>
+            <View style={{ backgroundColor: 'white', alignItems: 'center', height:Dimensions.get('window').height }}>
                 {
                     mediaList.map((ele, index) => {
                         return (

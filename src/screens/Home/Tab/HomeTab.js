@@ -138,6 +138,8 @@ const HomeTab = () => {
             });
     }
 
+  
+
 
     async function fetchTopCompanies() {
         let config = {
@@ -238,7 +240,7 @@ const HomeTab = () => {
     }
 
     const LatestPostDataView = (item, index) => {
-        const img = "https://asicjobs.in/" + item.image
+        const img = item.image
         return (
             <TouchableOpacity style={{ ...HomeStyle.Paddingright, backgroundColor: Colors.alice_blue_color, paddingHorizontal: 0, paddingTop: 0 }}>
                 <TouchableOpacity onPress={() => { fetchBlogDetails(item.id) }} style={HomeStyle.RecommndBox}>
