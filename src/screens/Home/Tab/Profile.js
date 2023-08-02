@@ -83,6 +83,8 @@ const ProfileTab = (props) => {
   // let experience = []
   const [experience, setExperience] = useState([])
   const [education, setEducation] = useState([])
+  const [jobRoles, setJobRoles] = useState([])
+
   // let education = []
 
    
@@ -117,7 +119,6 @@ const ProfileTab = (props) => {
         .then((response) => {
            
 
-
             const formattedItems2 = response.data.education_data.map(item => ({
                 label: item.id,
                 value: item.name,
@@ -126,6 +127,8 @@ const ProfileTab = (props) => {
             setExperience(response.data.experience_data)
             // console.log(response.data.experience_data)
             setEducation(formattedItems2)
+
+            setJobRoles(response.data.role_data)
             // setEducationData(formattedItems2)
             // setExperience(data.candidates_details.experience_level)
             // setEducation(data.candidates_details.educational_level)
@@ -252,7 +255,7 @@ const ProfileTab = (props) => {
             <TouchableOpacity
               onPress={() => {
                 if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
-                  navigation.navigate(RouteName.ACCOUNT_SETTING, userData)
+                  navigation.navigate(RouteName.ACCOUNT_SETTING, {data : userData, jobRoles: jobRoles })
                 }
               }}
             >

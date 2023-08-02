@@ -169,7 +169,7 @@ const BasicInformation = ({ route }) => {
     const date =  `${formattedDate.getFullYear()}-${formattedDate.getMonth()}-${formattedDate.getDate()}`
     let config = {
       method: 'post',
-      maxBodyLength: Infinity,
+      maxBodyLength: Infinity, 
       url: `https://asicjobs.in/api/webapi.php?api_action=update_users_basic&name=${state.name}&title=${state.tagline}&experience=${_exp}&education=${_edu}&website=${state.website}&birth_date=${date}&user_id=${id}`,
     };
 
