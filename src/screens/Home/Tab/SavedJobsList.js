@@ -37,14 +37,14 @@ const SavedJobsList = (props) => {
 
         console.log(job_id)
 
-        //   axios.request(config)
-        //   .then((response) => {
-        //     console.log(response.data)
-        //     setState(current => ({ ...current, [job_id]: !_state[job_id] }))
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   });
+          axios.request(config)
+          .then((response) => {
+            console.log(response.data)
+            setState(current => ({ ...current, [job_id]: !_state[job_id] }))
+          })
+          .catch((error) => {
+            console.log(error);
+          });
     }
 
 
@@ -72,9 +72,9 @@ const SavedJobsList = (props) => {
             url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
             headers: {}
         };
-
         axios.request(config)
             .then((response) => {
+                console.log(response.data)
                 if (response.data.job_details != null && response.data.job_details != undefined) {
                     navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
                 }

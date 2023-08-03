@@ -52,7 +52,7 @@ const SideNavigator = (props) => {
         name={RouteName.Resume_And_Portfolio} component={ResuameAndPortFolio}
         options={{
           headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Resume_And_Portfolio")} />,
+          headerTitle: (props) => <AppHeader {...props} headerTitle={"Apply"} />,
           headerTintColor: Colors.theme_background_brink_pink,
           headerShadowVisible: false,
           headerTitleStyle: {
@@ -81,7 +81,7 @@ const SideNavigator = (props) => {
           headerStyle: {
             backgroundColor: Colors.white_text_color,
           },
-          headerRight: (props) => <ColorPicker {...props} />,
+          // headerRight: (props) => <ColorPicker {...props} />,
         }}
       />
       <Drawer.Screen

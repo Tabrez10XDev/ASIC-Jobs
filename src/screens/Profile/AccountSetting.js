@@ -9,6 +9,8 @@ import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+
 
 const AccountSetting = ({ route }) => {
 
@@ -20,17 +22,77 @@ const AccountSetting = ({ route }) => {
     const [alertVisible, setAlertVisible] = useState(false);
     const [isFocusExperience, setIsFocusExperience] = useState(false);
     const [jobRole, setJobRole] = useState("")
+    const [_role, setRole] = useState("0")    
 
+    async function updateContact() {
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?user_id=${data.user_details.id}&phone=${state.number}&secondary_phone=${state.number2}&email=${state.email}&api_action=update_user_accounts`,
+        };
 
-    useEffect(()=>{
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                Toast.show({
+                    type: 'success',
+                    text1: "Success"
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                Toast.show({
+                    type: 'error',
+                    text1: "Unknown error occured"
+                });
+            });
+    }
 
-        JOB_ROLES.forEach((ele)=>{
-            if(ele.id == data.candidates_details.role_id){
+    async function updateSettings() {
+        let _role = "0"
+        // console.log(JOB_ROLES[0].name)
+        JOB_ROLES.forEach((ele) => {
+            if (ele.name == jobRole) {
+                console.log(ele.name)
+                _role = ele.id
+                // setRole(ele.id)
+            }
+        })
+
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?user_id=${data.user_details.id}&received_job_alert=${isEnabled ? "1" : "0"}&cv_visibility=${isEnabled3 ? "1" : "0"}&visibility=${isEnabled2 ? "1" : "0"}&api_action=update_visibility_alert&role_id=${_role}`,
+        };
+
+        console.log(`https://asicjobs.in/api/webapi.php?user_id=${data.user_details.id}&received_job_alert=${isEnabled ? "1" : "0"}&cv_visibility=${isEnabled3 ? "1" : "0"}&visibility=${isEnabled2 ? "1" : "0"}&api_action=update_visibility_alert&role_id=${_role}`)
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                Toast.show({
+                    type: 'success',
+                    text1: "Success"
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                Toast.show({
+                    type: 'error',
+                    text1: "Unknown error occured"
+                });
+            });
+
+    }
+
+    useEffect(() => {
+        JOB_ROLES.forEach((ele) => {
+            if (ele.id == data.candidates_details.role_id) {
                 setJobRole(ele.name)
             }
         })
-    },[])
-
+    }, [])
+    2
     const { Colors } = useTheme();
     const Logins = useMemo(() => Login(Colors), [Colors]);
     const onChangeText = (text, type) => {
@@ -42,11 +104,11 @@ const AccountSetting = ({ route }) => {
     const [isEnabled, setIsEnabled] = useState(data.candidates_details.received_job_alert == 1 ? true : false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-    
+
     const [isEnabled2, setIsEnabled2] = useState(data.candidates_details.visibility == 1 ? true : false);
     const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
 
-    
+
     const [isEnabled3, setIsEnabled3] = useState(data.candidates_details.cv_visibility == 1 ? true : false);
     const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
 
@@ -127,87 +189,99 @@ const AccountSetting = ({ route }) => {
             </View>
             <Spacing space={SH(20)} />
 
-            <View style={{flexDirection:'row', justifyContent:'space-between', width:'95%', alignSelf:'center'}}>
-            <Text style={{color:'black'}}>Job Alert</Text>
-
-            <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-            />
+            <View style={Logins.ButtonView}>
+                <Button
+                    title="Save Contact"
+                    onPress={() => { updateContact() }
+                    }
+                    style={Logins.button} />
             </View>
 
             <Spacing space={SH(20)} />
 
 
-{
-    isEnabled ?
-    <>
-     <DropDown
-                data={JOB_ROLES}
-                dropdownStyle={LanguageStyles.LeadDropdown}
-                value={jobRole}
-                onChange={item => {
-                    setJobRole(item.value)
-                }}
-                width={Dimensions.get('window').width * 0.95}
-                search
-                searchPlaceholder="Search bar"
-                placeholder="Job Role"
-                selectedTextStyle={LanguageStyles.selectedTextStyleLead}
-                IconStyle={LanguageStyles.IconStyle}
-                onFocus={() => setIsFocusExperience(true)}
-                onBlur={() => setIsFocusExperience(false)}
-                labelField="name"
-                valueField="name"
-                renderLeftIcon={() => (
-                    <Icon color="black" name={isFocusExperience ? 'arrowup' : 'arrowdown'} size={SF(20)} />
-                )}
-            />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center' }}>
+                <Text style={{ color: 'black' }}>Job Alert</Text>
 
-            <Spacing space={SH(20)} /></>
-    : null
-}
-
-
-
-           
-
-
-            <View style={{flexDirection:'row', justifyContent:'space-between', width:'95%', alignSelf:'center'}}>
-            <Text style={{color:'black'}}>Profile Privacy</Text>
-
-            <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={isEnabled2 ? '#f4f3f4' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch2}
-                value={isEnabled2}
-            />
+                <Switch
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isEnabled}
+                />
             </View>
 
             <Spacing space={SH(20)} />
 
-            <View style={{flexDirection:'row', justifyContent:'space-between', width:'95%', alignSelf:'center'}}>
-            <Text style={{color:'black'}}>Resume Privacy</Text>
 
-            <Switch
-                trackColor={{ false: '#767577', true: '#81b0ff' }}
-                thumbColor={isEnabled3 ? '#f4f3f4' : '#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch3}
-                value={isEnabled3}
-            />
+            {
+                isEnabled ?
+                    <>
+                        <DropDown
+                            data={JOB_ROLES}
+                            dropdownStyle={LanguageStyles.LeadDropdown}
+                            value={jobRole}
+                            onChange={item => {
+                                setJobRole(item.name)
+                            }}
+                            width={Dimensions.get('window').width * 0.95}
+                            search
+                            searchPlaceholder="Search bar"
+                            placeholder="Job Role"
+                            selectedTextStyle={LanguageStyles.selectedTextStyleLead}
+                            IconStyle={LanguageStyles.IconStyle}
+                            onFocus={() => setIsFocusExperience(true)}
+                            onBlur={() => setIsFocusExperience(false)}
+                            labelField="name"
+                            valueField="name"
+                            renderLeftIcon={() => (
+                                <Icon color="black" name={isFocusExperience ? 'arrowup' : 'arrowdown'} size={SF(20)} />
+                            )}
+                        />
+
+                        <Spacing space={SH(20)} /></>
+                    : null
+            }
+
+
+
+
+
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center' }}>
+                <Text style={{ color: 'black' }}>Profile Privacy</Text>
+
+                <Switch
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={isEnabled2 ? '#f4f3f4' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch2}
+                    value={isEnabled2}
+                />
+            </View>
+
+            <Spacing space={SH(20)} />
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center' }}>
+                <Text style={{ color: 'black' }}>Resume Privacy</Text>
+
+                <Switch
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={isEnabled3 ? '#f4f3f4' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch3}
+                    value={isEnabled3}
+                />
             </View>
 
             <Spacing space={SH(20)} />
 
             <View style={Logins.ButtonView}>
                 <Button
+                    onPress={updateSettings}
                     title="Save Changes"
-                   
+
                     style={Logins.button} />
             </View>
 
@@ -272,6 +346,10 @@ const AccountSetting = ({ route }) => {
                     setAlertVisible(!alertVisible)
                     setState({ ...state, pass: '', confirmPass: '' })
                 }}
+            />
+            <Toast
+                position='bottom'
+                bottomOffset={60}
             />
         </ScrollView>
     )

@@ -20,21 +20,28 @@ const JobDetailsScreen = (props) => {
     const TabshowFunction = (item) => {
         settabshow(item)
     }
+
+    const regex = /(<([^>]+)>)/ig;
+
     const Descrptiontextview = (item) => {
-        return (
+        let result = item.replace(regex, '')
+        result = result.replace("&nbsp;", "")
+        result = result.replace(/<[^>]+>/g, '');
+        result = result.replace(/&nbsp;/g, '')
+        result  = result.replace(/\s{2,}/g, ' ');
+        return(
             <View>
                 <Spacing space={SH(20)} />
                 <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-
                     <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item}</Text>
+                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{result}</Text>
                     </View>
                 </View>
             </View>
         );
     }
 
- 
+
 
     const Requiremnetview = (item) => {
         return (
@@ -76,7 +83,7 @@ const JobDetailsScreen = (props) => {
                         <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
                     </View>
                     <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Job posted: {item.job_posted.substring(0,11)}</Text>
+                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Job posted: {item.job_posted.substring(0, 11)}</Text>
                     </View>
                 </View>
 
@@ -130,15 +137,16 @@ const JobDetailsScreen = (props) => {
 
     return (
         <View style={ApplyJobStyle.MinViewScreen}>
-            <TouchableOpacity onPress={() => navigation.dispatch(StackActions.pop())} style={{...ApplyJobStyle.centerlottw,
-            shadowColor: "#000",
-            shadowOffset: {
-                width: 0,
-                height: Platform.OS === 'ios' ? 2 : 2,
-            },
-            shadowOpacity: 0.45,
-            shadowRadius: Platform.OS === 'ios' ? 2 : 4,
-            elevation: Platform.OS === 'ios' ? 1 : 8,
+            <TouchableOpacity onPress={() => navigation.dispatch(StackActions.pop())} style={{
+                ...ApplyJobStyle.centerlottw,
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0,
+                    height: Platform.OS === 'ios' ? 2 : 2,
+                },
+                shadowOpacity: 0.45,
+                shadowRadius: Platform.OS === 'ios' ? 2 : 4,
+                elevation: Platform.OS === 'ios' ? 1 : 8,
             }}>
                 <IconA name="chevron-left" color={Colors.white_text_color} size={30} />
             </TouchableOpacity>
@@ -149,7 +157,7 @@ const JobDetailsScreen = (props) => {
                     <View style={ApplyJobStyle.Backgroundcolorview}>
                         <Spacing space={SH(30)} />
                         <View style={ApplyJobStyle.Centerimage}>
-                            <Image source={{uri: img}} resizeMode="contain" style={{...ApplyJobStyle.Imagestyles, width:'100%'}} />
+                            <Image source={{ uri: img }} resizeMode="contain" style={{ ...ApplyJobStyle.Imagestyles, width: '100%' }} />
                         </View>
                         <Spacing space={SH(10)} />
                         <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>
@@ -162,12 +170,12 @@ const JobDetailsScreen = (props) => {
                         </View>
                         <Spacing space={SH(20)} />
                         <View style={ApplyJobStyle.Flexrowcenter}>
-                            <Text style={ApplyJobStyle.ProductDesignertwo}>$ {data.min_salary}-{data.max_salary}/{data.Salary_Type}</Text>
-                            <Text style={ApplyJobStyle.ProductDesignertwo}>{data.district}/{data.country}</Text>
+                            <Text numberOfLines={1} style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '45%' }}>$ {data.min_salary}-{data.max_salary}/{data.Salary_Type}</Text>
+                            <Text style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '55%' }}>{data.district}/{data.country}</Text>
                         </View>
                     </View>
                     <Spacing space={SH(10)} />
-                    <View style={{...ApplyJobStyle.FlexRowText, justifyContent:'space-evenly'}}>
+                    <View style={{ ...ApplyJobStyle.FlexRowText, justifyContent: 'space-evenly' }}>
                         <TouchableOpacity onPress={() => TabshowFunction(1)} style={tabshow == 1 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
                             <Text style={tabshow == 1 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Description</Text>
                         </TouchableOpacity>
@@ -214,7 +222,7 @@ const JobDetailsScreen = (props) => {
                 </View>
             </ScrollView>
             <View style={ApplyJobStyle.Paddinghorizontal}>
-                <Button onPress={() => navigation.navigate(RouteName.Resume_And_Portfolio)} title={t("Apply_text")} />
+                <Button onPress={() => navigation.navigate(RouteName.APPLY_JOB, data)} title={t("Apply_text")} />
             </View>
         </View >
     );

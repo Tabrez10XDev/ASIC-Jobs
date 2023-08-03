@@ -140,16 +140,16 @@ const SearchResults = (props) => {
     async function fetchAllJobs(title) {
 
         setState({})
-
+        console.log(selectedItems)
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=search_all_jobs&category_id=0&title_string=${title}&user_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=search_all_jobs&category_id=0&title_string=${title}&user_id=${id}&lattitude=${selectedItems.latitude ?? 0}&longitude=${selectedItems.longitude ?? 0}`,
         };
 
+        console.log(`https://asicjobs.in/api/webapi.php?api_action=search_all_jobs&category_id=0&title_string=${title}&user_id=${id}&lattitude=${selectedItems.latitude ?? 0}&longitude=${selectedItems.longitude ?? 0}`)
         axios.request(config)
             .then((response) => {
-                console.log(response.data);
                 response.data.search_jobs.map((ele, index) => {
                     if (ele.bokkmarked == 1) {
                         setState(current => ({ ...current, [ele.id]: true }))
@@ -160,6 +160,7 @@ const SearchResults = (props) => {
                 setJobs(response.data.search_jobs)
             })
             .catch((error) => {
+                setJobs([])
                 console.log(error);
             });
 
@@ -358,6 +359,8 @@ const SearchResults = (props) => {
                         />
                     </View>
                 </View>
+
+                
             </ScrollView>
         </View>
     );
