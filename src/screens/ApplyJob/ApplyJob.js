@@ -9,6 +9,10 @@ import { RouteName } from '../../routes';
 import { useTheme } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+import { Linking } from "react-native";
+
+import { StackActions } from '@react-navigation/native';
 
 const ApplyJob = (props) => {
     const { t } = useTranslation();
@@ -21,6 +25,7 @@ const ApplyJob = (props) => {
         resumes: []
     })
 
+    const [applied, setApplied] = useState(false)
     const [id, setID] = useState(null)
 
     const getData = async () => {
@@ -39,24 +44,15 @@ const ApplyJob = (props) => {
         }
     }
 
-    const [Textinputaeira, setTextinputaeira] = useState('');
     const [Checkboxs, SetCheckboxs] = useState(ApplyJobstwo);
     const [resumes, setResumes] = useState({});
-    const [Resumetwo, SetResumetwo] = useState(false);
-    const Checkboxfunction = (value, indexs) => {
-        var datas = Checkboxs.filter((item, index) => {
-            if (index === indexs) {
-                item['CheckBoxitem'] = value;
-                return item;
-            } else {
-                return item;
-            }
-        });
-        SetCheckboxs(datas);
-    }
+    const [cv, setCv] = useState("-1")
+
 
     useEffect(() => {
         navigation.addListener('focus', () => {
+            setResumes({})
+            setApplied(false)
             getData()
         });
     }, [navigation]);
@@ -88,24 +84,43 @@ const ApplyJob = (props) => {
 
     async function applyJob() {
 
-        console.log(data)
+        console.log(data.job_id)
+
+        if (cv == "-1") {
+            Toast.show({
+                type: 'error',
+                text1: "Choose a resume"
+            });
+            return
+        }
 
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'https://asicjobs.in/api/webapi.php?api_action=apply_job&job_id=28&user_id=56&candidate_resume_id=2&cover_letter=hello',
-            headers: {}
+            url: `https://asicjobs.in/api/webapi.php?api_action=apply_job&job_id=${data.job_id}&user_id=${id}&candidate_resume_id=${cv}&cover_letter=${cover}`,
         };
 
-        // axios.request(config)
-        //     .then((response) => {
-        //         console.log(JSON.stringify(response.data));
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
+        console.log(`https://asicjobs.in/api/webapi.php?api_action=apply_job&job_id=${data.job_id}&user_id=${id}&candidate_resume_id=${cv}&cover_letter=${cover}`)
+        axios.request(config)
+            .then((response) => {
+                Toast.show({
+                    type: 'success',
+                    text1: "Success"
+                });
+                setCover("")
+                setApplied(true)
+                setResumes({})
+            })
+            .catch((error) => {
+                console.log(error);
+                Toast.show({
+                    type: 'error',
+                    text1: "Unknown error occured"
+                });
+            });
     }
 
+    const [cover, setCover] = useState("")
 
     return (
         <View style={ApplyJobStyle.MinViewScreen}>
@@ -141,12 +156,21 @@ const ApplyJob = (props) => {
                                 userData.resumes.map((ele, index) => {
                                     return (
                                         <View style={{ marginHorizontal: 10, borderWidth: 1, borderColor: '#f5f5f5', borderRadius: 8, padding: 8, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', paddingRight: 12 }}>
-                                            <Button buttonStyle={{ ...ApplyJobStyle.buttonbgcolorview, marginHorizontal: 4, backgroundColor: Colors.theme_background_brink_pink }} buttonTextStyle={ApplyJobStyle.buttontextstyle} title={t("Frontend_Button")} />
+                                            <Button onPress={() => {
+                                                Linking.openURL(ele.file);
+                                            }} buttonStyle={{ ...ApplyJobStyle.buttonbgcolorview, marginHorizontal: 4, backgroundColor: Colors.theme_background_brink_pink }} buttonTextStyle={ApplyJobStyle.buttontextstyle} title={ele.name} />
 
                                             <CheckBox
                                                 disabled={false}
                                                 value={resumes[ele.id] ?? false}
-                                                onValueChange={(newValue) => setResumes(current => ({ [ele.id]: newValue }))} />
+                                                onValueChange={(newValue) => {
+                                                    if (newValue == true) {
+                                                        setCv(ele.id)
+                                                    } else {
+                                                        setCv("-1")
+                                                    }
+                                                    setResumes(current => ({ [ele.id]: newValue }))
+                                                }} />
                                         </View>
                                     )
                                 })
@@ -157,8 +181,8 @@ const ApplyJob = (props) => {
                         <Spacing space={SH(10)} />
                         <View style={ApplyJobStyle.Flexcedntyer}>
                             <Input
-                                value=""
-                                onChangeText={(text) => { }}
+                                value={cover}
+                                onChangeText={(text) => { setCover(text) }}
                                 inputprops={{ marginTop: 16, textAlign: 'left', textAlignVertical: 'top' }}
                                 placeholder="Type here..."
                                 numberOfLines={5}
@@ -169,9 +193,20 @@ const ApplyJob = (props) => {
                     </View>
                 </View>
             </ScrollView >
-            <View style={ApplyJobStyle.ButtonHorizontal}>
-                <Button onPress={() => applyJob()} title={t("Apply_text")} />
-            </View>
+            {
+                applied ?
+                    <View style={ApplyJobStyle.ButtonHorizontal}>
+                        <Button disable={true} title="Applied" />
+                    </View>
+                    : <View style={ApplyJobStyle.ButtonHorizontal}>
+                        <Button onPress={() => applyJob()} title={t("Apply_text")} />
+                    </View>
+            }
+
+            <Toast
+                position='bottom'
+                bottomOffset={40}
+            />
         </View >
     );
 };

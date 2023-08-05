@@ -76,7 +76,7 @@ const SavedJobsList = (props) => {
             .then((response) => {
                 console.log(response.data)
                 if (response.data.job_details != null && response.data.job_details != undefined) {
-                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
                 }
             })
             .catch((error) => {
@@ -199,6 +199,8 @@ const SavedJobsList = (props) => {
                     onPress={() => {
                         setAlertVisible(!alertVisible)
                         navigation.dispatch(StackActions.popToTop());
+                        navigation.replace(RouteName.LOGIN_SCREEN)
+
                     }}
                     buttonminview={Style.buttonotp}
                     iconVisible={false}

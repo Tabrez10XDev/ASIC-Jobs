@@ -21,24 +21,7 @@ const AllPosts = (props) => {
     const [posts, setAllPosts] = useState([])
 
     
-    async function fetchJobDetails(id) {
-        let config = {
-            method: 'get',
-            maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
-        };
-
-        axios.request(config)
-            .then((response) => {
-                if (response.data.job_details != null && response.data.job_details != undefined) {
-                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }
-
+   
 
 
     async function fetchAllCategories() {

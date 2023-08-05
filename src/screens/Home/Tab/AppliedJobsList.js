@@ -42,6 +42,7 @@ const AppliedJobsList = (props) => {
     }
 
     function fetchJobDetails(id) {
+        console.log(id)
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -52,9 +53,8 @@ const AppliedJobsList = (props) => {
         axios.request(config)
             .then((response) => {
                 if (response.data.job_details != null && response.data.job_details != undefined) {
-                    console.log(id)
 
-                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
                 }
             })
             .catch((error) => {
@@ -161,6 +161,8 @@ const AppliedJobsList = (props) => {
                     onPress={() => {
                         setAlertVisible(!alertVisible)
                         navigation.dispatch(StackActions.popToTop());
+                        navigation.replace(RouteName.LOGIN_SCREEN)
+
                     }}
                     buttonminview={Style.buttonotp}
                     iconVisible={false}

@@ -30,7 +30,7 @@ const AllVacancies = (props) => {
         axios.request(config)
             .then((response) => {
                 if (response.data.job_details != null && response.data.job_details != undefined) {
-                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, response.data.job_details)
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
                 }
             })
             .catch((error) => {

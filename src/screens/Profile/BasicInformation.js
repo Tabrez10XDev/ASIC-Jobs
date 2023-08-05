@@ -199,6 +199,7 @@ const BasicInformation = ({ route }) => {
   }, [])
 
   return (
+    <>
     <ScrollView>
       <View style={{ backgroundColor: 'white', height: '100%' }}>
         <View style={ProfileTabStyle.ImagCenter}>
@@ -398,11 +399,14 @@ const BasicInformation = ({ route }) => {
         />
 
       </View>
-      <Toast
-        position='bottom'
-        bottomOffset={20}
-      />
+      
     </ScrollView>
+    <Toast
+        position='bottom'
+        bottomOffset={40}
+      />
+    </>
+
   )
 }
 

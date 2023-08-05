@@ -126,10 +126,8 @@ const SearchResults = (props) => {
 
         axios.request(config)
             .then((response) => {
-                console.log("----------------------------");
-                console.log(id);
-                console.log(JSON.stringify(response.data));
-                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, { ...response.data.job_details, userID: id })
+                
+                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
             })
             .catch((error) => {
                 console.error(error);

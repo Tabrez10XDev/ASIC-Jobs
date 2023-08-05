@@ -21,6 +21,11 @@ const JobDetailsScreen = (props) => {
         settabshow(item)
     }
 
+    console.log("----")
+    console.log(props.route.params.job_id)
+    console.log("----")
+
+    
     const regex = /(<([^>]+)>)/ig;
 
     const Descrptiontextview = (item) => {
