@@ -39,7 +39,7 @@ const BasicInformation = ({ route }) => {
 
   const [response, setFileResponse] = useState([{}])
   const [response2, setFileResponse2] = useState([{ status: true }])
-
+  
 
 
   const id = data.user_details.id
@@ -149,7 +149,7 @@ const BasicInformation = ({ route }) => {
 
     axios.request(config)
       .then((response) => {
-        // updateProfile()
+        console.log("Success")
         console.log(response.data)
       })
       .catch((error) => {
@@ -163,11 +163,11 @@ const BasicInformation = ({ route }) => {
 
   async function updateProfile() {
 
-    console.log(education)
+    console.log(ExperienceData.filter((ele) => ele.name === experience))
 
-    const _exp = ExperienceData.filter((ele) => ele.name === experience)[0].id
+    const _exp = ExperienceData.filter((ele) => ele.name === experience)[0] ? ExperienceData.filter((ele) => ele.name === experience)[0].id : 0
 
-    const _edu = EducationData.filter((ele) => ele.value === education)[0].label
+    const _edu = EducationData.filter((ele) => ele.value === education)[0] ? EducationData.filter((ele) => ele.value === education)[0].label : 0
     const date =  formattedDate != null ? `${formattedDate.getFullYear()}-${formattedDate.getMonth()}-${formattedDate.getDate()}` : ""
     let config = {
       method: 'post',
@@ -216,7 +216,7 @@ const BasicInformation = ({ route }) => {
         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
           <Input
             value={state.name}
-            onChange={(text) => setState(...state, { name: text })}
+            onChangeText={(text) => setState({...state,  name: text })}
             inputprops={{ marginTop: 16 }}
             placeholder="Full Name"
           />
@@ -225,7 +225,7 @@ const BasicInformation = ({ route }) => {
             inputprops={{ marginTop: 16 }}
             placeholder="Professional Tagline"
             value={state.tagline}
-            onChange={(text) => setState(...state, { tagline: text })}
+            onChangeText={(text) => setState({...state,  tagline: text })}
           />
 
           <View style={isFocusExperience ? { ...LanguageStyles.LeadsDropdownbox, marginTop: 16 } : { ...LanguageStyles.LeadsDropdownboxOpen, marginTop: 16 }}>
@@ -282,7 +282,7 @@ const BasicInformation = ({ route }) => {
             inputprops={{ marginTop: 16 }}
             placeholder="Personal Website"
             value={state.website}
-            onChange={(text) => setState(...state, { website: text })}
+            onChangeText={(text) => setState(current=> ({...current,  website: text }))}
           />
 
 
@@ -317,8 +317,11 @@ const BasicInformation = ({ route }) => {
 
 
           <TouchableOpacity onPress={async () => {
-            if (response2.status != undefined) {
+            if (!response2[0].status == true) {
+              console.log("in")
               await uploadProfile(response2[0].type, response2[0].name, response2[0].uri)
+            }else{
+              console.log(response2[0].status)
             }
             updateProfile()
           }} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>

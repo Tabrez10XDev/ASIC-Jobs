@@ -21,6 +21,7 @@ const BlogDetails = (props) => {
     const img = data.image
 
 
+    const regex = /(<([^>]+)>)/ig;
 
 
     const TabshowFunction = (item) => {
@@ -29,7 +30,16 @@ const BlogDetails = (props) => {
 
     const Descrptiontextview = (item) => {
 
-        if(item.trim() == ""){
+
+
+        let result = item.replace(regex, '')
+        result = result.replace("&nbsp;", "")
+        result = result.replace(/<[^>]+>/g, '');
+        result = result.replace(/&nbsp;/g, '')
+        result = result.replace(/\s{2,}/g, ' ');
+
+
+        if(result.trim() == ""){
             return null
         }
 
@@ -41,7 +51,7 @@ const BlogDetails = (props) => {
                         <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
                     </View> */}
                     <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item}</Text>
+                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{result}</Text>
                     </View>
                 </View>
             </View>
@@ -99,18 +109,6 @@ const BlogDetails = (props) => {
                             />
                         </View>
                     }
-                    {/* {tabshow === 2 &&
-                        <View>
-                            <FlatList
-                                data={[data.vision]}
-                                numColumns={1}
-                                showsHorizontalScrollIndicator={false}
-                                renderItem={({ item, index }) => Descrptiontextview(item, index)}
-                                keyExtractor={item => item.id}
-                                contentContainerStyle={ApplyJobStyle.FlatListStylestwo}
-                            />
-                        </View>
-                    } */}
 
 
                     <Spacing space={SH(87)} />

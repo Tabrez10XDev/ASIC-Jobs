@@ -89,7 +89,7 @@ const SearchResults = (props) => {
         axios.request(config)
             .then((response) => {
                 
-                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
+                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details})
             })
             .catch((error) => {
                 console.error(error);
@@ -100,7 +100,6 @@ const SearchResults = (props) => {
     async function fetchAllJobs(title) {
 
         setState({})
-        console.log(selectedItems)
         let config = {
             method: 'get',
             maxBodyLength: Infinity,

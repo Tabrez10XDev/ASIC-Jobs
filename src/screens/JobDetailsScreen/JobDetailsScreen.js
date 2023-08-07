@@ -11,17 +11,36 @@ import { RouteName } from '../../routes';
 import { useTheme } from '@react-navigation/native';
 import { StackActions } from '@react-navigation/native';
 import IconG from 'react-native-vector-icons/Entypo';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 
 const JobDetailsScreen = (props) => {
     const { Colors } = useTheme();
     const ApplyJobStyle = useMemo(() => ApplyJobStyles(Colors), [Colors]);
     const { t } = useTranslation();
     const { navigation } = props;
+
+
     const [tabshow, settabshow] = useState(1);
     const TabshowFunction = (item) => {
         settabshow(item)
     }
 
+    const [userID, setUserID] = useState(null)
+
+    const getData = async () => {
+        try {
+            const result = await AsyncStorage.getItem('AuthState')
+            if (result !== null && result != "-1" && result != undefined) {
+                setUserID(result)
+            }
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
 
 
     const regex = /(<([^>]+)>)/ig;
@@ -45,6 +64,9 @@ const JobDetailsScreen = (props) => {
     }
 
 
+    useEffect(() => {
+        getData()
+    }, [])
 
     const Requiremnetview = (item) => {
         return (
@@ -135,8 +157,41 @@ const JobDetailsScreen = (props) => {
         );
     }
 
+    async function toggleBookmark() {
+
+        if (userID == null) {
+            Toast.show({
+                type: 'error',
+                text1: "Login to continue"
+            });
+            return
+        }
+
+
+        console.log(userID)
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${data.job_id}&user_id=${userID}`,
+        };
+
+        axios.request(config)
+            .then((response) => {
+                if (isSaved == 1) setSaved(0)
+                else setSaved(1)
+            })
+            .catch((error) => {
+                console.error(`https://asicjobs.in/api/webapi.php?api_action=update_favourite_job&job_id=${data.job_id}&user_id=${userID}`)
+                console.log(error);
+            });
+    }
+
     const data = props.route.params
     const img = data.logo
+
+    const [isSaved, setSaved] = useState(data.bokkmarked ?? 0)
+
 
     return (
         <View style={ApplyJobStyle.MinViewScreen}>
@@ -156,8 +211,7 @@ const JobDetailsScreen = (props) => {
 
             <TouchableOpacity
                 onPress={() => {
-                    console.log(id)
-                    // toggleBookmark(item.id)
+                    toggleBookmark()
                 }}
                 style={{
                     position: 'absolute',
@@ -172,11 +226,12 @@ const JobDetailsScreen = (props) => {
                     shadowOpacity: 0.45,
                     shadowRadius: Platform.OS === 'ios' ? 2 : 4,
                     elevation: Platform.OS === 'ios' ? 1 : 8,
-                    width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
+                    width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignItems: 'center', justifyContent: 'center', borderRadius: 4
+                }}>
                 <IconG
                     size={18}
                     name="bookmark"
-                    style={{ color: true ? Colors.theme_background_brink_pink : 'grey' }}
+                    style={{ color: isSaved == 1 ? Colors.theme_background_brink_pink : 'grey' }}
                 />
             </TouchableOpacity>
 
@@ -252,7 +307,7 @@ const JobDetailsScreen = (props) => {
                 </View>
             </ScrollView>
             {
-                data.is_applied == 1 ?
+                data.is_applied == 1 || userID == null ?
                     <View style={ApplyJobStyle.ButtonHorizontal}>
                         <Button disable={true} title="Applied" />
                     </View>
@@ -260,6 +315,12 @@ const JobDetailsScreen = (props) => {
                         <Button onPress={() => navigation.navigate(RouteName.APPLY_JOB, data)} title={t("Apply_text")} />
                     </View>
             }
+
+
+            <Toast
+                position='bottom'
+                bottomOffset={20}
+            />
 
         </View >
     );

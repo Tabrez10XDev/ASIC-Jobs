@@ -331,6 +331,12 @@ const HomeTab = () => {
                             contentContainerStyle={HomeStyle.Recommendedboxleft}
                         />
 
+                        {latestVacancies.length === 0 &&
+                        <Text style={{alignSelf:'center', color:'black', fontSize:14, fontWeight:'600'}}>
+                            No Record
+                        </Text>
+                        }
+
                         <Spacing space={SH(20)} />
                         <View style={HomeStyle.PaddingHorizontal}>
                             <View style={HomeStyle.FlextTextStyles}>

@@ -10,6 +10,7 @@ import IconA from 'react-native-vector-icons/Entypo';
 import { RouteName } from '../../../routes';
 import { useTheme } from '@react-navigation/native';
 import { StackActions } from '@react-navigation/native';
+import moment from 'moment/moment';
 
 const CompanyDetails = (props) => {
     const { Colors } = useTheme();
@@ -85,7 +86,7 @@ const CompanyDetails = (props) => {
 
 
 
-
+    const since = data.establishment_date ? moment(data.establishment_date, "YYYY-MM-DD").fromNow() : "-"
     return (
         <View style={ApplyJobStyle.MinViewScreen}>
             <TouchableOpacity onPress={() => navigation.dispatch(StackActions.pop(1))} style={ApplyJobStyle.centerlottw}>
@@ -106,7 +107,7 @@ const CompanyDetails = (props) => {
                         <Spacing space={SH(10)} />
                         <View style={{ ...ApplyJobStyle.Flexrowcenter }}>
                             <Button buttonStyle={ApplyJobStyle.buttonwidthg25} buttonTextStyle={ApplyJobStyle.textstyles} title={"Total Views: " + data.total_views} />
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg33} buttonTextStyle={ApplyJobStyle.textstyles} title={"Since " + data.establishment_date} />
+                            <Button buttonStyle={ApplyJobStyle.buttonwidthg33} buttonTextStyle={ApplyJobStyle.textstyles} title={`Since ${since}`} />
                             <Button buttonStyle={ApplyJobStyle.buttonwidthg25} buttonTextStyle={ApplyJobStyle.textstyles} title={data.organization_type_name} />
                         </View>
                         <Spacing space={SH(20)} />
