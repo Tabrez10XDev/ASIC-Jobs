@@ -97,7 +97,6 @@ const BasicInformation = ({ route }) => {
   // setEducation(data.candidates_details.educational_level)
 
 
-  console.log(route.params.experience)
 
 
 
@@ -122,7 +121,6 @@ const BasicInformation = ({ route }) => {
 
     axios.request(config)
       .then((response) => {
-        // console.log(JSON.stringify(response.data));
         if (response.data.status == true) {
           getUserData()
           setAlertVisible(true);
@@ -164,9 +162,13 @@ const BasicInformation = ({ route }) => {
   }
 
   async function updateProfile() {
+
+    console.log(education)
+
     const _exp = ExperienceData.filter((ele) => ele.name === experience)[0].id
+
     const _edu = EducationData.filter((ele) => ele.value === education)[0].label
-    const date =  `${formattedDate.getFullYear()}-${formattedDate.getMonth()}-${formattedDate.getDate()}`
+    const date =  formattedDate != null ? `${formattedDate.getFullYear()}-${formattedDate.getMonth()}-${formattedDate.getDate()}` : ""
     let config = {
       method: 'post',
       maxBodyLength: Infinity, 
@@ -233,7 +235,7 @@ const BasicInformation = ({ route }) => {
               dropdownStyle={LanguageStyles.LeadDropdown}
               value={experience}
               onChange={item => {
-                setExperience(item.value)
+                setExperience(item.name)
               }}
               width={Dimensions.get('window').width * 0.95}
               search

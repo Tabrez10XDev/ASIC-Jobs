@@ -27,7 +27,7 @@ const CompanyDetails = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}&user_id=${userID ?? "0"}`,
         };
 
         axios.request(config)
@@ -164,19 +164,12 @@ const CompanyDetails = (props) => {
                             />
                         </View>
                     }
-                    {/* {tabshow === 3 &&
-                        <View>
-                            <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Deadline: {data.deadline}</Text>
-
-                        </View>
-                    } */}
+               
 
                     <Spacing space={SH(87)} />
                 </View>
             </ScrollView>
-            {/* <View style={ApplyJobStyle.Paddinghorizontal}>
-                    <Button onPress={() => navigation.navigate(RouteName.Resume_And_Portfolio)} title={t("Apply_text")} />
-                </View> */}
+           
         </View >
     );
 };

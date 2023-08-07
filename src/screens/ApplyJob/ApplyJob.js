@@ -86,6 +86,14 @@ const ApplyJob = (props) => {
 
         console.log(data.job_id)
 
+        if (id == null) {
+            Toast.show({
+                type: 'error',
+                text1: "Login to continue"
+            });
+            return
+        }
+
         if (cv == "-1") {
             Toast.show({
                 type: 'error',
@@ -93,6 +101,10 @@ const ApplyJob = (props) => {
             });
             return
         }
+
+       
+
+
 
         let config = {
             method: 'get',

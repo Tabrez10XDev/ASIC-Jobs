@@ -138,9 +138,9 @@ const LoginScreen = () => {
                                 />
                             </View>
                             <Spacing space={SH(10)} />
-                            <TouchableOpacity onPress={() => navigation.navigate(RouteName.Forget_Password)}>
+                            {/* <TouchableOpacity onPress={() => navigation.navigate(RouteName.Forget_Password)}>
                                 <Text style={Logins.Forgetpasswordstyles}>{t("Forgot_Password")}</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                             <TouchableOpacity style={{ position: 'absolute', bottom: 36, right: 12 }} onPress={() => {
                                 saveLogin("false")

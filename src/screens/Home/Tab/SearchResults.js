@@ -23,53 +23,12 @@ const SearchResults = (props) => {
     const { Colors } = useTheme();
     const HomeStyle = useMemo(() => HomeTabStyles(Colors), [Colors]);
     const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
-    const [jobList, setJobList] = useState([]);
-    const refOne = useRef();
-    const refTwo = useRef();
-
-
-    var items = [
-        {
-            id: 1,
-            name: 'JavaScript',
-        },
-        {
-            id: 2,
-            name: 'Java',
-        },
-        {
-            id: 3,
-            name: 'Ruby',
-        },
-        {
-            id: 4,
-            name: 'React Native',
-        },
-        {
-            id: 5,
-            name: 'PHP',
-        },
-        {
-            id: 6,
-            name: 'Python',
-        },
-        {
-            id: 7,
-            name: 'Go',
-        },
-        {
-            id: 8,
-            name: 'Swift',
-        },
-    ];
 
     const [Search, setSearch] = useState('');
-    const [Search2, setSearch2] = useState('');
     const [state, setState] = useState({})
 
     const [jobs, setJobs] = useState([])
 
-    const [searchTerm, setSearchTerm] = useState('')
 
     const id = route.params
 
@@ -117,11 +76,14 @@ const SearchResults = (props) => {
             });
     }
 
-    async function fetchJobDetails(id) {
+    async function fetchJobDetails(job_id) {
+
+        console.log(id)
+
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=fetch_job_details&job_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${job_id}&user_id=${id}`,
         };
 
         axios.request(config)
@@ -177,14 +139,6 @@ const SearchResults = (props) => {
     }, [Search])
 
 
-    useEffect(() => {
-        const delayDebounceFn = setTimeout(() => {
-            if (Search2 != '') {
-                // fetchAllJobs(Search)
-            }
-        }, 500)
-        return () => clearTimeout(delayDebounceFn)
-    }, [Search2])
 
 
     const [selectedItems, setSelectedItems] = useState([])

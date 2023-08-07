@@ -169,7 +169,8 @@ const ProfileTab = (props) => {
             <Spacing space={SH(20)} />
             <TouchableOpacity
               onPress={() => {
-                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null && userData.candidates_details.length !== 0 ) {
+                  console.log(userData.candidates_details)
                   navigation.navigate(RouteName.BASIC_PROFILE, {data : userData, experience: experience, education: education })
                 }
               }
@@ -191,7 +192,7 @@ const ProfileTab = (props) => {
 
             <TouchableOpacity
               onPress={() => {
-                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null && userData.candidates_details.length !== 0 ) {
                   navigation.navigate(RouteName.EDIT_PROFILE, userData)
                 }
               }
@@ -212,7 +213,7 @@ const ProfileTab = (props) => {
 
             <TouchableOpacity
               onPress={() => {
-                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null && userData.candidates_details.length !== 0 ) {
                   navigation.navigate(RouteName.EXPERIENCE, userData)
                 }
               }
@@ -233,7 +234,7 @@ const ProfileTab = (props) => {
 
             <TouchableOpacity
               onPress={() => {
-                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null && userData.candidates_details.length !== 0 ) {
                   navigation.navigate(RouteName.SOCIAL_MEDIA, userData)
                 }
               }
@@ -254,7 +255,7 @@ const ProfileTab = (props) => {
 
             <TouchableOpacity
               onPress={() => {
-                if (userData.candidates_details !== undefined && userData.candidates_details !== null) {
+                if (userData.candidates_details !== undefined && userData.candidates_details !== null && userData.candidates_details.length !== 0 ) {
                   navigation.navigate(RouteName.ACCOUNT_SETTING, {data : userData, jobRoles: jobRoles })
                 }
               }}

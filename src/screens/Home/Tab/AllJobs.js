@@ -9,6 +9,8 @@ import { RouteName } from '../../../routes';
 import { useTheme } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const AllJobs = (props) => {
     const { navigation } = props;
@@ -18,18 +20,30 @@ const AllJobs = (props) => {
 
     const [jobs, setJobs] = useState([])
 
+    const [userID, setUserID] = useState(null)
+
+    const getData = async () => {
+        try {
+            const result = await AsyncStorage.getItem('AuthState')
+            if (result !== null && result != "-1" && result != undefined) {
+                setUserID(result)
+            }
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     async function fetchJobDetails(id) {
         
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}&user_id=${userID ?? "0"}`,
         };
 
         axios.request(config)
             .then((response) => {
-                console.log("hey")
-                console(response.data)
                 if (response.data.job_details != null && response.data.job_details != undefined) {
                     navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
                 }
@@ -42,7 +56,6 @@ const AllJobs = (props) => {
     }
 
     async function fetchAllJobs() {
-        console.log("----------")
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -63,6 +76,7 @@ const AllJobs = (props) => {
 
     useEffect(() => {
         navigation.addListener('focus', () => {
+            getData()
             fetchAllJobs()
         });
     }, [navigation]);

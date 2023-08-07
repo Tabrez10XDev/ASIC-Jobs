@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { RouteName } from '../../../routes';
 import { useTheme } from '@react-navigation/native';
 import axios from 'axios';
-import images from '../../../images';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const CategoriesSearch = (props) => {
@@ -20,12 +20,26 @@ const CategoriesSearch = (props) => {
     const [categories, setAllCategories] = useState([])
 
 
+    const [userID, setUserID] = useState(null)
+
+    const getData = async () => {
+        try {
+            const result = await AsyncStorage.getItem('AuthState')
+            if (result !== null && result != "-1" && result != undefined) {
+                setUserID(result)
+            }
+
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
 
     async function fetchJobDetails(id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}&user_id=${userID ?? "0"}`,
         };
 
 
@@ -64,6 +78,7 @@ const CategoriesSearch = (props) => {
 
     useEffect(() => {
         navigation.addListener('focus', () => {
+            getData()
             fetchAllRoles()
         });
     }, [navigation]);

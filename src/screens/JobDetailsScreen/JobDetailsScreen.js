@@ -10,6 +10,7 @@ import IconA from 'react-native-vector-icons/Entypo';
 import { RouteName } from '../../routes';
 import { useTheme } from '@react-navigation/native';
 import { StackActions } from '@react-navigation/native';
+import IconG from 'react-native-vector-icons/Entypo';
 
 const JobDetailsScreen = (props) => {
     const { Colors } = useTheme();
@@ -21,11 +22,8 @@ const JobDetailsScreen = (props) => {
         settabshow(item)
     }
 
-    console.log("----")
-    console.log(props.route.params.job_id)
-    console.log("----")
 
-    
+
     const regex = /(<([^>]+)>)/ig;
 
     const Descrptiontextview = (item) => {
@@ -33,8 +31,8 @@ const JobDetailsScreen = (props) => {
         result = result.replace("&nbsp;", "")
         result = result.replace(/<[^>]+>/g, '');
         result = result.replace(/&nbsp;/g, '')
-        result  = result.replace(/\s{2,}/g, ' ');
-        return(
+        result = result.replace(/\s{2,}/g, ' ');
+        return (
             <View>
                 <Spacing space={SH(20)} />
                 <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
@@ -155,6 +153,33 @@ const JobDetailsScreen = (props) => {
             }}>
                 <IconA name="chevron-left" color={Colors.white_text_color} size={30} />
             </TouchableOpacity>
+
+            <TouchableOpacity
+                onPress={() => {
+                    console.log(id)
+                    // toggleBookmark(item.id)
+                }}
+                style={{
+                    position: 'absolute',
+                    top: SH(20),
+                    right: SH(10),
+                    zIndex: 3,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0,
+                        height: Platform.OS === 'ios' ? 2 : 2,
+                    },
+                    shadowOpacity: 0.45,
+                    shadowRadius: Platform.OS === 'ios' ? 2 : 4,
+                    elevation: Platform.OS === 'ios' ? 1 : 8,
+                    width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>
+                <IconG
+                    size={18}
+                    name="bookmark"
+                    style={{ color: true ? Colors.theme_background_brink_pink : 'grey' }}
+                />
+            </TouchableOpacity>
+
             <ScrollView
                 keyboardShouldPersistTaps="handled"
                 contentContainerStyle={Style.ScrollViewTestHeight}>
@@ -178,6 +203,8 @@ const JobDetailsScreen = (props) => {
                             <Text numberOfLines={1} style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '45%' }}>$ {data.min_salary}-{data.max_salary}/{data.Salary_Type}</Text>
                             <Text style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '55%' }}>{data.district}/{data.country}</Text>
                         </View>
+
+
                     </View>
                     <Spacing space={SH(10)} />
                     <View style={{ ...ApplyJobStyle.FlexRowText, justifyContent: 'space-evenly' }}>
@@ -187,9 +214,7 @@ const JobDetailsScreen = (props) => {
                         <TouchableOpacity onPress={() => TabshowFunction(2)} style={tabshow == 2 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
                             <Text style={tabshow == 2 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>{t("RequermentText")}</Text>
                         </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={() => TabshowFunction(3)} style={tabshow == 3 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
-                            <Text style={tabshow == 3 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>{t("About")}</Text>
-                        </TouchableOpacity> */}
+
 
                     </View>
                     {tabshow === 1 &&
@@ -226,9 +251,16 @@ const JobDetailsScreen = (props) => {
                     <Spacing space={SH(87)} />
                 </View>
             </ScrollView>
-            <View style={ApplyJobStyle.Paddinghorizontal}>
-                <Button onPress={() => navigation.navigate(RouteName.APPLY_JOB, data)} title={t("Apply_text")} />
-            </View>
+            {
+                data.is_applied == 1 ?
+                    <View style={ApplyJobStyle.ButtonHorizontal}>
+                        <Button disable={true} title="Applied" />
+                    </View>
+                    : <View style={ApplyJobStyle.ButtonHorizontal}>
+                        <Button onPress={() => navigation.navigate(RouteName.APPLY_JOB, data)} title={t("Apply_text")} />
+                    </View>
+            }
+
         </View >
     );
 };

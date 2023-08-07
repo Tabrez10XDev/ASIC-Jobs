@@ -37,14 +37,14 @@ const SavedJobsList = (props) => {
 
         console.log(job_id)
 
-          axios.request(config)
-          .then((response) => {
-            console.log(response.data)
-            setState(current => ({ ...current, [job_id]: !_state[job_id] }))
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        axios.request(config)
+            .then((response) => {
+                console.log(response.data)
+                setState(current => ({ ...current, [job_id]: !_state[job_id] }))
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
 
@@ -65,18 +65,18 @@ const SavedJobsList = (props) => {
         }
     }
 
-    function fetchJobDetails(id) {
+    function fetchJobDetails(job_id) {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=job_details&job_id=${job_id}&user_id=${id ?? "0"}`,
             headers: {}
         };
         axios.request(config)
             .then((response) => {
                 console.log(response.data)
                 if (response.data.job_details != null && response.data.job_details != undefined) {
-                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details, job_id: id})
+                    navigation.navigate(RouteName.JOB_DETAILS_SCREEN, { ...response.data.job_details, job_id: id })
                 }
             })
             .catch((error) => {
@@ -190,6 +190,13 @@ const SavedJobsList = (props) => {
                         keyExtractor={item => item.id}
                         contentContainerStyle={SaveJobListStyle.FlatListStylestwo}
                     />
+
+                    {
+                        jobList.length === 0 &&
+                        <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, alignSelf: 'center', marginTop: 100 }}>No Record</Text>
+
+                    }
+
                 </View>
 
                 <ConfirmationAlert
