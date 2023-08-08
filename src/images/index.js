@@ -29,5 +29,6 @@ const images = {
    Chat_image_saven: require('./seventy.png'),
    Chat_image_aeight: require('./seventy.png'),
    logo: require('./asicjobs.svg'),
+   waiting: require('./waiting.jpg')
 }
 export default images;

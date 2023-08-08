@@ -58,7 +58,7 @@ const AllCategories = (props) => {
             onPress={()=>navigation.navigate(RouteName.CATEGORIES_SEARCH, item.id)}
             style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width:'90%', marginVertical:16, alignSelf:'center', borderRadius:12, paddingVertical:4 }}>
                 <View  style={{...HomeStyle.RecommndBox, flexDirection:'row', alignItems:'center', justifyContent:'space-between', width:'90%', alignSelf:'center'}}>
-                <IconFont name="image" size={28} color={Colors.theme_background_brink_pink} />
+                <IconFont name="microchip" size={28} color={Colors.theme_background_brink_pink} />
                     {/* <View style={HomeStyle.Postionset}> */}
                         <Text numberOfLines={1} style={{...HomeStyle.Textcenter}}>{item.name}</Text>
                     {/* </View> */}

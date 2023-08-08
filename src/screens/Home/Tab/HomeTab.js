@@ -6,7 +6,7 @@ import { SH, Featureddata, Recommendeddata } from '../../../utils';
 import Icon from 'react-native-vector-icons/AntDesign';
 import IconE from 'react-native-vector-icons/EvilIcons';
 import IconFont from 'react-native-vector-icons/FontAwesome';
-
+import dateFormat from 'dateformat';
 import FontAwesome, { SolidIcons, RegularIcons, BrandIcons, parseIconFromClassName } from 'react-native-fontawesome';
 import LinearGradient from 'react-native-linear-gradient';
 import { useTranslation } from "react-i18next";
@@ -228,7 +228,7 @@ const HomeTab = () => {
                 <TouchableOpacity onPress={() => { navigation.navigate(RouteName.CATEGORIES_SEARCH, item.category_id) }} style={HomeStyle.RecommndBox}>
                     <View style={{ ...HomeStyle.CenterIcon, height: 60, width: 60, alignSelf: 'center', justifyContent: 'center', alignItems: 'center' }}>
 
-                        <IconFont name="image" size={28} color={Colors.theme_background_brink_pink} />
+                        <IconFont name="microchip" size={28} color={Colors.theme_background_brink_pink} />
                     </View>
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
@@ -250,11 +250,14 @@ const HomeTab = () => {
                         <Text style={HomeStyle.Topboxtextstyle}>{item.short_description}</Text>
                         <Spacing space={SH(10)} />
                     </View>
-
                 </TouchableOpacity>
                 <Spacing space={SH(10)} />
+                <View style={{flexDirection:'row', alignItems:'center', padding:6, justifyContent:'space-evenly', width:'100%'}}>
+                <IconFont name="calendar" size={20} color={Colors.theme_background_brink_pink} />
 
-                <Text style={{ ...HomeStyle.Textcenter, position: 'absolute', bottom: 4, right: 4 }}>{item.updated_at ? moment(item.updated_at.substring(0, 10), "YYYY-MM-DD").fromNow() : ""}</Text>
+                <Text style={{ ...HomeStyle.Textcenter}}>{item.updated_at ? dateFormat(item.updated_at.substring(0, 10), "mmmm dS, yyyy") : ""}</Text>
+
+                </View>
 
             </TouchableOpacity>
         );

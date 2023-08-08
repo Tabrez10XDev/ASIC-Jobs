@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View, Text, ScrollView, FlatList, Image } from 'react-native';
+import { View, Text, ScrollView, FlatList, Image, Dimensions } from 'react-native';
 import { SaveJobListStyles, Style } from '../../../styles';
 import { Spacing, Lottie, ConfirmationAlert } from '../../../components';
 import { useTranslation } from "react-i18next";
@@ -155,8 +155,12 @@ const AppliedJobsList = (props) => {
 
                     {
                         jobList.length === 0 &&
-                        <Text style={{...SaveJobListStyle.Fulltimetextstyle, alignSelf:'center', marginTop:100}}>No Record</Text>
+                        <View style={{height:Dimensions.get('window').height}}>
+                        <Image source={images.waiting} style={{ resizeMode: 'contain', width:'100%', alignSelf:'center', height:'60%' }} />
+                        <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, alignSelf: 'center'}}>No Applied Jobs Found</Text>
+                        <Text style={{ ...SaveJobListStyle.DevelperTexttwo, alignSelf: 'center', marginTop:10, textAlign:'center'}}>The jobs you applied for can be found here</Text>
 
+                    </View>
                     }
                 </View>
                 <ConfirmationAlert
@@ -172,8 +176,8 @@ const AppliedJobsList = (props) => {
                     buttonminview={Style.buttonotp}
                     iconVisible={false}
                     buttonText="Ok"
-                    onPressCancel={() => { setAlertVisible(!alertVisible) }}
-                    cancelButtonText="Cancel"
+                    // onPressCancel={() => { setAlertVisible(!alertVisible) }}
+                    // cancelButtonText="Cancel"
                 />
             </ScrollView>
 

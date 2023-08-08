@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, ScrollView, FlatList, Image } from 'react-native';
+import { View, Text, ScrollView, FlatList, Image, Dimensions } from 'react-native';
 import { SaveJobListStyles, Style } from '../../../styles';
 import { Spacing, ConfirmationAlert } from '../../../components';
 import { useTranslation } from "react-i18next";
@@ -193,7 +193,13 @@ const SavedJobsList = (props) => {
 
                     {
                         jobList.length === 0 &&
-                        <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, alignSelf: 'center', marginTop: 100 }}>No Record</Text>
+                        <View style={{height:Dimensions.get('window').height}}>
+                            <Image source={images.waiting} style={{ resizeMode: 'contain', width:'100%', alignSelf:'center', height:'60%' }} />
+                            <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, alignSelf: 'center'}}>No Saved Jobs Found</Text>
+                            <Text style={{ ...SaveJobListStyle.DevelperTexttwo, alignSelf: 'center', marginTop:10, textAlign:'center'}}>Tap on bookmark icon against a job to save it</Text>
+
+                        </View>
+
 
                     }
 
@@ -212,8 +218,8 @@ const SavedJobsList = (props) => {
                     buttonminview={Style.buttonotp}
                     iconVisible={false}
                     buttonText="Ok"
-                    onPressCancel={() => { setAlertVisible(!alertVisible) }}
-                    cancelButtonText="Cancel"
+                // onPressCancel={() => { setAlertVisible(!alertVisible) }}
+                // cancelButtonText="Cancel"
                 />
             </ScrollView>
         </View>

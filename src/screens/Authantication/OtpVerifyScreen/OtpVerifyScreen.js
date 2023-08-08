@@ -87,7 +87,7 @@ const OtpScreenset = ({route}) => {
                                 <Text style={Style.paregraph}>{t("Enter_The_Otp_Title")}</Text>
                                 <OTPInputView
                                     style={Style.OtpViewStyles}
-                                    pinCount={6}
+                                    pinCount={4}
                                     autoFocusOnLoad={false}
                                     codeInputFieldStyle={Style.CodeInputStyles}
                                     codeInputHighlightStyle={Style.CodeInputStyles}

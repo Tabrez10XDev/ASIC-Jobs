@@ -63,11 +63,11 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.SERLECT_JOB_AND_LOCATION} component={SelectJobandLocation} />
         <Stack.Screen name={RouteName.SELECT_LANGUAGE} component={TranslationScreen} />
         <Stack.Screen name={RouteName.Forget_Password} options={{ headerShown: false, headerShadowVisible: false }} component={ForgotPassword} />
-        <Stack.Screen name={RouteName.ALL_CATEGORIES} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllCategories} />
+        <Stack.Screen name={RouteName.ALL_CATEGORIES} options={{ headerShown: true, headerShadowVisible: false, title: 'All Categories' }} component={AllCategories} />
         <Stack.Screen name={RouteName.ALL_JOBS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllJobs} />
         <Stack.Screen name={RouteName.SEARCH_RESULTS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={SearchResults} />
         <Stack.Screen name={RouteName.ALL_VACANCIES} options={{ headerShown: true, headerShadowVisible: false, title: 'All Vacancies' }} component={AllVacancies} />
-        <Stack.Screen name={RouteName.CATEGORIES_SEARCH} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={CategoriesSearch} />
+        <Stack.Screen name={RouteName.CATEGORIES_SEARCH} options={{ headerShown: true, headerShadowVisible: false, title: 'Categories Search' }} component={CategoriesSearch} />
         <Stack.Screen name={RouteName.COMPANY_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={CompanyDetails} />
         <Stack.Screen name={RouteName.BLOG_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={BlogDetails} />
         <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen} options={{title: "Job Detail", headerShown: false,headerShadowVisible: false}} />

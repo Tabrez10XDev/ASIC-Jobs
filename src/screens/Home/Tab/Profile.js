@@ -323,8 +323,8 @@ const ProfileTab = (props) => {
           buttonminview={Style.buttonotp}
           iconVisible={false}
           buttonText="Ok"
-          onPressCancel={() => { setAlertVisible(!alertVisible) }}
-          cancelButtonText="Cancel"
+          // onPressCancel={() => { setAlertVisible(!alertVisible) }}
+          // cancelButtonText="Cancel"
         />
       </View>
     </>
