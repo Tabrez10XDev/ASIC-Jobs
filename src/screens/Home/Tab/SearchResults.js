@@ -15,7 +15,8 @@ import { search } from 'react-native-country-picker-modal/lib/CountryService';
 import IconG from 'react-native-vector-icons/Entypo';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import SearchableDropdown from 'react-native-searchable-dropdown';
-
+import IconI from "react-native-vector-icons/Ionicons"
+import FilterBottomSheet from '../../../components/commonComponents/Filter';
 
 const SearchResults = (props) => {
     const { navigation, route } = props;
@@ -31,6 +32,10 @@ const SearchResults = (props) => {
 
 
     const id = route.params
+
+
+    const refRBSheet = useRef();
+
 
     const [geoData, setGeoData] = useState([])
 
@@ -88,8 +93,8 @@ const SearchResults = (props) => {
 
         axios.request(config)
             .then((response) => {
-                
-                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, {...response.data.job_details})
+
+                navigation.navigate(RouteName.JOB_DETAILS_SCREEN, { ...response.data.job_details })
             })
             .catch((error) => {
                 console.error(error);
@@ -219,14 +224,16 @@ const SearchResults = (props) => {
                                     elevation: Platform.OS === 'ios' ? 1 : 8,
                                     borderRadius: 8
                                 }} />
-                            <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
-                                <Icon name="search1" size={20} color={Colors.theme_background_brink_pink} />
-                            </View>
+                            <TouchableOpacity
+                                onPress={() => { refRBSheet.current.open() }}
+                                style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 0, alignSelf: 'center' }}>
+                                <IconI name="filter-sharp" size={20} color={Colors.theme_background_brink_pink} />
+                            </TouchableOpacity>
                         </View>
 
                         <View style={{ width: '100%', alignItems: 'center', justifyContent: 'center', marginTop: 10 }}>
 
-                           
+
 
                             <SearchableDropdown
 
@@ -274,7 +281,7 @@ const SearchResults = (props) => {
                                 }
                             />
 
-                            <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 10, alignSelf: 'center', top:22 }}>
+                            <View style={{ ...HomeStyle.IconStyles, position: 'absolute', right: 10, alignSelf: 'center', top: 22 }}>
                                 <IconE name="location" size={28} color={Colors.theme_background_brink_pink} />
                             </View>
                         </View>
@@ -310,9 +317,12 @@ const SearchResults = (props) => {
                         />
                     </View>
                 </View>
+                <FilterBottomSheet refRBSheet={refRBSheet} />
 
-                
+
             </ScrollView>
+
+
         </View>
     );
 };

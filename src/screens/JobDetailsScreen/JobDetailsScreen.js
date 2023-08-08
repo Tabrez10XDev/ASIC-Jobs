@@ -15,6 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
+import dateFormat from 'dateformat';
 
 const JobDetailsScreen = (props) => {
     const { Colors } = useTheme();
@@ -71,87 +72,65 @@ const JobDetailsScreen = (props) => {
     const Requiremnetview = (item) => {
         return (
             <View>
-                <Spacing space={SH(20)} />
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Deadline: {item.deadline}</Text>
-                    </View>
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Deadline:</Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{dateFormat(item.deadline, "mmmm dS, yyyy")}</Text>
+
                 </View>
 
-                <Spacing space={SH(20)} />
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Education: {item.education}</Text>
-                    </View>
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Posted on: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{dateFormat(item.job_posted.substring(0, 10), "mmmm dS, yyyy")}</Text>
+
                 </View>
 
+              
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Education: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.education}</Text>
 
-                <Spacing space={SH(20)} />
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Experience: {item.experience}</Text>
-                    </View>
                 </View>
 
-                <Spacing space={SH(20)} />
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Job posted: {item.job_posted.substring(0, 11)}</Text>
-                    </View>
+            
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Experience: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.experience}</Text>
+
+                </View>
+
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Address: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.address}</Text>
+
                 </View>
 
 
-                <Spacing space={SH(20)} />
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Address: {item.address}</Text>
-                    </View>
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Locality: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.locality}</Text>
+
                 </View>
 
-                <Spacing space={SH(20)} />
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Locality: {item.locality}</Text>
-                    </View>
-                </View>
-                <Spacing space={SH(20)} />
 
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Region: {item.region}</Text>
-                    </View>
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Region: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.region}</Text>
                 </View>
-                <Spacing space={SH(20)} />
 
-                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={ApplyJobStyle.Discriptiontextview}>
-                        <Icon name="dot-fill" size={20} color={Colors.black_text_color} />
-                    </View>
-                    <View style={{ ...ApplyJobStyle.parehraphview, alignSelf: 'center' }}>
-                        <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Postcode: {item.postcode}</Text>
-                    </View>
+
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Postcode: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.postcode}</Text>
                 </View>
+
             </View>
 
         );
