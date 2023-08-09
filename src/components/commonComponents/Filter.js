@@ -21,16 +21,8 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
 
 
-export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
+export default FilterBottomSheet = ({ refRBSheet, setJobs, sliderValue, setSliderValue, filterTypes, setFilterTypes }) => {
 
-
-    const [formattedDate, setFormattedDate] = useState(null)
-    const [date, setDate] = useState(new Date())
-
-    const [open, setOpen] = useState(false)
-
-
-    const [sliderValue, setSliderValue] = useState([0, 100]);
 
 
 
@@ -40,7 +32,7 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
 
         <RBSheet
             ref={refRBSheet}
-            height={Dimensions.get("window").height * 0.60}
+            height={Dimensions.get("window").height * 0.75}
             openDuration={5}
             closeOnDragDown={true}
             customStyles={{
@@ -108,7 +100,7 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
 
                     <RangeSlider
                         range={sliderValue}
-                        maximumValue={100}
+                        maximumValue={500000}
                         step={1}
                         crossingAllowed={false}
                         outboundColor='#f8f8f8'
@@ -130,8 +122,10 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
                             setSliderValue(min, max)
                         }}
                         onSlidingStart={undefined}
-                        onSlidingComplete={() => {
-                            console.log(sliderValue)
+                        onSlidingComplete={(min, max) => {
+                            // console.log(min)
+                            // console.log(max)
+                            // console.log("--")
                         }}     // Called when the press is released. The type is (range: [number, number]) => void
                     />
                 </View>
@@ -187,12 +181,13 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
                 <View style={{ width: "95%", flexDirection: 'row', alignItems: 'center', marginTop: 12, justifyContent: 'flex-start' }}>
                     <BouncyCheckbox
                         size={25}
-                        isChecked={true}
+                        isChecked={filterTypes['Full Time']}
                         fillColor={"#2290E3"}
                         unfillColor={'white'}
                         iconStyle={{ borderColor: 'black' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         onPress={(isChecked) => {
+                            setFilterTypes(current => ({...current, 'Full Time': isChecked}))
                             // setChecked(text)
                         }}
                     />
@@ -214,13 +209,13 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
                 <View style={{ width: "95%", flexDirection: 'row', alignItems: 'center', marginTop: 12, justifyContent: 'flex-start' }}>
                     <BouncyCheckbox
                         size={25}
-                        isChecked={true}
+                        isChecked={filterTypes['Part Time']}
                         fillColor={"#2290E3"}
                         unfillColor={'white'}
                         iconStyle={{ borderColor: 'black' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         onPress={(isChecked) => {
-                            // setChecked(text)
+                            setFilterTypes(current => ({...current, 'Part Time': isChecked}))
                         }}
                     />
 
@@ -241,13 +236,13 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
                 <View style={{ width: "95%", flexDirection: 'row', alignItems: 'center', marginTop: 12, justifyContent: 'flex-start' }}>
                     <BouncyCheckbox
                         size={25}
-                        isChecked={true}
+                        isChecked={filterTypes['Contractual']}
                         fillColor={"#2290E3"}
                         unfillColor={'white'}
                         iconStyle={{ borderColor: 'black' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         onPress={(isChecked) => {
-                            // setChecked(text)
+                            setFilterTypes(current => ({...current, 'Contractual': isChecked}))
                         }}
                     />
 
@@ -268,13 +263,13 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
                 <View style={{ width: "95%", flexDirection: 'row', alignItems: 'center', marginTop: 12, justifyContent: 'flex-start' }}>
                     <BouncyCheckbox
                         size={25}
-                        isChecked={true}
+                        isChecked={filterTypes['Intern']}
                         fillColor={"#2290E3"}
                         unfillColor={'white'}
                         iconStyle={{ borderColor: 'black' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         onPress={(isChecked) => {
-                            // setChecked(text)
+                            setFilterTypes(current => ({...current, 'Intern': isChecked}))
                         }}
                     />
 
@@ -295,13 +290,13 @@ export default FilterBottomSheet = ({ refRBSheet, setExperienceList, id }) => {
                 <View style={{ width: "95%", flexDirection: 'row', alignItems: 'center', marginTop: 12, justifyContent: 'flex-start' }}>
                     <BouncyCheckbox
                         size={25}
-                        isChecked={true}
+                        isChecked={filterTypes['Freelance']}
                         fillColor={"#2290E3"}
                         unfillColor={'white'}
                         iconStyle={{ borderColor: 'black' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         onPress={(isChecked) => {
-                            // setChecked(text)
+                            setFilterTypes(current => ({...current, 'Freelance': isChecked}))
                         }}
                     />
 

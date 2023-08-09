@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Image, FlatList, ScrollView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, FlatList, ScrollView, TextInput, Dimensions } from 'react-native';
 import { HomeTabStyles, SaveJobListStyles } from '../../../styles';
 import { Spacing, Button, } from '../../../components';
 import { SH } from '../../../utils';
@@ -29,7 +29,10 @@ const SearchResults = (props) => {
     const [state, setState] = useState({})
 
     const [jobs, setJobs] = useState([])
+    const [_jobs, _setJobs] = useState([])
 
+
+    const [sliderValue, setSliderValue] = useState([0, 500000]);
 
     const id = route.params
 
@@ -62,6 +65,14 @@ const SearchResults = (props) => {
     useEffect(() => {
         getGeoData()
     }, [])
+
+    const [filterTypes, setFilterTypes] = useState({
+        'Full Time': true,
+        'Part Time': true,
+        'Contractual': true,
+        'Intern': true,
+        'Freelance': true
+    })
 
 
     async function toggleBookmark(job_id) {
@@ -121,10 +132,14 @@ const SearchResults = (props) => {
                         setState(current => ({ ...current, [ele.id]: false }))
                     }
                 })
-                setJobs(response.data.search_jobs)
+                _setJobs(response.data.search_jobs)
+                const _jobList = response.data.search_jobs.filter((current) => current.min_salary >= sliderValue[0] && current.max_salary <= sliderValue[1])
+
+                setJobs(_jobList)
             })
             .catch((error) => {
                 setJobs([])
+                _setJobs([])
                 console.log(error);
             });
 
@@ -137,10 +152,36 @@ const SearchResults = (props) => {
         const delayDebounceFn = setTimeout(() => {
             if (Search != '') {
                 fetchAllJobs(Search)
+            }else{
+                setJobs([])
+                _setJobs([])
             }
         }, 500)
         return () => clearTimeout(delayDebounceFn)
     }, [Search])
+
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+
+
+            const keysWithTrueValues = [];
+
+            for (const key in filterTypes) {
+              if (filterTypes.hasOwnProperty(key) && filterTypes[key] === true) {
+                keysWithTrueValues.push(key);
+              }
+            }
+
+            let _jobList = _jobs.filter((current) => current.min_salary >= sliderValue[0] && current.max_salary <= sliderValue[1])
+            // const job_type = ["Full Time", "Part Time", "Contractual", "Intern", "Freelance"]
+            const filteredObjects = _jobList.filter(obj => keysWithTrueValues.includes(obj.jobtype));
+            console.log(filterTypes)
+            setJobs(filteredObjects)
+        }, 500)
+        return () => clearTimeout(delayDebounceFn)
+    }, [sliderValue, filterTypes])
+
+
 
 
 
@@ -315,9 +356,19 @@ const SearchResults = (props) => {
                             renderItem={({ item, index }) => SearchDataView(item, index)}
                             keyExtractor={item => item.id}
                         />
+
+                        {
+                            jobs.length === 0 &&
+                            <View style={{ height: Dimensions.get('window').height }}>
+                                <Image source={images.waiting} style={{ resizeMode: 'contain', width: '100%', alignSelf: 'center', height: '40%' }} />
+                                <Text style={{ ...SaveJobListStyle.DevelperTexttwo, alignSelf: 'center' }}>Use our search to find the right job for you</Text>
+
+                            </View>
+                        }
+
                     </View>
                 </View>
-                <FilterBottomSheet refRBSheet={refRBSheet} />
+                <FilterBottomSheet refRBSheet={refRBSheet} setJobs={setJobs} sliderValue={sliderValue} setSliderValue={setSliderValue} filterTypes={filterTypes} setFilterTypes={setFilterTypes} />
 
 
             </ScrollView>

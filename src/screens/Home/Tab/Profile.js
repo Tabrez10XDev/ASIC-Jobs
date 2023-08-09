@@ -160,7 +160,7 @@ const ProfileTab = (props) => {
         <View style={ProfileTabStyle.whilistminbody}>
           <View style={ProfileTabStyle.ImagCenter}>
             <View>
-              <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{ uri: img }} />
+              <Image style={{...ProfileTabStyle.ImageStyles, alignSelf:'center'}} resizeMode='cover' source={{ uri: img }} />
               <Text style={ProfileTabStyle.UserName}>{userData.user_details.name}</Text>
             </View>
           </View>

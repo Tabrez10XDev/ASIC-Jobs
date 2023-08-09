@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Image, FlatList, ScrollView } from 'react-native';
-import { HomeTabStyles } from '../../../styles';
+import { HomeTabStyles, SaveJobListStyles } from '../../../styles';
 import { Spacing, Button, } from '../../../components';
 import { SH } from '../../../utils';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,6 +18,7 @@ const AllVacancies = (props) => {
     const HomeStyle = useMemo(() => HomeTabStyles(Colors), [Colors]);
 
     const [categories, setAllCategories] = useState([])
+    const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
 
 
     function fetchJobDetails(id) {
@@ -110,6 +111,18 @@ const AllVacancies = (props) => {
                             renderItem={({ item, index }) => Recommendeddataview(item, index)}
                             keyExtractor={item => item.id}
                         />
+
+{/* {
+                        categories.length === 0 &&
+                        <View style={{height:Dimensions.get('window').height}}>
+                            <Image source={images.waiting} style={{ resizeMode: 'contain', width:'100%', alignSelf:'center', height:'60%' }} />
+                            <Text style={{ ...SaveJobListStyle.Fulltimetextstyle, alignSelf: 'center'}}>No Saved Jobs Found</Text>
+                            <Text style={{ ...SaveJobListStyle.DevelperTexttwo, alignSelf: 'center', marginTop:10, textAlign:'center'}}>Tap on bookmark icon against a job to save it</Text>
+
+                        </View>
+
+
+                    } */}
                     </View>
                 </View>
             </ScrollView>

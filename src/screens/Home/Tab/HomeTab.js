@@ -25,7 +25,6 @@ const HomeTab = () => {
     const HomeStyle = useMemo(() => HomeTabStyles(Colors), [Colors]);
     const navigation = useNavigation();
     const [Search, setSearch] = useState('');
-    const [Search2, setSearch2] = useState('');
     const [latestPosts, setLatestPosts] = useState([])
     const [latestVacancies, setLatestVacancies] = useState([])
     const [popularCategories, setPopularCategories] = useState([])

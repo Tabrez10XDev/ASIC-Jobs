@@ -65,7 +65,7 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.Forget_Password} options={{ headerShown: false, headerShadowVisible: false }} component={ForgotPassword} />
         <Stack.Screen name={RouteName.ALL_CATEGORIES} options={{ headerShown: true, headerShadowVisible: false, title: 'All Categories' }} component={AllCategories} />
         <Stack.Screen name={RouteName.ALL_JOBS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={AllJobs} />
-        <Stack.Screen name={RouteName.SEARCH_RESULTS} options={{ headerShown: true, headerShadowVisible: false, title: '' }} component={SearchResults} />
+        <Stack.Screen name={RouteName.SEARCH_RESULTS} options={{ headerShown: true, headerShadowVisible: false, title: 'Search' }} component={SearchResults} />
         <Stack.Screen name={RouteName.ALL_VACANCIES} options={{ headerShown: true, headerShadowVisible: false, title: 'All Vacancies' }} component={AllVacancies} />
         <Stack.Screen name={RouteName.CATEGORIES_SEARCH} options={{ headerShown: true, headerShadowVisible: false, title: 'Categories Search' }} component={CategoriesSearch} />
         <Stack.Screen name={RouteName.COMPANY_DETAILS} options={{ headerShown: false, headerShadowVisible: false, title: '' }} component={CompanyDetails} />

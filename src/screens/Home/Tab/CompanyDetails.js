@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
-import { ApplyJobStyles, Style } from '../../../styles';
+import { ApplyJobStyles, Style, HomeTabStyles } from '../../../styles';
 import { Spacing, Button } from '../../../components';
 import { useTranslation } from "react-i18next";
 import images from '../../../index';
@@ -11,6 +11,7 @@ import { RouteName } from '../../../routes';
 import { useTheme } from '@react-navigation/native';
 import { StackActions } from '@react-navigation/native';
 import moment from 'moment/moment';
+import axios from 'axios';
 import dateFormat from 'dateformat';
 
 const CompanyDetails = (props) => {
@@ -24,8 +25,12 @@ const CompanyDetails = (props) => {
     const userID = props.route.params.userID
     const img = data.logo
 
+    const HomeStyle = useMemo(() => HomeTabStyles(Colors), [Colors]);
+
+
     
     function fetchJobDetails(id) {
+        
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
@@ -65,18 +70,19 @@ const CompanyDetails = (props) => {
 
 
     const Recommendeddataview = (item, index) => {
+
+        console.log(item)
+
         return (
             <TouchableOpacity 
             onPress={()=>fetchJobDetails(item.id)}
             style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width: '90%', marginVertical: 16, alignSelf: 'center', borderRadius: 12 }}>
                 <View style={HomeStyle.RecommndBox}>
-                    <View style={HomeStyle.CenterIcon}>
-                        <Image source={images.Codingimage_one} style={HomeStyle.Imagestyles} />
-                    </View>
+                    
                     <View style={HomeStyle.Postionset}>
                         <Text style={HomeStyle.Textcenter}>{item.name}</Text>
                         <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
-                        <Text style={HomeStyle.Textcenter}>{"Deadline: " + item.deadline}</Text>
+                        <Text style={HomeStyle.Textcenter}>{"Deadline: " +  dateFormat(item.deadline, "mmmm dS, yyyy")}</Text>
                         <Spacing space={SH(10)} />
                     </View>
                 </View>

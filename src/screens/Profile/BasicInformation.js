@@ -206,7 +206,7 @@ const BasicInformation = ({ route }) => {
       <View style={{ backgroundColor: 'white', height: '100%' }}>
         <View style={ProfileTabStyle.ImagCenter}>
           <View>
-            <Image style={ProfileTabStyle.ImageStyles} resizeMode='cover' source={{ uri: img }} />
+            <Image style={{...ProfileTabStyle.ImageStyles, alignSelf:'center'}} resizeMode='cover' source={{ uri: img }} />
             <ImagePicker UploadViewdoqumnet={true} setImage={setImage} setFileResponse={setFileResponse2} />
 
             {/* <Text onPress={chooseFile} style={{...ProfileTabStyle.UserName, color:'blue'}}>Edit</Text> */}
