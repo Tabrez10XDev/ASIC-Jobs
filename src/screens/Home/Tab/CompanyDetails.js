@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { View, Text, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
-import { ApplyJobStyles, Style, HomeTabStyles } from '../../../styles';
+import { ApplyJobStyles, Style, HomeTabStyles, SaveJobListStyles } from '../../../styles';
 import { Spacing, Button } from '../../../components';
 import { useTranslation } from "react-i18next";
 import images from '../../../index';
@@ -17,6 +17,8 @@ import dateFormat from 'dateformat';
 const CompanyDetails = (props) => {
     const { Colors } = useTheme();
     const ApplyJobStyle = useMemo(() => ApplyJobStyles(Colors), [Colors]);
+    const SaveJobListStyle = useMemo(() => SaveJobListStyles(Colors), [Colors]);
+
     const { t } = useTranslation();
     const { navigation } = props;
     const [tabshow, settabshow] = useState(1);
@@ -74,20 +76,54 @@ const CompanyDetails = (props) => {
         console.log(item)
 
         return (
-            <TouchableOpacity 
-            onPress={()=>fetchJobDetails(item.id)}
-            style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width: '90%', marginVertical: 16, alignSelf: 'center', borderRadius: 12 }}>
-                <View style={HomeStyle.RecommndBox}>
-                    
-                    <View style={HomeStyle.Postionset}>
-                        <Text style={HomeStyle.Textcenter}>{item.name}</Text>
-                        <Text style={HomeStyle.Textcenter}>{"Open Positions: " + item.OpenPosition}</Text>
-                        <Text style={HomeStyle.Textcenter}>{"Deadline: " +  dateFormat(item.deadline, "mmmm dS, yyyy")}</Text>
-                        <Spacing space={SH(10)} />
+            <TouchableOpacity onPress={() => {
+                    fetchJobDetails(item.id)
+            }
+            } style={SaveJobListStyle.MinBgColorWhite}>
+                <View style={SaveJobListStyle.FlexRow}>
+                    <View style={{ maxWidth: '50%' }}>
+                        <View style={SaveJobListStyle.ImagWidthTextFlex}>
+                            <View style={SaveJobListStyle.ImageViewStyles}>
+                                <Image source={{ uri: img }} style={{ height: 60, width: 60, resizeMode: 'contain', borderRadius: 8 }} />
+                            </View>
+                            <View>
+                                <Text numberOfLines={2} style={{ ...SaveJobListStyle.DevelperText, maxWidth: 180 }}>{item.title}</Text>
+                                <Text numberOfLines={1} style={SaveJobListStyle.Normalsmalltext}>{item.job_type}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={{}}>
+                        <Text style={SaveJobListStyle.DevelperTexttwo}>$ {item.min_salary} - {item.max_salary}</Text>
+                        <Text style={SaveJobListStyle.Normalsmalltexttwo}>{item.country}</Text>
                     </View>
                 </View>
+                {/* <Spacing space={SH(5)} />
+                <View style={SaveJobListStyle.Twobuttonflexview}>
+                        <TouchableOpacity onPress={() => { }} style={{ ...SaveJobListStyle.Statusbutton }}>
+                            <Text style={SaveJobListStyle.Openbuttontextstyles}>{"stateText"}</Text>
+                        </TouchableOpacity>
+                       
+                    <View>
+                        <Text style={SaveJobListStyle.Fulltimetextstyle}>{"appliedDate"}</Text>
+                    </View>
+                </View> */}
             </TouchableOpacity>
-        );
+        )
+        // return (
+        //     <TouchableOpacity 
+        //     onPress={()=>fetchJobDetails(item.id)}
+        //     style={{ backgroundColor: index % 2 == 1 ? Colors.alice_blue_color : Colors.lavender_blush_color, width: '90%', marginVertical: 16, alignSelf: 'center', borderRadius: 12 }}>
+        //         <View style={HomeStyle.RecommndBox}>
+                    
+        //             <View style={HomeStyle.Postionset}>
+        //                 <Text style={HomeStyle.Textcenter}>{item.country}</Text>
+        //                 <Text style={HomeStyle.Textcenter}>{item.job_type}</Text>
+        //                 <Text style={HomeStyle.Textcenter}>{"₹" + item.min_salary} - {item.max_salary}</Text>
+        //                 <Spacing space={SH(10)} />
+        //             </View>
+        //         </View>
+        //     </TouchableOpacity>
+        // );
     }
 
 

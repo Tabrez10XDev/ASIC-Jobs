@@ -151,7 +151,7 @@ const ProfileTab = (props) => {
       setmodalcontent(0);
     });
   }, [navigation]);
-  const img = userData.user_details.image
+  const img = userData.candidates_details.photo != "" ? userData.candidates_details.photo : userData.user_details.image 
 
   return (
 

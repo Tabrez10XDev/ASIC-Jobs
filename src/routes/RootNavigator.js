@@ -73,7 +73,7 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen} options={{title: "Job Detail", headerShown: false,headerShadowVisible: false}} />
         <Stack.Screen name={RouteName.ALL_POSTS} options={{ headerShown: true, headerShadowVisible: false, title: 'All Blogs' }} component={AllPosts} />
         <Stack.Screen name={RouteName.ALL_COMPANIES} options={{ headerShown: true, headerShadowVisible: false, title: 'All Companies' }} component={AllCompanies} />
-        <Stack.Screen name={RouteName.MESSAGE_TAB} options={{ headerShown: false, headerShadowVisible: false }} component={Messagelist} />
+        <Stack.Screen name={RouteName.MESSAGE_TAB} options={{ headerShown: true, headerShadowVisible: true, title: 'Job Alerts' }} component={Messagelist} />
 
       </Stack.Navigator>
     </NavigationContainer>

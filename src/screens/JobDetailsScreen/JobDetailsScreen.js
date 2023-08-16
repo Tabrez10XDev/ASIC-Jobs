@@ -16,6 +16,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import Toast from 'react-native-toast-message';
 import dateFormat from 'dateformat';
+import moment from 'moment/moment';
+
 
 const JobDetailsScreen = (props) => {
     const { Colors } = useTheme();
@@ -228,9 +230,9 @@ const JobDetailsScreen = (props) => {
                         <Text style={ApplyJobStyle.Googleteam}>{data.company_name}</Text>
                         <Spacing space={SH(10)} />
                         <View style={{ ...ApplyJobStyle.Flexrowcenter }}>
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg33} buttonTextStyle={ApplyJobStyle.textstyles} title={"Deadline: " + data.deadline} />
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg25} buttonTextStyle={ApplyJobStyle.textstyles} title={data.name} />
-                            <Button buttonStyle={ApplyJobStyle.buttonwidthg25} buttonTextStyle={ApplyJobStyle.textstyles} title={data.is_remote == "1" ? "Remote" : "In-Person"} />
+                            <Button buttonStyle={{...ApplyJobStyle.buttonwidthg33, height:55, borderRadius:6, textAlign:'right'}} buttonTextStyle={ApplyJobStyle.textstyles} title={"Deadline: " + moment(data.deadline, "YYYY-MM-DD").fromNow()} />
+                            <Button buttonStyle={{...ApplyJobStyle.buttonwidthg25, height:55, borderRadius:6, textAlign:'right'}} buttonTextStyle={ApplyJobStyle.textstyles} title={data.name} />
+                            <Button buttonStyle={{...ApplyJobStyle.buttonwidthg25, height:55, borderRadius:6, textAlign:'right'}} buttonTextStyle={ApplyJobStyle.textstyles} title={data.is_remote == "1" ? "Remote" : "In-Person"} />
                         </View>
                         <Spacing space={SH(20)} />
                         <View style={ApplyJobStyle.Flexrowcenter}>
@@ -246,7 +248,7 @@ const JobDetailsScreen = (props) => {
                             <Text style={tabshow == 1 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Description</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => TabshowFunction(2)} style={tabshow == 2 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
-                            <Text style={tabshow == 2 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>{t("RequermentText")}</Text>
+                            <Text style={tabshow == 2 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Requirements</Text>
                         </TouchableOpacity>
 
 

@@ -23,8 +23,9 @@ const BasicInformation = ({ route }) => {
   const { Colors } = useTheme();
   const [formattedDate, setFormattedDate] = data.candidates_details.birth_date == "" ? useState(null) : useState(new Date(data.candidates_details.birth_date.substring(0, 10)))
 
-  const [date, setDate] = data.candidates_details.birth_date == "" ? useState(new Date()) : useState(new Date(data.candidates_details.birth_date.substring(0, 10)))
+  const [date, setDate] = data.candidates_details.birth_date == "" || data.candidates_details.birth_date == "0000-00-00 00:00:00"  ? useState(new Date()) : useState(new Date(data.candidates_details.birth_date.substring(0, 10)))
   const [open, setOpen] = useState(false)
+  const [name, setName] = useState(data.user_details.name)
 
 
   const [isFocusExperience, setIsFocusExperience] = useState(false);
@@ -101,7 +102,7 @@ const BasicInformation = ({ route }) => {
 
 
 
-  const [img, setImage] = useState(data.user_details.image ?? "")
+  const [img, setImage] = useState(data.candidates_details.photo != "" ? data.candidates_details.photo : data.user_details.image )
 
   async function uploadResume(type, filename, docUri) {
     let data = new FormData();
@@ -180,6 +181,7 @@ const BasicInformation = ({ route }) => {
     axios.request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
+        setName(state.name)
         Toast.show({
           type: 'success',
           text1: "Success"
@@ -210,7 +212,7 @@ const BasicInformation = ({ route }) => {
             <ImagePicker UploadViewdoqumnet={true} setImage={setImage} setFileResponse={setFileResponse2} />
 
             {/* <Text onPress={chooseFile} style={{...ProfileTabStyle.UserName, color:'blue'}}>Edit</Text> */}
-            <Text style={ProfileTabStyle.UserName}>{data.user_details.name}</Text>
+            <Text style={ProfileTabStyle.UserName}>{name}</Text>
           </View>
         </View>
         <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
