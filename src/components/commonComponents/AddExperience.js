@@ -40,9 +40,9 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
 
 
 
-    async function createExperience(){
+    async function createExperience() {
 
-        if(formattedDate === null || state.company.trim() === "" || state.dept.trim() === "" || state.designation.trim() === ""){
+        if (formattedDate === null || state.company.trim() === "" || state.dept.trim() === "" || state.designation.trim() === "") {
             return
         }
 
@@ -53,22 +53,32 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=update_user_experience&user_id=${id}&company=%27${encodeURIComponent(state.company)}%27&department=%27${encodeURIComponent(state.dept)}%27&designation=%27${encodeURIComponent(state.designation)}%27&start=%27${start}%27&end=%27${end}%27&responsibilities=%27${encodeURIComponent(state.responsibilities)}%27&currently_working=1`,
-          };
+        };
 
-          axios.request(config)
-          .then((response) => {
-            refRBSheet.current.close()
-            setExperienceList((current)=>[...current, {
-                id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
-                company: state.company,
-                department: state.dept,
-                designation: state.designation,
-                currently_working: "Yes"
-            } ])
-          })
-          .catch((error) => {
-            console.log(error.response.data);
-          });
+        axios.request(config)
+            .then((response) => {
+                refRBSheet.current.close()
+                setExperienceList((current) => [...current, {
+                    id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
+                    company: state.company,
+                    department: state.dept,
+                    designation: state.designation,
+                    currently_working: "Yes"
+                }])
+                setState(
+                    {
+                        company: "",
+                        dept: "",
+                        designation: "",
+                        responsibilities: ""
+                    }
+                )
+                setFormattedDate(null)
+                setFormattedDate2(null)
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+            });
     }
 
 
@@ -202,9 +212,9 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                         inputStyle={{ height: 300 }}
                     />
 
-                    <TouchableOpacity 
-                    onPress={()=>createExperience()}
-                    style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf: 'center' }}>
+                    <TouchableOpacity
+                        onPress={() => createExperience()}
+                        style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf: 'center' }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>
@@ -215,19 +225,7 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
 
             </ScrollView>
 
-            <DatePicker
-                modal
-                open={open}
-                date={date}
-                onConfirm={(date) => {
-                    setOpen(false)
-                    setDate(date)
-                    setFormattedDate(date)
-                }}
-                onCancel={() => {
-                    setOpen(false)
-                }}
-            />
+
 
             <DatePicker
                 modal

@@ -30,6 +30,7 @@ const SearchResults = (props) => {
 
     const [jobs, setJobs] = useState([])
     const [_jobs, _setJobs] = useState([])
+    const [category, setCategory] = useState("All")
 
 
     const [sliderValue, setSliderValue] = useState([0, 500000]);
@@ -119,7 +120,7 @@ const SearchResults = (props) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=search_all_jobs&category_id=0&title_string=${title}&user_id=${id}&lattitude=${selectedItems.latitude ?? 0}&longitude=${selectedItems.longitude ?? 0}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=search_all_jobs&category_id=0&title_string=${title}&user_id=${id}&lattitude=${selectedItems.latitude ?? 0}&longitude=${selectedItems.longitude ?? 0}&is_remote=&price_min=&price_max=`,
         };
 
         console.log(`https://asicjobs.in/api/webapi.php?api_action=search_all_jobs&category_id=0&title_string=${title}&user_id=${id}&lattitude=${selectedItems.latitude ?? 0}&longitude=${selectedItems.longitude ?? 0}`)
@@ -174,12 +175,15 @@ const SearchResults = (props) => {
 
             let _jobList = _jobs.filter((current) => current.min_salary >= sliderValue[0] && current.max_salary <= sliderValue[1])
             // const job_type = ["Full Time", "Part Time", "Contractual", "Intern", "Freelance"]
+            if(category != "All"){
+                _jobList = _jobList.filter((current)=>current.categoryname.includes(category))
+            }
             const filteredObjects = _jobList.filter(obj => keysWithTrueValues.includes(obj.jobtype));
             console.log(filterTypes)
             setJobs(filteredObjects)
         }, 500)
         return () => clearTimeout(delayDebounceFn)
-    }, [sliderValue, filterTypes])
+    }, [sliderValue, filterTypes, category])
 
 
 
@@ -368,7 +372,7 @@ const SearchResults = (props) => {
 
                     </View>
                 </View>
-                <FilterBottomSheet refRBSheet={refRBSheet} setJobs={setJobs} sliderValue={sliderValue} setSliderValue={setSliderValue} filterTypes={filterTypes} setFilterTypes={setFilterTypes} />
+                <FilterBottomSheet refRBSheet={refRBSheet} setJobs={setJobs} sliderValue={sliderValue} setSliderValue={setSliderValue} filterTypes={filterTypes} setFilterTypes={setFilterTypes} category={category} setCategory={setCategory} />
 
 
             </ScrollView>

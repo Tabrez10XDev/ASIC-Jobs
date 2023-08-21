@@ -18,7 +18,8 @@ function DropdownComponent({
     labelStyle,
     placeholderStyle,
     selectedTextStyle,
-    dropdownStyle
+    dropdownStyle,
+    dropdownPosition
 }) {
     const styles = useMemo(
         () =>
@@ -91,6 +92,7 @@ function DropdownComponent({
                 placeholder={placeholder}
                 value={value}
                 onChange={onChange} 
+                dropdownPosition={dropdownPosition ?? 'auto'}
                 itemTextStyle={{color: '#000'}}
                 />
         </View>

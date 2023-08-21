@@ -99,9 +99,9 @@ const CategoriesSearch = (props) => {
                
                 <View  style={{...HomeStyle.RecommndBox, flex:2}}>
                     <View style={HomeStyle.Postionset}>
-                        <Text  style={HomeStyle.Topboxtextstyle}>{item.title}</Text>
-                        <Text style={HomeStyle.Topboxtextstyle}>{item.name}</Text>
-                        <Text style={HomeStyle.Topboxtextstyle}>${item.min_salary}-{item.max_salary}</Text>
+                        <Text  style={{...HomeStyle.Topboxtextstyle, textAlign:'right'}}>{item.title}</Text>
+                        <Text style={{...HomeStyle.Topboxtextstyle, textAlign:'right'}}>{item.name}</Text>
+                        <Text style={{...HomeStyle.Topboxtextstyle, textAlign:'right'}}>{item.min_salary}-{item.max_salary}K INR</Text>
                     </View>
                 </View>
                 

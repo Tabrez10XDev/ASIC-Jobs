@@ -152,7 +152,6 @@ const AccountSetting = ({ route }) => {
                     enablesReturnKeyAutomatically
                     onChangeText={(text) => setState({ ...state, number: text })}
                 />
-                <IconG name={passwordVisibility ? 'eye-off' : 'eye'} size={25} style={Logins.eyeiconset} />
             </View>
             <Spacing space={SH(20)} />
 
@@ -168,7 +167,6 @@ const AccountSetting = ({ route }) => {
                     enablesReturnKeyAutomatically
                     onChangeText={(text) => setState({ ...state, number2: text })}
                 />
-                <IconG name={passwordVisibility ? 'eye-off' : 'eye'} size={25} style={Logins.eyeiconset} />
             </View>
             <Spacing space={SH(20)} />
 
@@ -185,7 +183,6 @@ const AccountSetting = ({ route }) => {
                     enablesReturnKeyAutomatically
                     onChangeText={(text) => setState({ ...state, email: text })}
                 />
-                <IconG name={passwordVisibility ? 'eye-off' : 'eye'} size={25} style={Logins.eyeiconset} />
             </View>
             <Spacing space={SH(20)} />
 

@@ -13,6 +13,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackActions } from '@react-navigation/native';
+import dateFormat from 'dateformat';
+
 
 const AppliedJobsList = (props) => {
     const { t } = useTranslation();
@@ -66,7 +68,8 @@ const AppliedJobsList = (props) => {
     const Trendingdataview = (item, index) => {
         const img = item.logo
         let appliedDate = item.applied_on ?? ""
-        appliedDate = appliedDate.substring(0, 11)
+        appliedDate = appliedDate.substring(0, 10)
+        appliedDate = dateFormat(appliedDate, "mmmm dS, yyyy") +  " " + item.applied_on.substring(11,16)
         let state = item.status == "active" ? 1 : 0
 
 

@@ -26,20 +26,20 @@ const EditProfile = ({ route }) => {
     }
 
 
-    async function updateProfile(){
+    async function updateProfile() {
 
         let skills = ""
         let langs = ""
-        selectedSkills.forEach((ele,index)=>{
+        selectedSkills.forEach((ele, index) => {
             skills = skills + ele.id + ","
         })
 
-        selectedLanguages.forEach((ele,index)=>{
+        selectedLanguages.forEach((ele, index) => {
             langs = langs + ele.id + ","
         })
 
-        skills = skills.slice(0,-1)
-        langs = langs.slice(0,-1)
+        skills = skills.slice(0, -1)
+        langs = langs.slice(0, -1)
 
         console.log(langs)
 
@@ -49,17 +49,17 @@ const EditProfile = ({ route }) => {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=update_users_profile&gender=%27${gender.toLowerCase()}%27&marital_status=%27${maritalStatus.toLowerCase()}%27&profession_id=5&available_status=%27${availability.toLowerCase()}%27&bio=%27${encodeURIComponent(bio)}%27&skills=${skills}&languages=${langs}&user_id=${data.user_details.id}`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch((error) => {
-            console.log(error);
-            console.log(`https://asicjobs.in/api/webapi.php?api_action=update_users_profile&gender=%27${gender.toLowerCase()}%27&marital_status=%27${maritalStatus.toLowerCase()}%27&profession_id=5&available_status=%27${availability.toLowerCase()}%27&bio=%27${encodeURIComponent(bio)}%27&skills=${skills}&languages=${langs}&user_id=${data.user_details.id}`)
-          });
-          
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch((error) => {
+                console.log(error);
+                console.log(`https://asicjobs.in/api/webapi.php?api_action=update_users_profile&gender=%27${gender.toLowerCase()}%27&marital_status=%27${maritalStatus.toLowerCase()}%27&profession_id=5&available_status=%27${availability.toLowerCase()}%27&bio=%27${encodeURIComponent(bio)}%27&skills=${skills}&languages=${langs}&user_id=${data.user_details.id}`)
+            });
+
     }
 
 
@@ -92,17 +92,17 @@ const EditProfile = ({ route }) => {
                     let temp = { id: ele.id, item: ele.candidate_id }
                     skillsTemp.push(temp)
                 })
-        
+
                 let languagesTemp = []
                 data.candidates_language.map((ele) => {
                     let temp = { id: ele.id, item: ele.language_name }
                     languagesTemp.push(temp)
                 })
-        
-        
+
+
                 setSelectedSkills(skillsTemp)
                 setSelectedLanguages(languagesTemp)
-         
+
 
             })
             .catch((error) => {
@@ -169,7 +169,7 @@ const EditProfile = ({ route }) => {
 
 
     return (
-        <ScrollView>
+        <ScrollView nestedScrollEnabled={true}>
             <View style={{ backgroundColor: 'white', height: '100%' }}>
 
                 <View style={{ width: '95%', alignItems: 'center', justifyContent: 'center', alignSelf: 'center' }}>
@@ -276,6 +276,7 @@ const EditProfile = ({ route }) => {
 
 
                     <SelectBox
+                        listOptionProps={{ nestedScrollEnabled: true }}
                         options={skillsMap}
                         selectedValues={selectedSkills}
                         onMultiSelect={onMultiChange()}
@@ -288,12 +289,14 @@ const EditProfile = ({ route }) => {
 
 
                     <SelectBox
+                        listOptionProps={{ nestedScrollEnabled: true }}
                         options={langMap}
                         selectedValues={selectedLanguages}
                         onMultiSelect={onMultiChange2()}
                         onTapClose={onMultiChange2()}
                         isMulti
                         label="Languages you know"
+                        onFocus={() => { console.log("ho") }}
                         labelStyle={{ fontWeight: '500', fontSize: 14, marginTop: 16 }}
                         selectedItemStyle={{ color: 'black', backgroundColor: 'black' }}
                     />
@@ -309,7 +312,7 @@ const EditProfile = ({ route }) => {
                     />
 
 
-                    <TouchableOpacity onPress={()=>updateProfile()} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
+                    <TouchableOpacity onPress={() => updateProfile()} style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: Colors.theme_background_brink_pink, marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>

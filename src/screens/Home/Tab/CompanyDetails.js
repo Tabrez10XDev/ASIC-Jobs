@@ -88,7 +88,7 @@ const CompanyDetails = (props) => {
                             </View>
                             <View>
                                 <Text numberOfLines={2} style={{ ...SaveJobListStyle.DevelperText, maxWidth: 180 }}>{item.title}</Text>
-                                <Text numberOfLines={1} style={SaveJobListStyle.Normalsmalltext}>{item.job_type}</Text>
+                                <Text numberOfLines={1} style={{...SaveJobListStyle.Normalsmalltext}}>{item.job_type}</Text>
                             </View>
                         </View>
                     </View>
@@ -147,6 +147,10 @@ const CompanyDetails = (props) => {
                         <Spacing space={SH(10)} />
                         <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>
                         <Text style={ApplyJobStyle.Googleteam}>{data.company_name}</Text>
+                        <Text style={{...ApplyJobStyle.Googleteam, fontSize:14}}>Company Size: {data.team_sizes_name}</Text>
+
+                       
+
                         <Spacing space={SH(10)} />
                         <View style={{ ...ApplyJobStyle.Flexrowcenter }}>
                             <Button buttonStyle={{...ApplyJobStyle.buttonwidthg25, width:'28%'}} buttonTextStyle={ApplyJobStyle.textstyles} title={"Total Views: " + data.total_views} />
@@ -155,8 +159,8 @@ const CompanyDetails = (props) => {
                         </View>
                         <Spacing space={SH(20)} />
                         <View style={ApplyJobStyle.Flexrowcenter}>
-                            <Text style={ApplyJobStyle.ProductDesignertwo}>{data.industry_types_name}</Text>
-                            <Text style={ApplyJobStyle.ProductDesignertwo}>{data.district}/{data.country}</Text>
+                            <Text style={{...ApplyJobStyle.ProductDesignertwo, maxWidth:'48%'}}>{data.industry_types_name}</Text>
+                            <Text style={{...ApplyJobStyle.ProductDesignertwo, maxWidth:'48%'}}>{data.district}/{data.country}</Text>
                         </View>
                     </View>
                     <Spacing space={SH(10)} />
@@ -182,6 +186,8 @@ const CompanyDetails = (props) => {
                                 keyExtractor={item => item.id}
                                 contentContainerStyle={ApplyJobStyle.FlatListStylestwo}
                             />
+
+                           
                         </View>
                     }
                     {tabshow === 2 &&

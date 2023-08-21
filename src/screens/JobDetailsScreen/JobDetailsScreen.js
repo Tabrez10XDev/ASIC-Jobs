@@ -84,10 +84,24 @@ const JobDetailsScreen = (props) => {
                 <Spacing space={SH(10)} />
                 <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
                     <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Posted on: </Text>
-                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{dateFormat(item.job_posted.substring(0, 10), "mmmm dS, yyyy")}</Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{moment(item.job_posted.substring(0,10), "YYYY-MM-DD").fromNow()}</Text>
 
                 </View>
 
+
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Job Role: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.role_name}</Text>
+
+                </View>
+
+                <Spacing space={SH(10)} />
+                <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>Salary Type: </Text>
+                    <Text style={{ ...ApplyJobStyle.ParegraphTextStyles, textAlign: 'justify' }}>{item.Salary_Type}</Text>
+
+                </View>
               
                 <Spacing space={SH(10)} />
                 <View style={{ ...ApplyJobStyle.Flexrowdescription, alignItems: 'center', justifyContent: 'center', borderRadius: 8, backgroundColor: Colors.alice_blue_color, width: '90%', paddingVertical: 10, alignSelf: 'center', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -236,7 +250,7 @@ const JobDetailsScreen = (props) => {
                         </View>
                         <Spacing space={SH(20)} />
                         <View style={ApplyJobStyle.Flexrowcenter}>
-                            <Text numberOfLines={1} style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '45%' }}>$ {data.min_salary}-{data.max_salary}/{data.Salary_Type}</Text>
+                            <Text numberOfLines={1} style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '45%' }}>{data.min_salary}-{data.max_salary}K INR</Text>
                             <Text style={{ ...ApplyJobStyle.ProductDesignertwo, maxWidth: '55%' }}>{data.district}/{data.country}</Text>
                         </View>
 
@@ -248,7 +262,7 @@ const JobDetailsScreen = (props) => {
                             <Text style={tabshow == 1 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Description</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => TabshowFunction(2)} style={tabshow == 2 ? ApplyJobStyle.Centerviesecond : ApplyJobStyle.Centerviesecondtwo}>
-                            <Text style={tabshow == 2 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Requirements</Text>
+                            <Text style={tabshow == 2 ? ApplyJobStyle.Tabtextstyles : ApplyJobStyle.TabtextstylesActive}>Job Overview</Text>
                         </TouchableOpacity>
 
 

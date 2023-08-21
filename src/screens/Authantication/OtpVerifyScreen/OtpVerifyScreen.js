@@ -83,7 +83,7 @@ const OtpScreenset = ({route}) => {
                     <KeyboardAvoidingView enabled>
                         <View style={Style.MinFlexView}>
                             <View style={Style.MinViewSecond}>
-                                <Text style={Style.EnterSixDigitText}>{t("Enter_Six_Digit_OTP")}</Text>
+                                <Text style={Style.EnterSixDigitText}>Enter 4 Digit OTP</Text>
                                 <Text style={Style.paregraph}>{t("Enter_The_Otp_Title")}</Text>
                                 <OTPInputView
                                     style={Style.OtpViewStyles}

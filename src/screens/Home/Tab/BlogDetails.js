@@ -78,7 +78,7 @@ const BlogDetails = (props) => {
                     <View style={ApplyJobStyle.Backgroundcolorview}>
                         <Spacing space={SH(30)} />
                         <View style={ApplyJobStyle.Centerimage}>
-                            <Image source={{ uri: img }} resizeMode="contain" style={{ ...ApplyJobStyle.Imagestyles, borderRadius: 8, width: '90%' }} />
+                            <Image source={{ uri: img }} resizeMode="stretch" style={{ ...ApplyJobStyle.Imagestyles, borderRadius: 8, width: '80%', height:200 }} />
                         </View>
                         <Spacing space={SH(20)} />
                         <Text style={ApplyJobStyle.ProductDesigner}>{data.title}</Text>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, ScrollView } from "react-native";
+import { Text, View, TouchableOpacity, ScrollView, Dimensions } from "react-native";
 import IconE from 'react-native-vector-icons/Feather';
 import IconL from 'react-native-vector-icons/Entypo';
 import IconZ from 'react-native-vector-icons/FontAwesome5';
@@ -71,7 +71,7 @@ const CustomSidebarMenu = (props) => {
   };
   return (
     <ScrollView>
-      <View style={Sidemenu.customslidebarmenu}>
+      <View style={{...Sidemenu.customslidebarmenu, height:Dimensions.get('window').height}}>
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.HOME_TAB)
         }>
@@ -85,7 +85,7 @@ const CustomSidebarMenu = (props) => {
 
 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.SAVE_JOB_LIST)
+          () => Onpressfunction(RouteName.APPLIED_JOB_LIST)
         }>
           <IconMI name="work" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
           <Text style={Sidemenu.hometextstyle}>Applied Jobs</Text>
@@ -107,30 +107,7 @@ const CustomSidebarMenu = (props) => {
 
 
 
-        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.Resume_And_Portfolio)
-        }>
-          <IconF name="results" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
-          <Text style={Sidemenu.hometextstyle}>{t("Resume_Prortfolio")}</Text>
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.APPLY_JOB)
-        }>
-          <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
-          <Text style={Sidemenu.hometextstyle}>{t("Apply_Job")}</Text>
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.APPLY_JOB_DETAILS)
-        }>
-          <IconP name="addfile" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
-          <Text style={Sidemenu.hometextstyle}>{t("Apply_Job_Details")}</Text>
-        </TouchableOpacity> */}
-        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.JOB_DETAILS_SCREEN)
-        }>
-          <IconP name="wordfile1" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} size={SF(20)} />
-          <Text style={Sidemenu.hometextstyle}>{t("Job_Description")}</Text>
-        </TouchableOpacity> */}
+    
 
         <TouchableOpacity style={Sidemenu.flexrowset} onPress={
           () => Onpressfunction(RouteName.PROFILE_TAB)
@@ -138,14 +115,9 @@ const CustomSidebarMenu = (props) => {
           <IconU size={SF(19)} name="user-circle" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} />
           <Text style={Sidemenu.hometextstyle}>{t("Profile")}</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={Sidemenu.flexrowset} onPress={
-          () => Onpressfunction(RouteName.SETTING_SCREEN)
-        }>
-          <IconP size={SF(19)} name="setting" style={Sidemenu.logoimage} color={Colors.theme_background_brink_pink} />
-          <Text style={Sidemenu.hometextstyle}>{t("Setting_Text")}</Text>
-        </TouchableOpacity> */}
+
         {showBtn ?
-          <View style={Sidemenu.settingandlogout}>
+          <View style={{...Sidemenu.settingandlogout, position:'absolute', bottom:24, left:24}}>
             <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
               setAlertVisible(true);
               setAlertMessage(alertdata.logout);
@@ -155,8 +127,8 @@ const CustomSidebarMenu = (props) => {
               <Text style={Sidemenu.hometextstyle}>{t("Log_Out")}</Text>
             </TouchableOpacity>
           </View> :
-          <View style={Sidemenu.settingandlogout}>
-            <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
+          <View style={{...Sidemenu.settingandlogout, position:'absolute', bottom:24, left:24}}>
+          <TouchableOpacity style={Sidemenu.flexrowset} onPress={() => {
               navigation.replace(RouteName.LOGIN_SCREEN)
             }}>
               <IconL name="log-out" color={Colors.theme_background_brink_pink} size={SF(23)} />
