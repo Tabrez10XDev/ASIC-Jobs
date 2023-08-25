@@ -28,6 +28,9 @@ const SocialMedia = ({ route }) => {
     const [mediaList, setMediaList] = useState(route.params.social_links)
     const [value, setValue] = useState()
     const data = route.params
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [currMediaDelete, setCurrMediaDelete] = useState("-1")
+
 
     const _mediaData = [
         { label: 'twitter', value: 'twitter' },
@@ -42,16 +45,16 @@ const SocialMedia = ({ route }) => {
 
     ];
 
-    async function deleteMedia(id) {
+    async function deleteMedia() {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=social_links_delete&user_id=${data.user_details.id}&social_media_id=${id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=social_links_delete&user_id=${data.user_details.id}&social_media_id=${currMediaDelete}`,
         };
 
         axios.request(config)
             .then((response) => {
-                const newList = mediaList.filter((ele) => ele.id !== id);
+                const newList = mediaList.filter((ele) => ele.id !== currMediaDelete);
                 setMediaList(newList)
             })
             .catch((error) => {
@@ -75,7 +78,7 @@ const SocialMedia = ({ route }) => {
                 shadowOffset: {
                     width: 0,
                     height: Platform.OS === 'ios' ? 2 : 2,
-                }, 
+                },
                 shadowOpacity: 0.45,
                 shadowRadius: Platform.OS === 'ios' ? 2 : 2,
                 elevation: Platform.OS === 'ios' ? 1 : 2,
@@ -93,7 +96,8 @@ const SocialMedia = ({ route }) => {
                     </Text>
 
                     <TouchableOpacity onPress={() => {
-                        deleteMedia(item.id)
+                        setCurrMediaDelete(item.id)
+                        setAlertVisible(!alertVisible)
                     }} style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: 'F5F5F5', borderRadius: 4, padding: 8, position: 'absolute', right: 4 }}>
                         <IconF name="trash" size={16} color='red' />
                     </TouchableOpacity>
@@ -111,7 +115,7 @@ const SocialMedia = ({ route }) => {
 
     return (
         <ScrollView contentContainerStyle={{ backgroundColor: 'white', paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
-            <View style={{ backgroundColor: 'white', alignItems: 'center', height:Dimensions.get('window').height }}>
+            <View style={{ backgroundColor: 'white', alignItems: 'center', height: Dimensions.get('window').height }}>
                 {
                     mediaList.map((ele, index) => {
                         return (
@@ -139,8 +143,24 @@ const SocialMedia = ({ route }) => {
                 </TouchableOpacity>
             </View>
             <AddMedia refRBSheet={refRBSheet} setMediaList={setMediaList} id={data.user_details.id} />
-
+            <ConfirmationAlert
+                message="Are you sure?"
+                modalVisible={alertVisible}
+                setModalVisible={setAlertVisible}
+                onPress={() => {
+                    // deleteResume()
+                    // deleteExperience()
+                    deleteMedia()
+                    setAlertVisible(!alertVisible)
+                }}
+                buttonminview={Style.buttonotp}
+                iconVisible={false}
+                buttonText="Delete"
+                onPressCancel={() => { setAlertVisible(!alertVisible) }}
+                cancelButtonText="Cancel"
+            />
         </ScrollView>
+
     )
 }
 

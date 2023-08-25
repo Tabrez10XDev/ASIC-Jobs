@@ -23,9 +23,9 @@ import { ScrollView } from "react-native-gesture-handler";
 export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
 
 
-    async function createEducation(){
+    async function createEducation() {
 
-        if(formattedDate === null || state.degree.trim() === "" || state.level.trim() === "" || state.notes.trim() === ""){
+        if (formattedDate === null || state.degree.trim() === "" || state.level.trim() === "" || state.notes.trim() === "") {
             return
         }
 
@@ -33,23 +33,29 @@ export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
             method: 'get',
             maxBodyLength: Infinity,
             url: `https://asicjobs.in/api/webapi.php?api_action=update_user_education&user_id=${id}&level=%27${state.level}%27&degree=%27${state.degree}%27&year=${formattedDate.getFullYear()}&notes=%27${encodeURIComponent(state.notes)}%27`,
-          };
-          
-          axios.request(config)
-          .then((response) => {
-            refRBSheet.current.close()
-            setEducationList((current)=>[...current, {
-                id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
-                level: state.level,
-                degree: state.degree,
-                notes: state.notes,
-                year: formattedDate.getFullYear()
-            } ])
-          })
-          .catch((error) => {
-            console.log(error.response.data);
-            console.log(`https://asicjobs.in/api/webapi.php?api_action=update_user_education&user_id=${id}&level=%27${state.level}%27&degree=%27${state.degree}%27&year=${formattedDate.getFullYear()}&notes=%27${encodeURIComponent(state.notes)}%27`)
-          });
+        };
+
+        axios.request(config)
+            .then((response) => {
+                setState({
+                    level: "",
+                    degree: "",
+                    notes: ""
+                })
+                setFormattedDate(null)
+                refRBSheet.current.close()
+                setEducationList((current) => [...current, {
+                    id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
+                    level: state.level,
+                    degree: state.degree,
+                    notes: state.notes,
+                    year: formattedDate.getFullYear()
+                }])
+            })
+            .catch((error) => {
+                console.log(error.response.data);
+                console.log(`https://asicjobs.in/api/webapi.php?api_action=update_user_education&user_id=${id}&level=%27${state.level}%27&degree=%27${state.degree}%27&year=${formattedDate.getFullYear()}&notes=%27${encodeURIComponent(state.notes)}%27`)
+            });
     }
 
 
@@ -57,11 +63,11 @@ export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
     const [date, setDate] = useState(new Date())
 
     const [open, setOpen] = useState(false)
-    const [state,setState] = useState({
+    const [state, setState] = useState({
         level: "",
         degree: "",
         notes: ""
-    })  
+    })
 
 
 
@@ -120,13 +126,13 @@ export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
 
                     <Input
                         value={state.level}
-                        onChangeText={(text)=>setState({...state, level: text})}
+                        onChangeText={(text) => setState({ ...state, level: text })}
                         inputStyle={{ marginTop: 16 }}
                         placeholder="Education Level" />
 
                     <Input
                         value={state.degree}
-                        onChangeText={(text)=>setState({...state, degree: text})}
+                        onChangeText={(text) => setState({ ...state, degree: text })}
                         inputStyle={{ marginTop: 16 }}
                         placeholder="Degree" />
 
@@ -160,16 +166,16 @@ export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
 
                     <Input
                         value={state.notes}
-                        onChangeText={(text)=>setState({...state, notes: text})}
+                        onChangeText={(text) => setState({ ...state, notes: text })}
                         inputprops={{ marginTop: 16, textAlign: 'left', textAlignVertical: 'top' }}
                         placeholder="Notes"
                         numberOfLines={5}
                         inputStyle={{ height: 300 }}
                     />
 
-                    <TouchableOpacity 
-                    onPress={()=>createEducation()}
-                    style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf:'center' }}>
+                    <TouchableOpacity
+                        onPress={() => createEducation()}
+                        style={{ width: '95%', alignItems: 'center', justifyContent: 'center', backgroundColor: "#2290E3", marginTop: 24, borderRadius: 4, paddingVertical: 10, alignSelf: 'center' }}>
                         <Text style={{ fontSize: 16, color: 'white' }}>
                             Save Changes
                         </Text>
@@ -195,7 +201,7 @@ export default AddEducation = ({ refRBSheet, setEducationList, id }) => {
                 }}
             />
 
-           
+
 
         </RBSheet>
 

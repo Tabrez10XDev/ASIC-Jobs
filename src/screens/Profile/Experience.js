@@ -14,6 +14,7 @@ import AddExperience from "../../components/commonComponents/AddExperience";
 import AddEducation from "../../components/commonComponents/AddEducation";
 import axios from "axios";
 import IconFont from 'react-native-vector-icons/FontAwesome';
+import Toast from 'react-native-toast-message';
 
 
 const Experience = ({ route }) => {
@@ -22,19 +23,27 @@ const Experience = ({ route }) => {
 
     const [educationList, setEducationList] = useState(route.params.candidate_education ?? [])
     const [experienceList, setExperienceList] = useState(route.params.candidates_experience ?? [])
+    const [alertVisible, setAlertVisible] = useState(false);
+    const [alertVisible2, setAlertVisible2] = useState(false);
 
+    const [currExpDelete, setCurrExpDelete] = useState("-1")
+    const [currEduDelete, setCurrEduDelete] = useState("-1")
 
-    async function deleteEducation(id) {
+    async function deleteEducation() {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&education_row_id=${id}&user_id=${data.user_details.id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&education_row_id=${currEduDelete}&user_id=${data.user_details.id}`,
         };
+
+        console.log(
+            `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_education&education_row_id=${currEduDelete}&user_id=${data.user_details.id}`,
+        )
 
         axios.request(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                const newList = educationList.filter((ele) => ele.id !== id);
+                const newList = educationList.filter((ele) => ele.id !== currEduDelete);
                 setEducationList(newList)
             })
             .catch((error) => {
@@ -42,11 +51,11 @@ const Experience = ({ route }) => {
             });
     }
 
-    async function deleteExperience(id) {
+    async function deleteExperience() {
         let config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_experience&experience_row_id=${id}&user_id=${data.user_details.id}`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=delete_candidate_experience&experience_row_id=${currExpDelete}&user_id=${data.user_details.id}`,
         };
 
 
@@ -54,7 +63,7 @@ const Experience = ({ route }) => {
         axios.request(config)
             .then((response) => {
                 console.log(JSON.stringify(response.data));
-                const newList = experienceList.filter((ele) => ele.id !== id);
+                const newList = experienceList.filter((ele) => ele.id !== currExpDelete);
                 setExperienceList(newList)
             })
             .catch((error) => {
@@ -104,7 +113,10 @@ const Experience = ({ route }) => {
                     </View>
                 </View>
                 <TouchableOpacity
-                    onPress={() => deleteExperience(item.id)}
+                    onPress={() => {
+                        setCurrExpDelete(item.id)
+                        setAlertVisible(!alertVisible)
+                    }}
                     style={{ width: '60%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, borderWidth: 1, borderStyle: 'dashed', marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                     <Text style={{ fontSize: 16, color: Colors.theme_background_brink_pink }}>
                         Delete
@@ -157,7 +169,11 @@ const Experience = ({ route }) => {
                     </View>
                 </View>
                 <TouchableOpacity
-                    onPress={() => deleteEducation(item.id)}
+                    onPress={() => {
+                        console.log(item)
+                        setCurrEduDelete(item.id)
+                        setAlertVisible2(!alertVisible2)
+                    }}
                     style={{ width: '60%', alignItems: 'center', justifyContent: 'center', borderColor: Colors.theme_background_brink_pink, borderWidth: 1, borderStyle: 'dashed', marginTop: 24, borderRadius: 4, paddingVertical: 10 }}>
                     <Text style={{ fontSize: 16, color: Colors.theme_background_brink_pink }}>
                         Delete
@@ -175,66 +191,103 @@ const Experience = ({ route }) => {
 
 
     return (
-        <ScrollView>
-            <View style={{ backgroundColor: 'white', height: '100%', alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 24, justifyContent: 'space-between', width: '95%' }}>
-                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '700', textAlign: 'left' }}>
-                        Experience
-                    </Text>
+        <>
+            <ScrollView>
+                <View style={{ backgroundColor: 'white', height: '100%', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 24, justifyContent: 'space-between', width: '95%' }}>
+                        <Text style={{ color: 'black', fontSize: 22, fontWeight: '700', textAlign: 'left' }}>
+                            Experience
+                        </Text>
 
-                    <TouchableOpacity
-                        onPress={() => { refRBSheet.current.open() }}
-                        style={{ height: 30, width: 30, borderRadius: 40, backgroundColor: Colors.theme_background_brink_pink, alignItems: 'center', justifyContent: 'center' }}>
-                        <IconFont name="plus" size={14} color='black' />
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => { refRBSheet.current.open() }}
+                            style={{ height: 30, width: 30, borderRadius: 40, backgroundColor: Colors.theme_background_brink_pink, alignItems: 'center', justifyContent: 'center' }}>
+                            <IconFont name="plus" size={14} color='black' />
+                        </TouchableOpacity>
+                    </View>
+                    {experienceList.map((ele, index) => {
+                        return (
+                            <Experiencedataview item={ele} />
+                        )
+                    })}
+
+                    {
+                        experienceList.length === 0 &&
+                        <Text style={{ fontSize: 16, color: 'black', marginTop: 10, fontWeight: "500" }}>
+                            No Experience
+                        </Text>
+                    }
+                    <View style={{ borderBottomWidth: 1, height: 1, width: '95%', borderStyle: 'dashed' }}>
+
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 36, justifyContent: 'space-between', width: '95%' }}>
+                        <Text style={{ color: 'black', fontSize: 22, fontWeight: '700', textAlign: 'left' }}>
+                            Education
+                        </Text>
+
+                        <TouchableOpacity
+                            onPress={() => { refRBSheet2.current.open() }}
+                            style={{ height: 30, width: 30, borderRadius: 40, backgroundColor: Colors.theme_background_brink_pink, alignItems: 'center', justifyContent: 'center' }}>
+                            <IconFont name="plus" size={14} color='black' />
+                        </TouchableOpacity>
+                    </View>
+                    {educationList.map((ele, index) => {
+                        return (
+                            <Educationdataview item={ele} />
+                        )
+                    })}
+
+                    {
+                        educationList.length === 0 &&
+                        <Text style={{ fontSize: 16, color: 'black', marginTop: 10, fontWeight: "500" }}>
+                            No Education
+                        </Text>
+                    }
+
+                    <View style={{ borderBottomWidth: 1, height: 1, width: '95%', borderStyle: 'dashed' }}>
+                    </View>
+
                 </View>
-                {experienceList.map((ele, index) => {
-                    return (
-                        <Experiencedataview item={ele} />
-                    )
-                })}
+                <AddExperience refRBSheet={refRBSheet} setExperienceList={setExperienceList} id={data.user_details.id} />
+                <AddEducation refRBSheet={refRBSheet2} setEducationList={setEducationList} id={data.user_details.id} />
 
-                {
-                    experienceList.length === 0 &&
-                    <Text style={{ fontSize: 16, color: 'black', marginTop: 10, fontWeight: "500" }}>
-                        No Experience
-                    </Text>
-                }
-                <View style={{ borderBottomWidth: 1, height: 1, width: '95%', borderStyle: 'dashed' }}>
+            </ScrollView>
+            <ConfirmationAlert
+                message="Are you sure?"
+                modalVisible={alertVisible2}
+                setModalVisible={setAlertVisible2}
+                onPress={() => {
+                    // deleteResume()
+                    deleteEducation()
+                    setAlertVisible2(!alertVisible2)
+                }}
+                buttonminview={Style.buttonotp}
+                iconVisible={false}
+                buttonText="Delete"
+                onPressCancel={() => { setAlertVisible2(!alertVisible2) }}
+                cancelButtonText="Cancel"
+            />
+            <ConfirmationAlert
+                message="Are you sure?"
+                modalVisible={alertVisible}
+                setModalVisible={setAlertVisible}
+                onPress={() => {
+                    // deleteResume()
+                    deleteExperience()
 
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 36, justifyContent: 'space-between', width: '95%' }}>
-                    <Text style={{ color: 'black', fontSize: 22, fontWeight: '700', textAlign: 'left' }}>
-                        Education
-                    </Text>
-
-                    <TouchableOpacity
-                        onPress={() => { refRBSheet2.current.open() }}
-                        style={{ height: 30, width: 30, borderRadius: 40, backgroundColor: Colors.theme_background_brink_pink, alignItems: 'center', justifyContent: 'center' }}>
-                        <IconFont name="plus" size={14} color='black' />
-                    </TouchableOpacity>
-                </View>
-                {educationList.map((ele, index) => {
-                    return (
-                        <Educationdataview item={ele} />
-                    )
-                })}
-
-                {
-                    educationList.length === 0 &&
-                    <Text style={{ fontSize: 16, color: 'black', marginTop: 10, fontWeight: "500" }}>
-                        No Education
-                    </Text>
-                }
-
-                <View style={{ borderBottomWidth: 1, height: 1, width: '95%', borderStyle: 'dashed' }}>
-                </View>
-
-            </View>
-            <AddExperience refRBSheet={refRBSheet} setExperienceList={setExperienceList} id={data.user_details.id} />
-            <AddEducation refRBSheet={refRBSheet2} setEducationList={setEducationList} id={data.user_details.id} />
-
-        </ScrollView>
+                    setAlertVisible(!alertVisible)
+                }}
+                buttonminview={Style.buttonotp}
+                iconVisible={false}
+                buttonText="Delete"
+                onPressCancel={() => { setAlertVisible(!alertVisible) }}
+                cancelButtonText="Cancel"
+            />
+            <Toast
+                position='bottom'
+                bottomOffset={20}
+            />
+        </>
     )
 }
 

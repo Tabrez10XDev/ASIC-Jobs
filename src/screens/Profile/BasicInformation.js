@@ -27,6 +27,8 @@ const BasicInformation = ({ route }) => {
   const [open, setOpen] = useState(false)
   const [name, setName] = useState(data.user_details.name)
 
+  const [currDeleteResume, setCurrDeleteResume] = useState('-1')
+
 
   const [isFocusExperience, setIsFocusExperience] = useState(false);
   const [isFocusEducation, setIsFocusEducation] = useState(false);
@@ -37,6 +39,7 @@ const BasicInformation = ({ route }) => {
 
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('Successfully Added Documents');
+  const [alertVisible2, setAlertVisible2] = useState(false);
 
   const [response, setFileResponse] = useState([{}])
   const [response2, setFileResponse2] = useState([{ status: true }])
@@ -72,18 +75,22 @@ const BasicInformation = ({ route }) => {
     resumes: data.candidate_resumes
   })
 
-  async function deleteResume(resume_id) {
+  async function deleteResume() {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: `https://asicjobs.in/api/webapi.php?api_action=candidate_resume_delete&user_id=${id}&resume_id=${resume_id}`,
-      headers: {}
+      url: `https://asicjobs.in/api/webapi.php?api_action=candidate_resume_delete&user_id=${id}&resume_id=${currDeleteResume}`,
     };
+
+    console.log(
+      `https://asicjobs.in/api/webapi.php?api_action=candidate_resume_delete&user_id=${id}&resume_id=${currDeleteResume}`,
+
+    )
 
     axios.request(config)
       .then((response) => {
         console.log(JSON.stringify(response.data));
-        const newResumes = state.resumes.filter((ele) => ele.id !== resume_id);
+        const newResumes = state.resumes.filter((ele) => ele.id !== currDeleteResume);
 
         setState({ ...state, resumes: newResumes })
       })
@@ -353,7 +360,9 @@ const BasicInformation = ({ route }) => {
 
                 <TouchableOpacity
                   onPress={() => {
-                    deleteResume(ele.id)
+                    setCurrDeleteResume(ele.id)
+                    setAlertVisible2(!alertVisible2)
+                    
                   }}
                   style={{ width: 25, height: 25, backgroundColor: Colors.alice_blue_color, alignItems: 'center', justifyContent: 'center', borderRadius: 4, position: 'absolute', right: 16 }}>
                   <IconG
@@ -377,7 +386,7 @@ const BasicInformation = ({ route }) => {
               uploadResume(response[0].type, response[0].name, response[0].uri,)
 
               // Setokbutton(2);
-            }} buttonStyle={ResumeStyle.buttonStyle} title="Apply" />
+            }} buttonStyle={ResumeStyle.buttonStyle} title="Upload" />
           </View>) : null}
 
         <ConfirmationAlert
@@ -406,8 +415,23 @@ const BasicInformation = ({ route }) => {
         />
 
       </View>
+
       
     </ScrollView>
+    <ConfirmationAlert
+          message="Are you sure?"
+          modalVisible={alertVisible2}
+          setModalVisible={setAlertVisible2}
+          onPress={() => {
+            deleteResume()
+            setAlertVisible2(!alertVisible2)
+          }}
+          buttonminview={Style.buttonotp}
+          iconVisible={false}
+          buttonText="Delete"
+          onPressCancel={() => { setAlertVisible2(!alertVisible2) }}
+          cancelButtonText="Cancel"
+        />    
     <Toast
         position='bottom'
         bottomOffset={40}

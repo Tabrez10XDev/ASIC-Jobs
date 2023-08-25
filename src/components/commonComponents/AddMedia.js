@@ -45,6 +45,11 @@ export const AddMedia = ({ refRBSheet, setMediaList, id }) => {
                 url: state.url,
                 social_media: state.media,
             } ])
+
+            setState({
+                media: "",
+                url: ""
+            })
           })
           .catch((error) => {
             console.log(error.response.data);

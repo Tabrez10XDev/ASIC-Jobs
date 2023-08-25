@@ -57,14 +57,6 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
 
         axios.request(config)
             .then((response) => {
-                refRBSheet.current.close()
-                setExperienceList((current) => [...current, {
-                    id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
-                    company: state.company,
-                    department: state.dept,
-                    designation: state.designation,
-                    currently_working: "Yes"
-                }])
                 setState(
                     {
                         company: "",
@@ -75,6 +67,15 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                 )
                 setFormattedDate(null)
                 setFormattedDate2(null)
+                refRBSheet.current.close()
+                setExperienceList((current) => [...current, {
+                    id: response.data.id ?? (Math.random() + 1).toString(36).substring(2),
+                    company: state.company,
+                    department: state.dept,
+                    designation: state.designation,
+                    currently_working: "Yes"
+                }])
+               
             })
             .catch((error) => {
                 console.log(error.response.data);
