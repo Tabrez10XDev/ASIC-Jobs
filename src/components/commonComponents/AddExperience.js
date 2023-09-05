@@ -15,13 +15,15 @@ import {
     TextInput
 
 } from "react-native";
-
 import RBSheet from "react-native-raw-bottom-sheet";
 import { ScrollView } from "react-native-gesture-handler";
+import { CheckBox } from '../../components';
+import { useTheme } from "@react-navigation/native";
 
 
 export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
 
+    const { Colors } = useTheme();
 
     const [formattedDate, setFormattedDate] = useState(null)
     const [date, setDate] = useState(new Date())
@@ -35,7 +37,8 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
         company: "",
         dept: "",
         designation: "",
-        responsibilities: ""
+        responsibilities: "",
+        checkbox: false
     })
 
 
@@ -46,14 +49,18 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
             return
         }
 
+        if(formattedDate2 == null) setFormattedDate2(formattedDate)
+
         const start = formattedDate.getDate() + "/" + formattedDate.getMonth() + "/" + formattedDate.getFullYear()
         const end = formattedDate2.getDate() + "/" + formattedDate2.getMonth() + "/" + formattedDate2.getFullYear()
 
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=update_user_experience&user_id=${id}&company=%27${encodeURIComponent(state.company)}%27&department=%27${encodeURIComponent(state.dept)}%27&designation=%27${encodeURIComponent(state.designation)}%27&start=%27${start}%27&end=%27${end}%27&responsibilities=%27${encodeURIComponent(state.responsibilities)}%27&currently_working=1`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=update_user_experience&user_id=${id}&company=%27${encodeURIComponent(state.company)}%27&department=%27${encodeURIComponent(state.dept)}%27&designation=%27${encodeURIComponent(state.designation)}%27&start=%27${start}%27&end=%27${end}%27&responsibilities=%27${encodeURIComponent(state.responsibilities)}%27&currently_working=${state.checkbox ? "1" : "0"}`,
         };
+
+        
 
         axios.request(config)
             .then((response) => {
@@ -75,7 +82,7 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                     designation: state.designation,
                     currently_working: "Yes"
                 }])
-               
+
             })
             .catch((error) => {
                 console.log(error.response.data);
@@ -178,31 +185,41 @@ export default AddExperience = ({ refRBSheet, setExperienceList, id }) => {
                         }
                     </TouchableOpacity>
 
+                    {state.checkbox != true &&
+                        <TouchableOpacity
+                            onPress={() => setOpen2(true)}
+                            style={{
+                                width: '100%', height: 40, justifyContent: 'center', paddingHorizontal: 12, marginTop: 16,
+                                borderRadius: 7,
+                                borderWidth: 0,
+                                borderColor: 'white',
+                                backgroundColor: 'white',
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: Platform.OS === 'ios' ? 2 : 25,
+                                },
+                                height: 47,
+                                color: "#737272",
+                                shadowOpacity: 0.58,
+                                shadowRadius: Platform.OS === 'ios' ? 2 : 25,
+                                elevation: Platform.OS === 'ios' ? 1 : 2,
+                            }}>
+                            {formattedDate2 == null ? <Text style={{ fontWeight: '500' }}>End Date</Text>
+                                :
+                                <Text style={{ fontWeight: '500' }}>{formattedDate2.getDate()}/{formattedDate2.getMonth()}/{formattedDate2.getFullYear()}</Text>
+                            }
+                        </TouchableOpacity>
+                    }
 
-                    <TouchableOpacity
-                        onPress={() => setOpen2(true)}
-                        style={{
-                            width: '100%', height: 40, justifyContent: 'center', paddingHorizontal: 12, marginTop: 16,
-                            borderRadius: 7,
-                            borderWidth: 0,
-                            borderColor: 'white',
-                            backgroundColor: 'white',
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: Platform.OS === 'ios' ? 2 : 25,
-                            },
-                            height: 47,
-                            color: "#737272",
-                            shadowOpacity: 0.58,
-                            shadowRadius: Platform.OS === 'ios' ? 2 : 25,
-                            elevation: Platform.OS === 'ios' ? 1 : 2,
-                        }}>
-                        {formattedDate2 == null ? <Text style={{ fontWeight: '500' }}>End Date</Text>
-                            :
-                            <Text style={{ fontWeight: '500' }}>{formattedDate2.getDate()}/{formattedDate2.getMonth()}/{formattedDate2.getFullYear()}</Text>
-                        }
-                    </TouchableOpacity>
+                    <View style={{ flexDirection: 'row', justifyContent:'space-between', width:'95%', alignSelf:'center', marginTop:10 }}>
+                    <Text style={{ fontSize: 16 }}>Currently Working</Text>
+
+                        <CheckBox disabled={false}
+                            value={state.checkbox}
+                            tintColors={{ true: Colors.theme_background_brink_pink, false: Colors.theme_background_brink_pink }}
+                            onValueChange={(text) => setState({ ...state, checkbox: text })} />
+                    </View>
 
                     <Input
                         value={state.responsibilities}

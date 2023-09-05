@@ -212,8 +212,8 @@ const AccountSetting = ({ route }) => {
             <Spacing space={SH(20)} />
 
 
-            {
-                isEnabled ?
+            
+                
                     <>
                         <DropDown
                             data={JOB_ROLES}
@@ -238,8 +238,7 @@ const AccountSetting = ({ route }) => {
                         />
 
                         <Spacing space={SH(20)} /></>
-                    : null
-            }
+            
 
 
 
