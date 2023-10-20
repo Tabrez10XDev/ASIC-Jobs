@@ -62,10 +62,9 @@ const AccountSetting = ({ route }) => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?user_id=${data.user_details.id}&received_job_alert=${isEnabled ? "1" : "0"}&cv_visibility=${isEnabled3 ? "1" : "0"}&visibility=${isEnabled2 ? "1" : "0"}&api_action=update_visibility_alert&role_id=${_role}`,
+            url: `https://asicjobs.in/api/webapi.php?user_id=${data.user_details.id}&received_job_alert=${isEnabled ? "1" : "0"}&cv_visibility=${isEnabled3 ? "1" : "0"}&visibility=${isEnabled2 ? "1" : "0"}&api_action=update_visibility_alert&role_id=${_role}&career_guidance=${isEnabled4 ? "1" : "0"}`,
         };
 
-        console.log(`https://asicjobs.in/api/webapi.php?user_id=${data.user_details.id}&received_job_alert=${isEnabled ? "1" : "0"}&cv_visibility=${isEnabled3 ? "1" : "0"}&visibility=${isEnabled2 ? "1" : "0"}&api_action=update_visibility_alert&role_id=${_role}`)
 
         axios.request(config)
             .then((response) => {
@@ -111,6 +110,10 @@ const AccountSetting = ({ route }) => {
 
     const [isEnabled3, setIsEnabled3] = useState(data.candidates_details.cv_visibility == 1 ? true : false);
     const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
+    
+    const [isEnabled4, setIsEnabled4] = useState(data.candidates_details.career_guidance == 1 ? true : false);
+    const toggleSwitch4 = () => setIsEnabled3(previousState => !previousState);
+
 
     async function changePassword() {
 
@@ -268,6 +271,20 @@ const AccountSetting = ({ route }) => {
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={toggleSwitch3}
                     value={isEnabled3}
+                />
+            </View>
+
+            <Spacing space={SH(20)} />
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '95%', alignSelf: 'center' }}>
+                <Text style={{ color: 'black' }}>Career Guidance</Text>
+
+                <Switch
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={isEnabled4 ? '#f4f3f4' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch4}
+                    value={isEnabled4}
                 />
             </View>
 

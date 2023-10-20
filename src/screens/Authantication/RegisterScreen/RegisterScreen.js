@@ -49,8 +49,8 @@ const Register = () => {
             state.username.trim() === "" ||
             state.emailId.trim() === "" ||
             state.mobileNumber.trim() === "" ||
-            state.textInputPassword.trim() === "" 
-            ) {
+            state.textInputPassword.trim() === ""
+        ) {
             Toast.show({
                 type: 'error',
                 text1: "Invalid Entries"
@@ -58,31 +58,31 @@ const Register = () => {
             return
         }
 
-        navigation.navigate(RouteName.OTP_VERYFY_SCREEN, state)
+        // navigation.navigate(RouteName.OTP_VERYFY_SCREEN, state)
 
 
-        // let config = {
-        //     method: 'get',
-        //     maxBodyLength: Infinity,
-        //     url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
-        // };
+        let config = {
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&mobile=${state.mobileNumber.trim()}&password=${state.textInputPassword}&role=employee`,
+        };
 
-        // axios.request(config)
-        //     .then((response) => {
-        //         if (response.data.status == true) {
-        //             saveLogin(response.data.id.toString())
-        //             console.log(JSON.stringify(response.data));
-        //             navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL)
-        //         } else {
-        //             Toast.show({
-        //                 type: 'error',
-        //                 text1: response.data.msg
-        //             });
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
+        axios.request(config)
+            .then((response) => {
+                if (response.data.status == true) {
+                    // saveLogin(response.data.id.toString())
+                    console.log(JSON.stringify(response.data));
+                    navigation.navigate(RouteName.OTP_VERYFY_SCREEN, {...state, id: response.data.id})
+                } else {
+                    Toast.show({
+                        type: 'error',
+                        text1: response.data.msg
+                    });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
     }
 

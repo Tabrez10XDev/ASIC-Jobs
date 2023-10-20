@@ -12,7 +12,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
-const OtpScreenset = ({route}) => {
+const OtpScreenset = ({ route }) => {
     const { t } = useTranslation();
     const { Colors } = useTheme();
     const Style = useMemo(() => Styles(Colors), [Colors]);
@@ -35,26 +35,35 @@ const OtpScreenset = ({route}) => {
         }
     }
 
-    function authenticate() {
+    function authenticate(code) {
 
         if (state.toggleCheckBox === false) {
             return
         }
 
+        console.log("in")
+
+        // navigation.navigate(RouteName.OTP_VERYFY_SCREEN, state)
 
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
+            url: `https://asicjobs.in/api/webapi.php?api_action=verify_otp&otp=${code}&userid=${state.id}`,
         };
+
+        // let config = {
+        //     method: 'get',
+        //     maxBodyLength: Infinity,
+        //     url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&password=${state.textInputPassword}&role=employee`,
+        // };
 
         axios.request(config)
             .then((response) => {
                 if (response.data.status == true) {
-                    saveLogin(response.data.id.toString())
+                    saveLogin(state.id.toString())
                     console.log(JSON.stringify(response.data));
                     navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL);
-                 } else {
+                } else {
                     Toast.show({
                         type: 'error',
                         text1: response.data.msg
@@ -91,9 +100,9 @@ const OtpScreenset = ({route}) => {
                                     autoFocusOnLoad={false}
                                     codeInputFieldStyle={Style.CodeInputStyles}
                                     codeInputHighlightStyle={Style.CodeInputStyles}
-                                    onCodeFilled = {(code) => {
+                                    onCodeFilled={(code) => {
                                         console.log(`Code is ${code}, you are good to go!`)
-                                        authenticate()
+                                        authenticate(code)
                                     }}
                                 />
                                 <View style={Style.FlexRowText}>
@@ -117,6 +126,10 @@ const OtpScreenset = ({route}) => {
                         </View>
                     </KeyboardAvoidingView>
                 </ScrollView>
+                <Toast
+                    position='bottom'
+                    bottomOffset={20}
+                />
                 <ConfirmationAlert
                     message={alertMessage}
                     modalVisible={alertVisible}
