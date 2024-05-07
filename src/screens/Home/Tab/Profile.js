@@ -125,18 +125,12 @@ const ProfileTab = (props) => {
             }));
 
             setExperience(response.data.experience_data)
-            // console.log(response.data.experience_data)
             setEducation(formattedItems2)
-
             setJobRoles(response.data.role_data)
+            
             // setEducationData(formattedItems2)
             // setExperience(data.candidates_details.experience_level)
             // setEducation(data.candidates_details.educational_level)
-         
-         
-
-     
-
         })
         .catch((error) => {
             console.log(error);

@@ -73,7 +73,7 @@ const EditProfile = ({ route }) => {
                 });
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error.response,"error");
                 Toast.show({
                     type: 'error',
                     text1: "Unknown error occured"

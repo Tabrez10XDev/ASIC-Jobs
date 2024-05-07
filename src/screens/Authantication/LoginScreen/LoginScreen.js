@@ -64,6 +64,7 @@ const LoginScreen = () => {
             url: `https://asicjobs.in/api/webapi.php?api_action=login&email=${email}&password=${TextInputPassword}`,
         };
 
+
         axios.request(config)
             .then((response) => {
                 if (response.data.status == true) {
@@ -142,12 +143,13 @@ const LoginScreen = () => {
                                 <Text style={Logins.Forgetpasswordstyles}>{t("Forgot_Password")}</Text>
                             </TouchableOpacity> */}
 
-                            <TouchableOpacity style={{ position: 'absolute', bottom: 36, right: 12 }} onPress={() => {
+                          {/* <TouchableOpacity style={{ position: 'absolute', bottom: 36, right: 12 }} onPress={() => { 
                                 saveLogin("false")
                                 navigation.navigate(RouteName.HOME_SCREEN)
                             }}>
                                 <Text style={Logins.Forgetpasswordstyles}>Skip</Text>
                             </TouchableOpacity>
+                             */}
                         </View>
                     </View>
                 </ScrollView>
