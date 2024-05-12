@@ -137,9 +137,6 @@ function MessagesTabScreenStack({ navigation }) {
               <IconE style={Style.setbariconMarginright} name="navicon" color={Colors.theme_background_brink_pink} size={35} />
             </TouchableOpacity>
           ),
-          // headerRight: () => (
-          //   <ColorPicker />
-          // ),
         }}
       />
     </Stack.Navigator>
@@ -352,18 +349,7 @@ export function HomeScsreenTabAll() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name={RouteName.MESSAGE_TAB}
-        component={MessagesTabScreenStack}
-        options={{
-          tabBarLabel: "Alerts",
-          tabBarIcon: ({ focused }) => (
-            <View>
-              <IconM name="bell-ring" style={{ color: focused ? Colors.theme_background_brink_pink : Colors.gray_text_color }} size={SF(19)} />
-            </View>
-          ),
-        }}
-      /> */}
+
       <Tab.Screen
         name={RouteName.PROFILE_TAB}
         component={ProfileScreenStack}

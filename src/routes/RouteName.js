@@ -36,8 +36,8 @@ const RouteName = {
     COMPANY_DETAILS: 'Company Details',
     BLOG_DETAILS: 'Blog Info',
     ALL_POSTS: 'All Posts',
-    ALL_COMPANIES: 'All Companies'
-
+    ALL_COMPANIES: 'All Companies',
+    CHANGE_PASSWORD: 'ChangePassword'
 
 }
 export default RouteName;

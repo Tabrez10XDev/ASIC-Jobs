@@ -35,7 +35,23 @@ const OtpScreenset = ({ route }) => {
         }
     }
 
+    function forgotPass(code) {
+        axios.get(`https://asicjobs.in/api/webapi.php?api_action=verify_fp_otp&otp=${code}&mobile='${state.number}'&email='${state.email}'`).then((res) => {
+            console.log(res.data,"yes");
+            navigation.navigate(RouteName.CHANGE_PASSWORD, res.data);
+
+
+        }).catch((Err) => {
+            console.log(Err.response);
+        })
+    }
+
     function authenticate(code) {
+
+        if (state.type == "forgotPassword") {
+            forgotPass(code)
+            return
+        }
 
         if (state.toggleCheckBox === false) {
             return

@@ -1,51 +1,56 @@
 import React, { useState, useMemo } from "react";
 import { Text, View, ScrollView } from "react-native";
-import { Login } from '../../../styles';
+import { Login } from '../../styles';
 import IconM from 'react-native-vector-icons/MaterialIcons';
-import { Button, ConfirmationAlert, Spacing, AppHeader, Input } from '../../../components';
-import { SH } from '../../../utils';
+import { Button, ConfirmationAlert, Spacing, AppHeader, Input } from '../../components';
+import { SH } from '../../utils';
 import { useTranslation } from "react-i18next";
 import { useTheme } from '@react-navigation/native';
-import { RouteName } from "../../../routes";
+import { RouteName } from "../../routes";
 import axios from "axios";
 
-const ForgotPassword = (props) => {
+const ChangePassword = (props) => {
 
   const { t } = useTranslation();
   const { Colors } = useTheme();
-  const { navigation } = props;
+  const { navigation, route } = props;
   const Logins = useMemo(() => Login(Colors), [Colors]);
-  const [email, setEmailValidError] = useState('');
-  const [number, setNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [alertVisible, setAlertVisible] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [okbutton, Setokbutton] = useState('');
 
 
-  function sendOtp(){
-    console.log("Clciiked");
+  async function changePassword() {
 
+    if (password !== confirmPassword || password.trim() == "") return
 
-    axios.get(`https://asicjobs.in/api/webapi.php?api_action=forgot_password_otp&email='${email}'&mobile='${number}'`).then((res)=>{
-      console.log(res.data);
-      console.log("eheheheh");
-      navigation.navigate(RouteName.OTP_VERYFY_SCREEN, {email: email, number: number, type: "forgotPassword"})
-      setAlertVisible(true);
-      setAlertMessage("OTP Sent Successfully");
-      Setokbutton('');
-    }).catch((err)=>{
-      console.log("Otp Error", `https://asicjobs.in/api/webapi.php?api_action=forgot_password_otp&email=${email}&mobile=${number}`);
-      setAlertMessage("OTP Failed to send");
-      Setokbutton('');
-    })
-  }
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `https://asicjobs.in/api/webapi.php?api_action=change_password&user_id=${route.params.id}&password=${password}`,
+    };
+
+    axios.request(config)
+        .then((response) => {
+            console.log(JSON.stringify(response.data));
+            setAlertVisible(true)
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+}
 
   var alertdata = {
     'logout': t("Email_Successfull"),
   }
   const onoknutton = () => {
     okbutton;
+    
   }
   return (
     <View style={{ width: '100%' }}>
@@ -60,40 +65,40 @@ const ForgotPassword = (props) => {
           <View>
             <View style={Logins.TabMinviewchild}>
               <View style={Logins.InputUnderLine}>
-                <View>
-                  <IconM style={Logins.Marginright} name="email" size={25} color="#828282" />
-                </View>
+                
                 <Input
-                  placeholder={t("Enter_Email")}
+
+                  placeholder={'Enter Password'}
+                  secureTextEntry={true}
                   placeholderTextColor={'#676767'}
                   inputStyle={Logins.InputTextStyle}
-                  onChangeText={(e) => setEmailValidError(e)}
+                  onChangeText={(e) => setPassword(e)}
                   keyboardType={'email-address'}
-                  value={email}
+                  value={password}
                 />
              
               </View>
 
-              <View style={{...Logins.InputUnderLine, marginTop:16}}>
-                <View>
-                  <IconM style={Logins.Marginright} name="phone" size={25} color="#828282" />
-                </View>
+              <View style={Logins.InputUnderLine}>
+                
                 <Input
-                  placeholder={"Enter Number"}
+
+                  placeholder={'Confirm Password'}
+                  secureTextEntry={true}
                   placeholderTextColor={'#676767'}
                   inputStyle={Logins.InputTextStyle}
-                  onChangeText={(e) => setNumber(e)}
-                  keyboardType={'number'}
-                  value={number}
+                  onChangeText={(e) => setConfirmPassword(e)}
+                  keyboardType={'email-address'}
+                  value={confirmPassword}
                 />
              
               </View>
 
               <Spacing space={SH(20)} />
-              <Text style={Logins.SeTextStyleForget}><Text style={Logins.StarColor}> * </Text> {t("We_Well_Sand_Message")}</Text>
+              <Text style={Logins.SeTextStyleForget}><Text style={Logins.StarColor}> * </Text> {"Login After this"}</Text>
               <Spacing space={SH(20)} />
               <Button onPress={() => {
-                sendOtp()
+                changePassword()
                
               }} title={t("Submitbutton")} />
               <ConfirmationAlert
@@ -113,4 +118,4 @@ const ForgotPassword = (props) => {
     </View>
   );
 };
-export default ForgotPassword;
+export default ChangePassword;

@@ -102,12 +102,7 @@ const SideNavigator = (props) => {
           headerRight: (props) => <ColorPicker {...props} />,
         }}
       />
-      {/* <Drawer.Screen
-        name={RouteName.JOB_DETAILS_SCREEN} component={JobDetailsScreen}
-        options={{
-          headerShown: true,
-        }}
-      /> */}
+ 
       <Drawer.Screen
         name={RouteName.CHAT_SCREEN} component={Chatscreen}
         options={{
@@ -125,23 +120,7 @@ const SideNavigator = (props) => {
           },
         }}
       />
-      {/* <Drawer.Screen
-        name={RouteName.SETTING_SCREEN} component={SettingsScreen}
-        options={{
-          headerShown: true,
-          headerTitle: (props) => <AppHeader {...props} headerTitle={t("Setting_Text")} />,
-          headerTintColor: Colors.theme_background_brink_pink,
-          headerShadowVisible: false,
-          headerTitleStyle: {
-            color: Colors.theme_background_brink_pink,
-            fontSize: SF(20),
-            fontWeight: '700'
-          },
-          headerStyle: {
-            backgroundColor: Colors.white_text_color,
-          },
-        }}
-      /> */}
+
     </Drawer.Navigator>
 
   );

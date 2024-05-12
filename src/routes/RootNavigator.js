@@ -9,7 +9,7 @@ import AllVacancies from '../screens/Home/Tab/AllVacancies';
 import CompanyDetails from '../screens/Home/Tab/CompanyDetails';
 import BlogDetails from '../screens/Home/Tab/BlogDetails';
 import JobDetailsScreen from '../screens/JobDetailsScreen/JobDetailsScreen';
-
+import ChangePassword from '../screens/Authantication/ChangePassword';
 const Stack = createNativeStackNavigator();
 
 import { RouteName, SideNavigator } from '../routes';
@@ -57,6 +57,8 @@ const RootNavigator = props => {
         <Stack.Screen name={RouteName.HOME_SCREEN} component={SideNavigator} />
         <Stack.Screen name={RouteName.REGIATRAION_SUCCESSFULL} component={RegistrationSuccessful} />
         <Stack.Screen name={RouteName.OTP_VERYFY_SCREEN} component={OtpVeryfiveScreen} />
+        <Stack.Screen name={RouteName.CHANGE_PASSWORD} component={ChangePassword} />
+
         <Stack.Screen name={RouteName.SWIPER_SCREEN} component={Swiperscreen} />
         <Stack.Screen name={RouteName.JOB_TYPES_SCREEN} component={JobTypeScreen} />
         <Stack.Screen name={RouteName.JOB_TIMES_SCREEN} component={JobTimesScreen} />

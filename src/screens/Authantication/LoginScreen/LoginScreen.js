@@ -35,6 +35,10 @@ const LoginScreen = () => {
         navigation.navigate(RouteName.REGISTER_SCREEN);
     }
 
+    const onForgotPass = () => {
+        navigation.navigate(RouteName.Forget_Password);
+    }
+
     const saveLogin = async (id) => {
         try {
             await AsyncStorage.setItem('AuthState', id)
@@ -130,6 +134,9 @@ const LoginScreen = () => {
                             <Spacing space={SH(10)} />
                             <View style={Logins.ViewTextStyle}>
                                 <Text style={Logins.textStyle}>{t("Dont_Have_Account")} <Text style={Logins.registerTextStyle} onPress={() => OnRegisterPress()}> {t("Register_Text")}</Text></Text>
+                            </View>
+                            <View style={Logins.ViewTextStyle}>
+                                <Text style={Logins.textStyle}>{""} <Text style={Logins.registerTextStyle} onPress={() => onForgotPass()}> {"Forgot Password ?"}</Text></Text>
                             </View>
                             <Spacing space={SH(20)} />
                             <View style={Logins.LoginButton}>
