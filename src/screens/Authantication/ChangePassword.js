@@ -37,10 +37,9 @@ const ChangePassword = (props) => {
         .then((response) => {
             console.log(JSON.stringify(response.data));
             setAlertVisible(true)
-
         })
         .catch((error) => {
-            console.log(error);
+            console.log(error.response.data, " - " + route.params.id);
         });
 
 }
@@ -79,7 +78,7 @@ const ChangePassword = (props) => {
              
               </View>
 
-              <View style={Logins.InputUnderLine}>
+              <View style={{...Logins.InputUnderLine, marginTop:16}}>
                 
                 <Input
 

@@ -78,7 +78,8 @@ const OtpScreenset = ({ route }) => {
                 if (response.data.status == true) {
                     saveLogin(state.id.toString())
                     console.log(JSON.stringify(response.data));
-                    navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL);
+                    if(response.data.status)
+                        navigation.navigate(RouteName.REGIATRAION_SUCCESSFULL);
                 } else {
                     Toast.show({
                         type: 'error',

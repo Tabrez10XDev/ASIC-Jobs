@@ -39,45 +39,54 @@ const HomeTab = () => {
     const getData = async () => {
         try {
             const result = await AsyncStorage.getItem('AuthState')
+            
             if (result !== null && result != "-1" && result != undefined) {
                 setID(result)
                 setUserID(result)
-                getUserData(result)
+                // await getUserData(result)
             }
+            const isNew = await AsyncStorage.getItem('isNew')
+            if(isNew == null || isNew == undefined || isNew == "False")
+                {
+                    AsyncStorage.setItem('isNew',"True")
+                    navigation.navigate( RouteName.PROFILE_TAB)
+                }
+
+
 
         } catch (e) {
             console.error(e)
         }
     }
 
-    function getUserData(id) {
-        let config = {
-          method: 'get',
-          maxBodyLength: Infinity,
-          url: `https://asicjobs.in/api/webapi.php?api_action=userdetails&id=${id}`,
-          headers: {}
-        };
+    // async function getUserData(id) {
+    //     let config = {
+    //       method: 'get',
+    //       maxBodyLength: Infinity,
+    //       url: `https://asicjobs.in/api/webapi.php?api_action=userdetails&id=${id}`,
+    //       headers: {}
+    //     };
     
-        axios.request(config)
-          .then((response) => {
-            console.log(JSON.stringify(response.data));
-            if(
-                response.data.candidates_skill.length == 0 ||
-                response.data.candidates_language.length == 0 ||
-                response.data.candidates_experience.length == 0 ||
-                response.data.candidate_education.length == 0 ||
-                response.data.candidate_resumes.length == 0 
-            ){
+    //     axios.request(config)
+    //       .then((response) => {
+    //         console.log(JSON.stringify(response.data));
+    //         if(
+    //             response.data.candidates_skill.length == 0 ||
+    //             response.data.candidates_language.length == 0 ||
+    //             response.data.candidates_experience.length == 0 ||
+    //             response.data.candidate_education.length == 0 ||
+    //             response.data.candidate_resumes.length == 0 
+    //         ){
                
-                navigation.navigate( RouteName.BASIC_PROFILE)
-            }
+    //             navigation.navigate( RouteName.BASIC_PROFILE)
+    //         }
 
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+    //       })
+    //       .catch((error) => {
+    //         console.log(error);
+    //       });
     
-      }
+    //   }
 
     async function fetchLatestVacancies() {
         let config = {
