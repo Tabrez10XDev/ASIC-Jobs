@@ -83,7 +83,7 @@ const LoginScreen = () => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error.response.data, `https://asicjobs.in/api/webapi.php?api_action=login&email=${email}&password=${TextInputPassword}`);
             });
     }
 

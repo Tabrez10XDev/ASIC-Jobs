@@ -27,7 +27,7 @@ const ForgotPassword = (props) => {
     console.log("Clciiked");
 
 
-    axios.get(`https://asicjobs.in/api/webapi.php?api_action=forgot_password_otp&email='${email}'&mobile='${number}'`).then((res)=>{
+    axios.post(`https://asicjobs.in/api/webapi.php?api_action=forgot_password_otp&email=${email}&mobile=${number}`).then((res)=>{
       console.log(res.data);
       console.log("eheheheh");
       navigation.navigate(RouteName.OTP_VERYFY_SCREEN, {email: email, number: number, type: "forgotPassword"})

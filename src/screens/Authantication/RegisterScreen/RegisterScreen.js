@@ -67,9 +67,14 @@ const Register = () => {
             url: `https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&mobile=${state.mobileNumber.trim()}&password=${state.textInputPassword}&role=employee`,
         };
 
+        console.log(`https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&mobile=${state.mobileNumber.trim()}&password=${state.textInputPassword}&role=employee`);
+
+
         axios.request(config)
             .then((response) => {
+
                 if (response.data.status == true) {
+                    console.log(`https://asicjobs.in/api/webapi.php?api_action=signup&name=${state.name}&username=${state.username}&email=${state.emailId}&mobile=${state.mobileNumber.trim()}&password=${state.textInputPassword}&role=employee`);
                     // saveLogin(response.data.id.toString())
                     console.log(JSON.stringify(response.data));
                     navigation.navigate(RouteName.OTP_VERYFY_SCREEN, {...state, id: response.data.id})
@@ -81,7 +86,7 @@ const Register = () => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                console.log(error.response.data);
             });
 
     }
